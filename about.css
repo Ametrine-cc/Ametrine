@@ -1,0 +1,381 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+html, body {
+    height: 100%;
+    font-family: "Poppins", sans-serif;
+    background: #121212;
+    color: #f3f3f3;
+    line-height: 1.6;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header Styles */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header .logo {
+    display: flex;
+    align-items: center;
+}
+
+.header .logo img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.header .brand-name {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #814891;
+}
+
+.nav-bar ul {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+}
+
+.nav-bar ul li a {
+    text-decoration: none;
+    color: #f3f3f3;
+    font-weight: 500;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.nav-bar ul li a:hover {
+    background: #ca8f41;
+    color: #121212;
+}
+
+/* Hero Section */
+.hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background: linear-gradient(135deg, #121212, #2b2b2b);
+    overflow: hidden;
+    text-align: center;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 0; /* Overlay is behind the buttons */
+}
+
+
+.hero-content {
+    z-index: 1;
+    max-width: 80%;
+}
+
+.hero-content h1 {
+    font-size: 3.5rem;
+    color: #a45cc9;
+    margin-bottom: 20px;
+    animation: fadeInDown 1.5s ease-in-out;
+}
+
+.hero-subtitle {
+    font-size: 1.2rem;
+    color: #ffffff;
+    margin: 20px 0;
+}
+
+/* Hex Grid */
+.buttons {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 40px;
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1; /* Make sure buttons are above the overlay */
+}
+
+.button {
+    display: inline-block;
+    padding: 20px 35px;
+    background-color: #ca8f41; /* Blue background */
+    color: white;
+    text-align: center;
+    text-decoration: none; /* Remove underline */
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #b38300; /* Darker blue on hover */
+}
+
+.buttons ul {
+    list-style: none; /* Removes default list styling */
+    padding: 0;
+    margin: 0;
+    display: flex; /* Makes the buttons appear in a row */
+    gap: 10px; /* Adds spacing between the buttons */
+}
+
+.buttons li {
+    list-style: none;
+}
+
+/* About Section */
+.about-content {
+    padding: 50px 20px;
+    background-color: #1a1a1a;
+    text-align: center;
+}
+
+.about-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #8600d4;
+}
+
+.about-text {
+    font-size: 1.2rem;
+    color: #ffffff;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 30px auto;
+}
+
+/* Footer */
+.footer {
+    padding: 20px;
+    text-align: center;
+    background: #121212;
+    color: #bdbdbd;
+    flex-shrink: 0;
+}
+
+.footer p {
+    font-size: 1rem;
+}
+
+.footer a {
+    text-decoration: none;
+    color: #ca8f41;
+  }  
+  
+  .footer a:hover {
+    text-decoration: underline;
+}
+
+  .footer p a {
+    text-decoration: none !important;
+    color: #ca8f41;
+}
+
+
+
+.footer .back-to-top {
+    margin-top: 10px;
+    padding: 10px 15px;
+    border-radius: 50px;
+    background: #ff8c00;
+    color: #121212;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.footer .back-to-top:hover {
+    background: #ca8f41;
+}
+
+/* Animations */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    /* Header */
+    .header {
+        flex-direction: row;
+        padding: 15px 30px;
+    }
+
+    .nav-bar ul {
+        flex-direction: row;
+        gap: 15px;
+    }
+
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+
+    /* Hex Grid */
+    .buttons {
+        display: flex;
+        justify-content: space-evenly;
+        margin-top: 40px;
+        flex-wrap: wrap;
+    }
+    
+    .button{
+        width: 120px;
+        height: 120px;
+        background-color: #ca8f41;  /* Original color */
+        color: white;
+        text-align: center;
+        line-height: 120px;
+        font-weight: bold;
+        border-radius: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        margin-bottom: 20px;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+    
+    .button:hover {
+        transform: scale(1.1);      /* Scales the hex item up */
+        background-color: #b38300;  /* Changes background color */
+    }    
+
+    /* About Section */
+    .about-content h2 {
+        font-size: 2rem;
+    }
+
+    .about-text {
+        font-size: 1rem;
+    }
+}
+
+
+/* Typewriter effect */
+
+.typewriter {
+
+    font-family: "Poppins", sans-serif;
+  
+    overflow: hidden; /* Hide the text */
+  
+    border-right: .15em solid rgb(255, 255, 255); /* Blinking cursor */
+  
+    white-space: nowrap; /* Keep text in a single line */
+  
+    margin: 0 auto;
+  
+    letter-spacing: .15em; /* Space between characters */
+  
+    animation: typing 3.5s steps(40) 1s 1 normal both, blink-caret .75s step-end infinite;
+  
+  }
+  
+  
+  
+  /* Keyframe for typing animation */
+  
+  @keyframes typing {
+  
+    from {
+  
+        width: 0; /* Start with no text showing */
+  
+    }
+  
+    to {
+  
+        width: 37%; /* Reveal the entire text */
+  
+    }
+  
+  }
+  
+  
+  
+  /* Keyframe for the blinking cursor */
+  
+  @keyframes blink-caret {
+  
+    50% {
+  
+        border-color: transparent; /* Hide cursor at 50% */
+  
+    }
+  
+  }
+  
+/* Cursor trail styling */
+
+.cursor-trail {
+
+    position: absolute;
+
+    width: 10px;
+
+    height: 10px;
+
+    border-radius: 50%;
+
+    background-color: rgba(0, 123, 255, 0.6);
+
+    pointer-events: none;
+
+    animation: trail-animation 0.6s ease-out infinite;
+
+}
+
+
+
+@keyframes trail-animation {
+
+    0% {
+
+        transform: scale(1);
+
+        opacity: 1;
+
+    }
+
+    100% {
+
+        transform: scale(0);
+
+        opacity: 0;
+
+    }
+
+}
