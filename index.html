@@ -2,47 +2,64 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width,initial-scale=1">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Ametrine</title>
-        <link rel="icon" type="image/png" href="ametrine.png">
-        <link rel="stylesheet" href="index.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Ametrine Company</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="icon" href="https://hkic7fdt0g.ufs.sh/f/oeCthPafEDnexEDGvU97jATkXwHtcLYpsqFDa0B6EQ2Jb95O" type="image/x-icon">
     </head>
-
-    <header>
-        <div>
-            <h1>Sorry about the inconvenience.</h1>
-            <p>We are currently working on some updates to our website. Sorry for the inconvenience.</p>
-            <p>The website will be back online in:</p>
-            <div id="timer" style="font-size: 1.5em; font-weight: bold; align-self: baseline; padding-left: 300px;"></div>
+    <body>
+        <div class="container">
+            <header>
+                <h1>Ametrine Company</h1>
+            </header>
+            <main>
+                <p>
+                    Welcome to Ametrine Company. We provide innovative digital solutions to help your business grow and succeed in the modern world.
+                </p>
+                <p>
+                    Our team is dedicated to delivering high-quality products and services tailored to your needs. Explore our offerings and see how we can help you achieve your goals.
+                </p>
+                <!-- Simple SVG Graph Placeholder -->
+                <div style="margin: 32px 0;">
+                    <svg width="100%" height="120" viewBox="0 0 400 120">
+                        <rect x="30" y="60" width="40" height="50" fill="#9db2dd"/>
+                        <rect x="90" y="40" width="40" height="70" fill="#e9bcd5"/>
+                        <rect x="150" y="20" width="40" height="90" fill="#1a73e8"/>
+                        <rect x="210" y="80" width="40" height="30" fill="#9db2dd"/>
+                        <rect x="270" y="50" width="40" height="60" fill="#e9bcd5"/>
+                        <rect x="330" y="35" width="40" height="75" fill="#1a73e8"/>
+                        <br/>
+                        <text x="200" y="115" text-anchor="middle" font-size="14" fill="#555">Sample Data Graph</text>
+                    </svg>
+                </div>
+                <button>Learn More</button>
+            </main>
+            <footer>
+                <p>&copy; 2025 Ametrine Company. All rights reserved.</p>
+            </footer>
         </div>
-    </header>
-
-
-
-    <script>
-        // Set the target date and time for the countdown
-        const targetDate = new Date("2025-05-19T00:00:00").getTime();
-
-        // Update the timer every second
-        const timerInterval = setInterval(() => {
-            const now = new Date().getTime();
-            const timeRemaining = targetDate - now;
-
-            // Calculate days, hours, minutes, and seconds
-            const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
-
-            // Display the result in the "timer" element
-            document.getElementById("timer").innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
-
-            // If the countdown is finished, clear the interval and display a message
-            if (timeRemaining < 0) {
-                clearInterval(timerInterval);
-                document.getElementById("timer").innerHTML = "We're back online!";
-            }
-        }, 1000);
-    </script>
+        <!-- Floating Action Button -->
+        <button id="fab" aria-label="Open menu">
+            <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true" focusable="false">
+                <rect y="7" width="30" height="4" rx="2" fill="currentColor"/>
+                <rect y="13" width="30" height="4" rx="2" fill="currentColor"/>
+                <rect y="19" width="30" height="4" rx="2" fill="currentColor"/>
+            </svg>
+        </button>
+        <!-- Popup Menu Overlay -->
+        <!-- Popup Menu Overlay -->
+        <div id="popupMenu" class="hidden">
+            <div class="popup-content">
+                <h2>Navigate</h2>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="productpage.html">Our Products</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+        </div>
+        <script src="script.js"></script>
+    </body>
 </html>

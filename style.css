@@ -1,0 +1,451 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #2a0938, #2e270e);
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-shadow: 0 8px 40px 0 rgba(26, 115, 232, 0.10), 0 1.5px 8px 0 rgba(0,0,0,0.08);
+}
+
+/* Container */
+.container {
+    background: #ffffff;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 40px 0 rgba(26, 115, 232, 0.13), 0 1.5px 8px 0 rgba(0,0,0,0.10);
+    text-align: center;
+    max-width: 1200px;
+    width: 100%;
+    transition: box-shadow 0.3s cubic-bezier(.4,2,.6,1);
+}
+
+/* Heading */
+h1 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-transform: none;
+    letter-spacing: 1px;
+    color: #1a73e8;
+}
+
+/* Paragraph */
+p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+/* Button */
+button {
+    background: #1a73e8;
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+    background: #1558b0;
+    transform: translateY(-2px);
+}
+
+/* Footer */
+footer {
+    margin-top: 20px;
+    font-size: 0.9rem;
+    color: #888;
+}
+
+/* Floating Action Button */
+#fab {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #1a73e8;
+    color: #fff;
+    border: none;
+    font-size: 2rem;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    cursor: pointer;
+    z-index: 1001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, box-shadow 0.2s;
+    outline: none;
+}
+#fab:hover {
+    background: #1558b0;
+    box-shadow: 0 6px 24px rgba(26,115,232,0.2);
+}
+
+/* Popup Menu Overlay */
+#popupMenu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(42, 9, 56, 0.85); /* Deep purple overlay */
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+#popupMenu.hidden {
+    display: none;
+}
+.popup-content {
+    background: linear-gradient(135deg, #2a0938 80%, #2a0938 100%);
+    padding: 48px 36px 36px 36px;
+    border-radius: 22px;
+    box-shadow: 0 12px 48px 0 rgba(42, 9, 56, 0.32), 0 2px 12px 0 rgba(0,0,0,0.18);
+    text-align: center;
+    min-width: 320px;
+    max-width: 92vw;
+    color: #f3eaff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: popup-content-in 0.35s cubic-bezier(.4,2,.6,1);
+    border: 1.5px solid #3d1c4d;
+}
+.popup-content h2 {
+    margin-bottom: 28px;
+    color: #e9bcd5;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 12px #2a0938;
+}
+.popup-content ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 32px 0;
+    width: 100%;
+}
+.popup-content li {
+    margin: 18px 0;
+    width: 100%;
+}
+.popup-content a {
+    display: block;
+    color: #e9bcd5;
+    font-size: 1.25rem;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 14px 0;
+    border-radius: 10px;
+    transition: 
+        background 0.18s cubic-bezier(.4,2,.6,1),
+        color 0.18s cubic-bezier(.4,2,.6,1),
+        box-shadow 0.18s cubic-bezier(.4,2,.6,1);
+    background: transparent;
+    box-shadow: none;
+    letter-spacing: 0.5px;
+}
+.popup-content a:hover, .popup-content a:focus {
+    background: rgba(233, 188, 213, 0.13);
+    color: #fff;
+    box-shadow: 0 2px 12px 0 rgba(42, 9, 56, 0.18);
+    outline: none;
+    text-shadow: 0 2px 8px #2a0938;
+}
+#closePopup {
+    background: #e9bcd5;
+    color: #2a0938;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    margin-top: 10px;
+    box-shadow: 0 2px 8px rgba(233, 188, 213, 0.12);
+    letter-spacing: 0.5px;
+}
+#closePopup:hover, #closePopup:focus {
+    background: #9db2dd;
+    color: #2a0938;
+}
+.product-popup-content {
+    max-width: 350px;
+}
+.download-btn {
+    display: inline-block;
+    background: #1a73e8;
+    color: #fff;
+    padding: 10px 22px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: background 0.2s;
+    vertical-align: middle;
+}
+.download-btn:hover {
+    background: #1558b0;
+}
+#productPopup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s cubic-bezier(.4,2,.6,1);
+}
+#productPopup:not(.hidden) {
+    opacity: 1;
+    pointer-events: auto;
+    animation: popup-fade-in 0.35s cubic-bezier(.4,2,.6,1);
+}
+@keyframes popup-fade-in {
+    from { opacity: 0; transform: scale(0.96);}
+    to   { opacity: 1; transform: scale(1);}
+}
+.product-popup-content {
+    background: #fff;
+    padding: 36px 32px 28px 32px;
+    border-radius: 18px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    text-align: center;
+    min-width: 320px;
+    max-width: 95vw;
+    max-height: 90vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: popup-content-in 0.35s cubic-bezier(.4,2,.6,1);
+}
+@keyframes popup-content-in {
+    from { opacity: 0; transform: translateY(30px) scale(0.96);}
+    to   { opacity: 1; transform: translateY(0) scale(1);}
+}
+.product-popup-content img {
+    width: 90px;
+    height: 90px;
+    border-radius: 12px;
+    margin-bottom: 18px;
+    object-fit: cover;
+    background: #f3f4f6;
+    border: 1px solid #e0e0e0;
+}
+.product-popup-content h2 {
+    margin: 0 0 10px 0;
+    font-size: 1.5rem;
+    color: #1a73e8;
+    font-weight: 600;
+    text-shadow: none;
+}
+.product-popup-content p {
+    margin: 0 0 22px 0;
+    color: #444;
+    font-size: 1.05rem;
+    line-height: 1.5;
+}
+.product-popup-content .popup-actions {
+    display: flex;
+    gap: 18px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 22px;
+}
+.product-popup-content .download-btn {
+    display: inline-block;
+    background: #1a73e8;
+    color: #fff;
+    padding: 10px 28px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background 0.2s;
+    vertical-align: middle;
+    box-shadow: 0 2px 8px rgba(26,115,232,0.08);
+}
+.product-popup-content .download-btn:hover {
+    background: #1558b0;
+}
+.product-popup-content .github-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f3f4f6;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    transition: background 0.2s;
+}
+.product-popup-content .github-link:hover {
+    background: #e9bcd5;
+}
+.product-popup-content .github-link svg {
+    width: 28px;
+    height: 28px;
+    display: block;
+}
+#closeProductPopup {
+    margin-top: 8px;
+    background: #e9bcd5;
+    color: #1a73e8;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+#closeProductPopup:hover {
+    background: #9db2dd;
+}
+
+/* Product List Styling */
+.products-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 1.5rem;
+}
+
+.product-item {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    gap: 1.5rem;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: 1px solid rgba(0,0,0,0.08);
+}
+
+.product-pic {
+    flex-shrink: 0;
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    object-fit: cover;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+}
+
+.product-info {
+    flex: 1;
+    text-align: left;
+}
+
+.product-title {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #1a73e8;
+}
+
+.product-desc {
+    margin: 0;
+    color: #555;
+}
+
+.product-item {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    gap: 1.5rem;
+    transition: all 0.2s cubic-bezier(.4,2,.6,1);
+    cursor: pointer;
+    border: 1px solid rgba(0,0,0,0.08);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.product-item:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 0 12px 32px rgba(26,115,232,0.12);
+    background: #f8f9ff;
+    border-color: rgba(26,115,232,0.12);
+}
+
+/* Product Popup Animations */
+#productPopup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s cubic-bezier(.4,2,.6,1);
+}
+
+#productPopup:not(.hidden) {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.product-popup-content {
+    transform: translateY(20px) scale(0.96);
+    opacity: 0;
+    transition: transform 0.35s cubic-bezier(.4,2,.6,1), opacity 0.35s cubic-bezier(.4,2,.6,1);
+}
+
+#productPopup:not(.hidden) .product-popup-content {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+/* Product Actions Animation */
+.popup-actions a {
+    transition: transform 0.2s cubic-bezier(.4,2,.6,1), background 0.2s cubic-bezier(.4,2,.6,1);
+}
+
+.popup-actions a:hover {
+    transform: translateY(-2px);
+}
+
+.github-link:hover {
+    transform: translateY(-2px) rotate(8deg) !important;
+}
+
+/* Close Button Animation */
+#closeProductPopup {
+    transition: all 0.2s cubic-bezier(.4,2,.6,1);
+}
+
+#closeProductPopup:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(26,115,232,0.12);
+}
