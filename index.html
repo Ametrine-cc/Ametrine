@@ -1,65 +1,162 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Ametrine Company</title>
-        <link rel="stylesheet" href="style.css">
-        <link rel="icon" href="https://hkic7fdt0g.ufs.sh/f/oeCthPafEDnexEDGvU97jATkXwHtcLYpsqFDa0B6EQ2Jb95O" type="image/x-icon">
-    </head>
-    <body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="https://hkic7fdt0g.ufs.sh/f/oeCthPafEDnexEDGvU97jATkXwHtcLYpsqFDa0B6EQ2Jb95O" type="image/x-icon">
+    <link rel="stylesheet" href="styles/style.css">
+    <title>Ametrine Foundation</title>
+</head>
+<body>
+    <header class="topbar" role="banner">
+        <nav class="nav" role="navigation" aria-label="Main navigation">
+            <a class="brand" href="index.html">Ametrine Foundation</a>
+
+            <div class="nav-links" id="navLinks">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="projects.html" class="nav-link">Projects</a>
+                <a href="about.html" class="nav-link">About</a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <h1 class="logo" style="color: black;";>Ametrine Foundation</h1>
+        <p class="tagline" style="color: aliceblue;">The company who cares</p>
+        <button class="cta-button" onclick="scrollToFeatures()">Explore Our Solutions</button>
+    </section>
+
+    <section class="projects" id="projects">
         <div class="container">
-            <header>
-                <h1>Ametrine Company</h1>
-            </header>
-            <main>
-                <p>
-                    Welcome to Ametrine Company. We provide innovative digital solutions to help your business grow and succeed in the modern world.
-                </p>
-                <p>
-                    Our team is dedicated to delivering high-quality products and services tailored to your needs. Explore our offerings and see how we can help you achieve your goals.
-                </p>
-                <!-- Simple SVG Graph Placeholder -->
-                <div style="margin: 32px 0;">
-                    <svg width="100%" height="120" viewBox="0 0 400 120">
-                        <rect x="30" y="60" width="40" height="50" fill="#9db2dd"/>
-                        <rect x="90" y="40" width="40" height="70" fill="#e9bcd5"/>
-                        <rect x="150" y="20" width="40" height="90" fill="#1a73e8"/>
-                        <rect x="210" y="80" width="40" height="30" fill="#9db2dd"/>
-                        <rect x="270" y="50" width="40" height="60" fill="#e9bcd5"/>
-                        <rect x="330" y="35" width="40" height="75" fill="#1a73e8"/>
-                        <br/>
-                        <text x="200" y="115" text-anchor="middle" font-size="14" fill="#555">Sample Data Graph</text>
-                    </svg>
-                </div>
-                <button>Learn More</button>
-            </main>
-            <footer>
-                <p>&copy; 2025 Ametrine Company. All rights reserved.</p>
-            </footer>
+            <h2 class="section-title">Our Projects</h2>
         </div>
-        <!-- Floating Action Button -->
-        <button id="fab" aria-label="Open menu">
-            <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true" focusable="false">
-                <rect y="7" width="30" height="4" rx="2" fill="currentColor"/>
-                <rect y="13" width="30" height="4" rx="2" fill="currentColor"/>
-                <rect y="19" width="30" height="4" rx="2" fill="currentColor"/>
-            </svg>
-        </button>
-        <!-- Popup Menu Overlay -->
-        <!-- Popup Menu Overlay -->
-        <div id="popupMenu" class="hidden">
-            <div class="popup-content">
-                <h2>Navigate</h2>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="productpage.html">Our Products</a></li>
-                    <li><a href="#">Contact</a></li>
-                </ul>
+    </section>
+
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">What We Offer</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3 class="feature-title">Lightning Fast</h3>
+                    <p class="feature-description">Optimized performance that scales with your business needs, delivering results in milliseconds.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3 class="feature-title">Enterprise Security</h3>
+                    <p class="feature-description">Bank-grade encryption and security protocols to keep your data safe and compliant.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3 class="feature-title">Scalable Architecture</h3>
+                    <p class="feature-description">Built to grow with you, from startup to enterprise, without compromising performance.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3 class="feature-title">Precision Engineering</h3>
+                    <p class="feature-description">Every line of code crafted with attention to detail and best practices.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3 class="feature-title">Global Reach</h3>
+                    <p class="feature-description">Cloud-native solutions that work seamlessly across all continents and devices.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💡</div>
+                    <h3 class="feature-title">Innovation First</h3>
+                    <p class="feature-description">Cutting-edge technology stack incorporating the latest advancements in software development.</p>
+                </div>
             </div>
         </div>
+    </section>
+
+    <section class="stats">
+        <div class="container">
+            <h2 class="section-title">By The Numbers</h2>
+            <div class="stats-grid">
+                <div>
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Projects Delivered</div>
+                </div>
+                <div>
+                    <div class="stat-number">99.9%</div>
+                    <div class="stat-label">Uptime Guarantee</div>
+                </div>
+                <div>
+                    <div class="stat-number">150+</div>
+                    <div class="stat-label">Global Clients</div>
+                </div>
+                <div>
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Support Available</div>
+                </div>
+            </div>
         </div>
-        <script src="script.js"></script>
-    </body>
+    </section>
+
+    <footer id="contact">
+        <div class="container">
+            <p>&copy; 2025 Ametrine Foundation. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function scrollToFeatures() {
+            document.getElementById('features').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Subtle parallax effect for feature cards
+        document.addEventListener('mousemove', (e) => {
+            const cards = document.querySelectorAll('.feature-card');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+
+            cards.forEach((card, index) => {
+                const offsetX = (x - 0.5) * 20 * (index % 2 === 0 ? 1 : -1);
+                const offsetY = (y - 0.5) * 20 * (index % 2 === 0 ? 1 : -1);
+                card.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+            });
+        });
+
+        // Smooth scroll for topbar links and active link highlighting
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                const href = link.getAttribute('href');
+                if (href && href.startsWith('#')) {
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) target.scrollIntoView({ behavior: 'smooth' });
+                }
+                // close mobile menu if open
+                document.getElementById('mobileMenu').classList.remove('show');
+                document.getElementById('menuToggle').setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        // Highlight active section link on scroll
+        const sections = document.querySelectorAll('section, footer');
+        function onScroll() {
+            const scrollPos = window.scrollY + (window.innerHeight * 0.25);
+            let activeId = '';
+            sections.forEach(sec => {
+                if (sec.offsetTop <= scrollPos) activeId = sec.id || '';
+            });
+            document.querySelectorAll('.nav-link').forEach(a => {
+                const href = a.getAttribute('href') || '';
+                a.classList.toggle('active', href === `#${activeId}`);
+            });
+        }
+        window.addEventListener('scroll', onScroll);
+        onScroll();
+
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        menuToggle.addEventListener('click', () => {
+            const isOpen = mobileMenu.classList.toggle('show');
+            menuToggle.setAttribute('aria-expanded', String(isOpen));
+            mobileMenu.setAttribute('aria-hidden', String(!isOpen));
+        });
+    </script>
+</body>
 </html>
