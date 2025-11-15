@@ -42,10 +42,15 @@ body a {
     overflow: hidden;
 }
 
+.project-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(168, 85, 247, 0.5);
+    box-shadow: 0 20px 40px rgba(168, 85, 247, 0.2);
+}
+
 .project-card p {
     max-width: 280px;
-    margin: 0 auto;
-    text-align: center;
+    text-align: left;
 }
 
 /* Add text-align center for contribute section cards */
