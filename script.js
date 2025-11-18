@@ -1,16 +1,18 @@
 (function () {
-    // Target: after 12 December 2025 (i.e. from 2025-12-13 00:00 local time)
-    const unlock = new Date('2025-12-13T00:00:00'); // explicit ISO string, not 0-based
-    const now = new Date();
-    if (now < unlock) {
-        function formatRemaining(ms) {
-            let s = Math.floor(ms / 1000);
-            const d = Math.floor(s / 86400); s -= d * 86400;
-            const h = Math.floor(s / 3600); s -= h * 3600;
-            const m = Math.floor(s / 60); s -= m * 60;
-            return d + "d " + h + "h " + m + "m " + s + "s";
-        }
+    const WORKER_URL = 'https://ametrine.cc/api/check';
+    
+    fetch(WORKER_URL)
+        .then(res => res.json())
+        .then(data => {
+            if (data.isLocked) {
+                showLockScreen(data.remainingMs);
+            }
+        })
+        .catch(err => {
+            console.error('Failed to check lock status:', err);
+        });
 
+    function showLockScreen(remaining) {
         document.title = "Unavailable until 13 Dec 2025";
         const wrapper = document.createElement('div');
         wrapper.style.minHeight = "100vh";
@@ -31,25 +33,29 @@
         countdown.style.fontWeight = "600";
         countdown.style.marginTop = "1rem";
         countdown.id = "ametrine-countdown";
-        countdown.textContent = formatRemaining(unlock - now);
-
+        
+        function formatRemaining(ms) {
+            let s = Math.floor(ms / 1000);
+            const d = Math.floor(s / 86400); s -= d * 86400;
+            const h = Math.floor(s / 3600); s -= h * 3600;
+            const m = Math.floor(s / 60); s -= m * 60;
+            return d + "d " + h + "h " + m + "m " + s + "s";
+        }
+        
+        countdown.textContent = formatRemaining(remaining);
         wrapper.appendChild(h);
         wrapper.appendChild(p);
         wrapper.appendChild(countdown);
-
-        // Replace body content
         document.body.replaceChildren(wrapper);
-
-        // Update countdown every second and reload when unlocked
-        const iv = setInterval(function () {
-            const now2 = new Date();
-            if (now2 >= unlock) {
+        
+        const iv = setInterval(() => {
+            remaining -= 1000;
+            if (remaining <= 0) {
                 clearInterval(iv);
                 location.reload();
                 return;
             }
-            const el = document.getElementById('ametrine-countdown');
-            if (el) el.textContent = formatRemaining(unlock - now2);
+            countdown.textContent = formatRemaining(remaining);
         }, 1000);
     }
 })();

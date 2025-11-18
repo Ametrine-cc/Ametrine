@@ -15,6 +15,20 @@ body a {
     box-sizing: border-box;
 }
 
+.about-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    border-radius: 16px;
+    transition: all 0.3s;
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    overflow: hidden;
+}
+
 /* Projects grid: align cards responsively while keeping each card a column flex container */
 .projects-grid {
     display: grid;
