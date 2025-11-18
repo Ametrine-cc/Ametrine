@@ -4,6 +4,10 @@ color * {
     box-sizing: border-box;
 }
 
+p {
+    color: #ffffff;
+}
+
 body a {
     text-decoration: none;
 }
