@@ -8,6 +8,11 @@ p {
     color: #ffffff;
 }
 
+h4 {
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+}
+
 body a {
     text-decoration: none;
 }
