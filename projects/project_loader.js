@@ -21,7 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
             <h2>${escapeHTML(project.name)}</h2>
             <p>${escapeHTML(project.description)}</p>
             <div class="project-links">
-                <a href="${escapeHTML(project.link || '#')}" class="btn btn-primary">Details</a>
+                <a href="${escapeHTML(project.link || '#')}" target="_blank" class="btn btn-primary">Details</a>
+
+                <a href="${escapeHTML(project.download_link || '#')}" target="_blank" class="btn btn-primary">Downloads</a>
             </div>
         </div>
     `).join('');

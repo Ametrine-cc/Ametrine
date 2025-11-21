@@ -8,3 +8,7 @@ The official Ametrine Website Repository
 - Write clear, descriptive commit messages
 - Document any new features or significant changes
 - Report issues with detailed information and reproduction steps
+
+## Links:
+- Ko-Fi https://ko-fi.com/ametrinecc
+- Discord https://discord.gg/zpSzhteHmA
