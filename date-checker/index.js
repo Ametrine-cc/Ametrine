@@ -15,7 +15,7 @@ export default {
         });
       }
       
-      const unlock = new Date('2025-12-13T00:00:00Z');
+      const unlock = new Date('2025-23-13T00:00:00Z');
       const now = new Date();
       const isLocked = now < unlock;
       
