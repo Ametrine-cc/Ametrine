@@ -13,7 +13,7 @@
         });
 
     function showLockScreen(remaining) {
-        document.title = "Unavailable until 13 Dec 2025";
+        document.title = "Unavailable until 23 Dec 2025";
         const wrapper = document.createElement('div');
         wrapper.style.minHeight = "100vh";
         wrapper.style.display = "flex";
@@ -28,7 +28,7 @@
         const h = document.createElement('h1');
         h.textContent = "Site temporarily unavailable";
         const p = document.createElement('p');
-        p.textContent = "This site will be available after 12 December 2025.";
+        p.textContent = "This site will be available after 22nd of December 2025.";
         const countdown = document.createElement('p');
         countdown.style.fontWeight = "600";
         countdown.style.marginTop = "1rem";
