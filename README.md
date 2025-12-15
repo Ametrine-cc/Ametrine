@@ -11,4 +11,3 @@ The official Ametrine Website Repository
 
 ## Links:
 - Ko-Fi https://ko-fi.com/ametrinecc
-- Discord https://discord.gg/zpSzhteHmA
