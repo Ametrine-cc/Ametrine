@@ -1,0 +1,59 @@
+h1 {
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, #ffffff 0%, #a855f7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: fadeInUp 1s ease-out;
+    position: relative;
+}
+
+h1::after {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 6px;
+    border-radius: 4px;
+    background-color: #a855f791;
+    top: 0px;
+    filter: blur(10px);
+    animation: scan 5s 1 forwards;
+    left: 0;
+    z-index: 0;
+}
+
+h1::before {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 5px;
+    border-radius: 4px;
+    background-color: #a855f791;
+    top: 0px;
+    animation: scan 5s 1 forwards;
+    left: 0;
+    z-index: 1;
+    filter: opacity(0.9);
+}
+
+@keyframes scan {
+    0% {
+        top: 0px;
+    }
+    100% {
+        top: 75%;
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
