@@ -3,20 +3,23 @@
 		"name": "ReStock",
 		"description": "The best project maker, with built in git intergrations. Perfect for managing your code projects.",
 		"link": "https://github.com/Ametrine-cc/ReStock",
-		"download_link":"https://github.com/Ametrine-cc/ReStock"
+		"download_link":"https://github.com/Ametrine-cc/ReStock",
+		"progress": "90%"
 	},
 
 	{
 		"name": "LocalMesh",
 		"description": "A local peer to peer service more secure than localhost. Perfect for development and testing.",
 		"link": "https://github.com/Ametrine-cc/LocalMesh",
-		"download_link": "https://github.com/Ametrine-cc/LocalMesh"
+		"download_link": "https://github.com/Ametrine-cc/LocalMesh",
+		"progress": "0%"
 	},
 
 	{
 		"name": "Lumina",
 		"description": "The video editing software made for everyone. Easy to use, yet powerful enough for professionals.",
 		"link": "https://github.com/Ametrine-cc/Lumina",
-		"download_link": "https://github.com/Ametrine-cc/Lumina"
+		"download_link": "https://github.com/Ametrine-cc/Lumina",
+		"progress": "0%"
 	}
 ]

@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <p>${escapeHTML(project.description)}</p>
             <div class="project-links">
                 <a href="${escapeHTML(project.link || "#")}" target="_blank" class="btn btn-primary">Details</a>
-
+                <a class="progress progress-background">Progress: ${escapeHTML(project.progress)}</a>
                 <a href="${escapeHTML(project.download_link || "#")}" target="_blank" class="btn btn-primary">Install</a>
             </div>
         </div>

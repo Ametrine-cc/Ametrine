@@ -413,3 +413,19 @@ h2 {
 
     margin-bottom: 2rem;
 }
+
+.progress {
+    padding: 1rem 1rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+}
+
+
+.progress-background {
+    background: rgba(168, 85, 247, 0.1);
+    transform: translateY(-2px);
+}
