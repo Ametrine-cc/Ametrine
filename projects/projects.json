@@ -8,11 +8,11 @@
 	},
 
 	{
-		"name": "LocalMesh",
-		"description": "A local peer to peer service more secure than localhost. Perfect for development and testing.",
-		"link": "https://github.com/Ametrine-cc/LocalMesh",
-		"download_link": "https://github.com/Ametrine-cc/LocalMesh",
-		"progress": "0%"
+		"name": "Tuner",
+		"description": "The spotify assistant. See the song your listening to in spotify, perfect for reddit rices.",
+		"link": "https://github.com/Ametrine-cc/Tuner",
+		"download_link": "https://github.com/Ametrine-cc/Tuner",
+		"progress": "100%"
 	},
 
 	{
