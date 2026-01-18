@@ -1,25 +1,25 @@
 [
-	{
-		"name": "Refresh",
-		"description": "The best project maker, with built in git intergrations. Perfect for managing your code projects.",
-		"link": "https://github.com/Ametrine-cc/refresh",
-		"download_link":"https://github.com/Ametrine-cc/refresh",
-		"progress": "90%"
-	},
+  {
+    "name": "Refresh",
+    "description": "The best project maker, with built in git intergrations. Perfect for managing your code projects.",
+    "link": "https://github.com/Ametrine-cc/refresh",
+    "download_link": "https://github.com/Ametrine-cc/refresh",
+    "progress": "90%"
+  },
 
-	{
-		"name": "Tuner",
-		"description": "The spotify assistant. See the song your listening to in spotify, perfect for reddit rices.",
-		"link": "https://github.com/Ametrine-cc/Tuner",
-		"download_link": "https://github.com/Ametrine-cc/Tuner",
-		"progress": "100%"
-	},
+  {
+    "name": "Tuner",
+    "description": "The spotify assistant. See the song your listening to in spotify, perfect for reddit rices.",
+    "link": "https://github.com/Ametrine-cc/Tuner",
+    "download_link": "https://github.com/Ametrine-cc/Tuner",
+    "progress": "100%"
+  },
 
-	{
-		"name": "Lumina",
-		"description": "The video editing software made for everyone. Easy to use, yet powerful enough for professionals.",
-		"link": "https://github.com/Ametrine-cc/Lumina",
-		"download_link": "https://github.com/Ametrine-cc/Lumina",
-		"progress": "1%"
-	}
+  {
+    "name": "Search",
+    "description": "A simple search tool, to find files and directories quickly. Simple yet efficient and powerful.",
+    "link": "https://github.com/Ametrine-cc/search",
+    "download_link": "https://github.com/Ametrine-cc/search",
+    "progress": "100%"
+  }
 ]
