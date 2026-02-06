@@ -1,7 +1,0 @@
-name = "ametrine-date-checker"
-main = "index.js"
-compatibility_date = "2024-01-01"
-
-routes = [
-  { pattern = "ametrine.cc/*", zone_name = "ametrine.cc" }
-]
