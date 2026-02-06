@@ -241,21 +241,6 @@ document.querySelectorAll(".feature-card, .project-card").forEach((card) => {
   scrollObserver.observe(card);
 });
 
-window.addEventListener("scroll", () => {
-  if (window.pageYOffset > 500) {
-    backToTop.classList.add("visible");
-  } else {
-    backToTop.classList.remove("visible");
-  }
-});
-
-backToTop.addEventListener("click", () => {
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth",
-  });
-});
-
 // Stat counter animation
 const animateValue = (element, start, end, duration) => {
   let startTimestamp = null;

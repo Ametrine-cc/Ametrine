@@ -853,7 +853,7 @@ section > * {
 
 .section-title {
     font-size: clamp(40px, 6vw, 64px);
-    line-height: 1.0625;
+    line-height: 1.2;
     font-weight: 700;
     letter-spacing: -0.015em;
     margin-bottom: 16px;
@@ -877,7 +877,7 @@ section > * {
 
 .features-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 12px;
     max-width: 1440px;
     margin: 0 auto;

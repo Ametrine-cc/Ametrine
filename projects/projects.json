@@ -1,0 +1,20 @@
+[
+  {
+    "image": "💻",
+    "tag": "Desktop",
+    "title": "Lumina",
+    "description": "A community-driven video editor that provides a premium experience for experienced and beginner users.",
+    "stars": "1",
+    "forks": "0 forks",
+    "license": "MIT"
+  },
+  {
+    "image": "💻",
+    "tag": "Desktop",
+    "title": "Champagne",
+    "description": "A powerful yet lightweight package manager built for modern developers. Fast, extensible, and beautiful.",
+    "stars": "1",
+    "forks": "0 forks",
+    "license": "GPL"
+  }
+]

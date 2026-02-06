@@ -61,31 +61,86 @@
                 <div class="floating-code code-left">
                     <div class="code-snippet">
                         <div>
-                            <span class="keyword">const</span>
-                            <span class="function">freedom</span> =
-                            <span class="string">'open source'</span>;
+                            <span class="comment"
+                                >// Programming Language | C
+                            </span>
                         </div>
                         <div>
                             <span class="keyword">const</span>
-                            <span class="function">privacy</span> =
-                            <span class="string">'guaranteed'</span>;
+                            <span class="function">char*</span>
+                            <span class="function">user_prompt</span> =
+                            <span class="keyword">"Enter your username: "</span
+                            >;
                         </div>
                         <div>
-                            <span class="comment">// Build for everyone</span>
+                            <span class="keyword">int</span>
+                            <span class="function">user_prompt_len</span> =
+                            <span class="keyword">strlen(user_prompt)</span>;
+                        </div>
+                        <div>
+                            <span class="comment"
+                                >// Build with developers in mind</span
+                            >
                         </div>
                     </div>
                 </div>
 
                 <div class="floating-code code-right">
                     <div class="code-snippet">
+                        <span class="comment"
+                            >// Programming Language | Rust</span
+                        >
                         <div>
-                            <span class="keyword">export</span>
-                            <span class="keyword">function</span>
-                            <span class="function">build</span>() {
+                            #[derive(<span class="function">Deserialize</span>,
+                            <span class="function">Clone</span>)]
                         </div>
                         <div>
-                            &nbsp;&nbsp;<span class="keyword">return</span>
-                            community.create();
+                            <span class="keyword">struct</span>
+                            <span class="function">Config</span> {
+                        </div>
+                        <div>
+                            &nbsp;&nbsp;&nbsp;&nbsp;#[serde(default = "<span
+                                class="function"
+                                >default_dark_mode</span
+                            >")]
+                        </div>
+                        <div>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="function"
+                                >dark_mode</span
+                            >: <span class="function">bool</span>,
+                        </div>
+                        <div>
+                            &nbsp;&nbsp;&nbsp;&nbsp;#[serde(default = "<span
+                                class="function"
+                                >default_window_width</span
+                            >")]
+                        </div>
+                        <div>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="function"
+                                >window_width</span
+                            >: <span class="function">i32</span>,
+                        </div>
+                        <div>
+                            &nbsp;&nbsp;&nbsp;&nbsp;#[serde(default = "<span
+                                class="function"
+                                >default_window_height</span
+                            >")]
+                        </div>
+                        <div>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="function"
+                                >window_height</span
+                            >: <span class="function">i32</span>,
+                        </div>
+                        <div>
+                            &nbsp;&nbsp;&nbsp;&nbsp;#[serde(default = "<span
+                                class="function"
+                                >default_update_interval</span
+                            >")]
+                        </div>
+                        <div>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="function"
+                                >update_interval</span
+                            >: <span class="function">f32</span>,
                         </div>
                         <div>}</div>
                     </div>
@@ -200,56 +255,25 @@
 
             <section id="projects">
                 <div class="section-header">
-                    <h2 class="section-title">Our Projects</h2>
+                    <h2 class="section-title">Our Flagship Projects</h2>
                     <p class="section-subtitle">
                         Explore our growing collection of open source tools and
                         applications.
                     </p>
                 </div>
 
-                <div class="projects-grid">
-                    <div class="project-card">
-                        <div class="project-image">📱</div>
-                        <div class="project-content">
-                            <span class="project-tag">Mobile</span>
-                            <h3 class="project-title">Ametrine Connect</h3>
-                            <p class="project-description">
-                                A privacy-focused messaging app that puts
-                                security and user control first. End-to-end
-                                encrypted by default.
-                            </p>
-                            <div class="project-stats">
-                                <div class="project-stat">⭐ 12.5k</div>
-                                <div class="project-stat">🔀 2.1k forks</div>
-                                <div class="project-stat">📦 MIT</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="project-card">
-                        <div class="project-image">💻</div>
-                        <div class="project-content">
-                            <span class="project-tag">Desktop</span>
-                            <h3 class="project-title">Ametrine BLANK</h3>
-                            <p class="project-description">
-                                A powerful yet lightweight code editor built for
-                                modern developers. Fast, extensible, and
-                                beautiful.
-                            </p>
-                            <div class="project-stats">
-                                <div class="project-stat">⭐ 8.3k</div>
-                                <div class="project-stat">🔀 1.5k forks</div>
-                                <div class="project-stat">📦 Apache</div>
-                            </div>
-                        </div>
-                    </div>
+                <div id="project-grid" class="projects-grid">
+                    <!-- Project cards will be loaded here by projects.js -->
                 </div>
 
                 <div class="showcase-section" style="margin-top: 80px">
                     <div class="section-header" style="margin-bottom: 60px">
                         <h2 class="section-title">Get Started</h2>
                         <p class="section-subtitle">
-                            Clone, build, and deploy. It's that simple.
+                            Install Champagne our package manager.
+                        </p>
+                        <p class="section-subtitle">
+                            Example: Refresh | The project manager.
                         </p>
                     </div>
 
@@ -266,29 +290,29 @@
                         <div class="terminal-body">
                             <div class="terminal-line">
                                 <span class="prompt">$</span> git clone
-                                https://github.com/ametrine/project.git
+                                https://github.com/ametrine/champagne.git
                             </div>
                             <div class="terminal-line output">
-                                Cloning into 'project'...
-                            </div>
-                            <div class="terminal-line output">
-                                remote: Counting objects: 100% complete.
+                                ✓ Dependencies installed remote: Counting
+                                objects: 100% complete.
                             </div>
                             <div class="terminal-line">
-                                <span class="prompt">$</span> cd project && npm
-                                install
+                                <span class="prompt">$</span> cd project &&
+                                forge build
                             </div>
                             <div class="terminal-line output">
-                                ✓ Dependencies installed successfully
+                                ✓ Champagne installed successfully
                             </div>
                             <div class="terminal-line">
-                                <span class="prompt">$</span> npm start
+                                <span class="prompt">$</span> champagne -S
+                                refresh
                             </div>
                             <div class="terminal-line output">
-                                🚀 Your app is ready at http://localhost:3000
+                                🚀 Installing Refresh...
                             </div>
                             <div class="terminal-line output">
-                                📝 No tracking, no limits, no compromises.
+                                Refresh installed successfully. No tracking, no
+                                limits, no compromises.
                             </div>
                         </div>
                     </div>
@@ -306,6 +330,7 @@
                         <a
                             href="https://github.com/Ametrine-cc"
                             class="btn btn-primary"
+                            target="_blank"
                             >View on GitHub</a
                         >
                     </div>
@@ -329,7 +354,9 @@
                         class="newsletter-form"
                         onsubmit="
                             event.preventDefault();
-                            alert('Thanks for subscribing! (Demo only)');
+                            alert(
+                                'Thanks for subscribing! (Demo only | Currently not available)',
+                            );
                         "
                     >
                         <input
@@ -359,7 +386,11 @@
                 <ul class="footer-links">
                     <li><a href="#projects">Projects</a></li>
                     <li><a href="#about">About</a></li>
-                    <li><a href="https://github.com/Ametrine-cc">GitHub</a></li>
+                    <li>
+                        <a href="https://github.com/Ametrine-cc" target="_blank"
+                            >GitHub</a
+                        >
+                    </li>
                     <li><a href="#">Privacy</a></li>
                     <li><a href="#">License</a></li>
                 </ul>
@@ -369,17 +400,20 @@
                         href="https://github.com/Ametrine-cc"
                         class="social-link"
                         title="GitHub"
+                        target="_blank"
                         >⚡</a
                     >
                     <a
                         href="https://bsky.app/profile/ametrine.cc"
                         class="social-link"
                         title="Bluesky"
+                        target="_blank"
                         >🐦</a
                     >
                 </div>
             </div>
         </footer>
         <script src="script.js"></script>
+        <script src="projects/projects.js"></script>
     </body>
 </html>
