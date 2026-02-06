@@ -10,4 +10,4 @@ The official Ametrine Website Repository
 - Report issues with detailed information and reproduction steps
 
 ## Links:
-- Ko-Fi https://ko-fi.com/ametrinecc
+- Ko-Fi https://ko-fi.com/ametrinefoundation
