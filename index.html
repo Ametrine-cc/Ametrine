@@ -360,9 +360,11 @@
                         class="newsletter-form"
                         onsubmit="
                             event.preventDefault();
-                            alert(
-                                'Thanks for subscribing! (Demo only | Currently not available)',
-                            );
+                            const emailInput =
+                                document.querySelector('.newsletter-input');
+                            addContact(emailInput.value, 'applicant');
+                            alert('Thanks for subscribing!');
+                            emailInput.value = '';
                         "
                     >
                         <input
@@ -419,6 +421,7 @@
             </div>
         </footer>
         <script src="/script.js"></script>
+        <script src="/brevo.js"></script>
         <script src="/projects/projects.js"></script>
     </body>
 </html>
