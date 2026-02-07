@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
     resizeTimer = setTimeout(applyResponsiveStyles, 100);
   });
 
-  fetch("projects.json")
+  fetch("/projects/projects.json")
     .then((response) => {
       if (!response.ok) {
         // Throw an error if the network request was not successful (e.g., 404, 500)
