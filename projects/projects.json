@@ -16,5 +16,14 @@
     "stars": "1",
     "forks": "0 forks",
     "license": "GPL"
+  },
+  {
+    "image": "💻",
+    "tag": "Desktop",
+    "title": "Refresh",
+    "description": "A Git project manager that provides a premium experience for experienced and beginner users.",
+    "stars": "1",
+    "forks": "0 forks",
+    "license": "GPL"
   }
 ]

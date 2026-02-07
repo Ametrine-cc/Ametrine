@@ -6,7 +6,65 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
-  fetch("./projects/projects.json")
+  // Function to apply responsive styles based on screen size
+  const applyResponsiveStyles = () => {
+    // Define your mobile breakpoint (e.g., screens smaller than or equal to 768px wide)
+    const isMobile = window.innerWidth <= 768;
+    const gap = 16; // Consistent gap between project cards
+
+    if (isMobile) {
+      // Mobile layout: Horizontal flex scroll, 1 card per view
+      projectsContainer.style.display = "flex";
+      projectsContainer.style.overflowX = "scroll"; // Enable horizontal scrolling
+      projectsContainer.style.scrollSnapType = "x mandatory"; // Optional: for smoother snapping
+      projectsContainer.style.gap = `${gap}px`; // Space between project cards
+      projectsContainer.style.paddingBottom = "1rem"; // Add padding to prevent scrollbar from overlapping content
+      // Hide scrollbar for various browsers
+      projectsContainer.style.scrollbarWidth = "none"; // Firefox
+      projectsContainer.style.MsOverflowStyle = "none"; // IE/Edge
+      projectsContainer.style.gridTemplateColumns = ""; // Clear grid columns if set
+
+      // Apply mobile-specific card styles
+      Array.from(projectsContainer.children).forEach((card) => {
+        if (card.classList.contains("project-card")) {
+          card.style.flexShrink = "0"; // Prevent cards from shrinking below their calculated width
+          card.style.flexBasis = "100%"; // Set the preferred size for flex items to full width
+          card.style.width = "100%"; // Explicitly set width for consistency
+          card.style.scrollSnapAlign = "start"; // Align each card to the start of the scroll container
+        }
+      });
+    } else {
+      // Desktop layout: Grid with 3 cards per row, no horizontal scroll
+      projectsContainer.style.display = "grid";
+      projectsContainer.style.gridTemplateColumns = "repeat(3, 1fr)"; // 3 equal width columns
+      projectsContainer.style.gap = `${gap}px`; // Space between grid items
+      projectsContainer.style.overflowX = "hidden"; // Disable horizontal scrolling
+      projectsContainer.style.scrollSnapType = "none"; // Disable scroll snapping
+      projectsContainer.style.paddingBottom = "0"; // No scrollbar, so no extra padding needed
+      // Restore default scrollbar behavior for desktop
+      projectsContainer.style.scrollbarWidth = "unset";
+      projectsContainer.style.MsOverflowStyle = "unset";
+
+      // Clear flexbox-related styles from cards for grid layout
+      Array.from(projectsContainer.children).forEach((card) => {
+        if (card.classList.contains("project-card")) {
+          card.style.flexShrink = "";
+          card.style.flexBasis = "";
+          card.style.width = "";
+          card.style.scrollSnapAlign = "";
+        }
+      });
+    }
+  };
+
+  // Debounce the resize event to prevent excessive function calls
+  let resizeTimer;
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(applyResponsiveStyles, 100);
+  });
+
+  fetch("projects.json")
     .then((response) => {
       if (!response.ok) {
         // Throw an error if the network request was not successful (e.g., 404, 500)
@@ -79,6 +137,9 @@ document.addEventListener("DOMContentLoaded", () => {
         // Append the complete project card to the projects container
         projectsContainer.appendChild(projectCard);
       });
+
+      // After all projects are appended, apply initial responsive styles
+      applyResponsiveStyles();
     })
     .catch((error) => {
       // Handle any errors that occurred during the fetch operation
