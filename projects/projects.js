@@ -79,6 +79,16 @@ document.addEventListener("DOMContentLoaded", () => {
         const projectCard = document.createElement("div");
         projectCard.classList.add("project-card");
 
+        // Make the project card clickable if a link is provided
+        // We assume 'project.link' will contain the path to the project's page,
+        // e.g., "/refresh/refresh.html" as per the prompt's example.
+        if (project.link) {
+          projectCard.style.cursor = "pointer"; // Indicate clickable
+          projectCard.addEventListener("click", () => {
+            window.location.href = project.link;
+          });
+        }
+
         // Create and populate the project image div
         const projectImageDiv = document.createElement("div");
         projectImageDiv.classList.add("project-image");
