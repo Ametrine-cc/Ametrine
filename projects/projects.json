@@ -10,8 +10,8 @@
     "license": "MIT"
   },
   {
-    "image": "💻",
-    "tag": "Desktop",
+    "image": "💾",
+    "tag": "Api",
     "title": "Scrabble",
     "link": "/scrabble/index.html",
     "description": "E2EE api for secure communication, built to be easy to use and secure.",
