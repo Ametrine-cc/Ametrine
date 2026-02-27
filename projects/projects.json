@@ -12,9 +12,9 @@
   {
     "image": "💻",
     "tag": "Desktop",
-    "title": "Champagne",
-    "link": "/champagne/index.html",
-    "description": "A powerful yet lightweight package manager built for modern developers. Fast, extensible, and beautiful.",
+    "title": "Scrabble",
+    "link": "/scrabble/index.html",
+    "description": "E2EE api for secure communication, built to be easy to use and secure.",
     "stars": "1",
     "forks": "0 forks",
     "license": "GPL"
@@ -22,9 +22,9 @@
   {
     "image": "💻",
     "tag": "Desktop",
-    "title": "Refresh",
-    "link": "/refresh/index.html",
-    "description": "A Git project manager that provides a premium experience for experienced and beginner users.",
+    "title": "lander",
+    "link": "/lander/index.html",
+    "description": "A Git project manager and project builder that provides a premium experience for experienced and beginner users.",
     "stars": "1",
     "forks": "0 forks",
     "license": "GPL"
