@@ -14,7 +14,7 @@
     "tag": "Api",
     "title": "Scrabble",
     "link": "/scrabble/index.html",
-    "description": "E2EE api for secure communication, built to be easy to use and secure.",
+    "description": "E2EE api for secure communication, built to be easy to use and secure. Perfect for apps like Matrix or Signal.",
     "stars": "1",
     "forks": "0 forks",
     "license": "GPL"
