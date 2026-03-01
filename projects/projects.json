@@ -28,5 +28,15 @@
     "stars": "1",
     "forks": "0 forks",
     "license": "GPL"
+  },
+  {
+    "image": "👩‍💻",
+    "tag": "Console",
+    "title": "Search",
+    "link": "/search/index.html",
+    "description": "Search. A simple, recursive file search tool written in C++ for linux and other unix-like / unix-based systems.",
+    "stars": "2",
+    "forks": "0 forks",
+    "license": "GPLv3"
   }
 ]
