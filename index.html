@@ -301,43 +301,6 @@
                         >
                     </div>
                 </div>
-
-                <div
-                    class="demo-container"
-                    style="margin-top: 80px"
-                    id="newsletter"
-                >
-                    <div class="section-header" style="margin-bottom: 40px">
-                        <h2 class="section-title" style="font-size: 40px">
-                            Stay Updated
-                        </h2>
-                        <p class="section-subtitle">
-                            Get the latest news, releases, and updates delivered
-                            to your inbox.
-                        </p>
-                    </div>
-                    <form
-                        class="newsletter-form"
-                        onsubmit="
-                            event.preventDefault();
-                            const emailInput =
-                                document.querySelector('.newsletter-input');
-                            addContact(emailInput.value, 'applicant');
-                            alert('Thanks for subscribing!');
-                            emailInput.value = '';
-                        "
-                    >
-                        <input
-                            type="email"
-                            class="newsletter-input"
-                            placeholder="Enter your email"
-                            required
-                        />
-                        <button type="submit" class="btn btn-primary">
-                            Subscribe
-                        </button>
-                    </form>
-                </div>
             </section>
         </div>
 
