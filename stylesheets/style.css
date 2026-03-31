@@ -1125,12 +1125,6 @@ section > * {
     transition: opacity 0.3s;
 }
 
-.project-card:hover {
-    transform: translateY(-12px);
-    border-color: rgba(139, 92, 246, 0.4);
-    box-shadow: 0 25px 70px rgba(139, 92, 246, 0.3);
-}
-
 .project-card:hover::after {
     opacity: 1;
 }

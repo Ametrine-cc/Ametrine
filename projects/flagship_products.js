@@ -11,6 +11,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Define your mobile breakpoint (e.g., screens smaller than or equal to 768px wide)
     const isMobile = window.innerWidth <= 768;
     const gap = 16; // Consistent gap between project cards
+    const numProjectCards =
+      projectsContainer.querySelectorAll(".project-card").length;
 
     if (isMobile) {
       // Mobile layout: Horizontal flex scroll, 1 card per view
@@ -34,9 +36,17 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
     } else {
-      // Desktop layout: Grid with 3 cards per row, no horizontal scroll
+      // Desktop layout
       projectsContainer.style.display = "grid";
-      projectsContainer.style.gridTemplateColumns = "repeat(3, 1fr)"; // 3 equal width columns
+
+      if (numProjectCards === 1) {
+        // If there's only one project, make it fill the available grid space
+        projectsContainer.style.gridTemplateColumns = "1fr";
+      } else {
+        // Multiple projects: Grid with 3 cards per row
+        projectsContainer.style.gridTemplateColumns = "repeat(3, 1fr)"; // 3 equal width columns
+      }
+
       projectsContainer.style.gap = `${gap}px`; // Space between grid items
       projectsContainer.style.overflowX = "hidden"; // Disable horizontal scrolling
       projectsContainer.style.scrollSnapType = "none"; // Disable scroll snapping
@@ -88,12 +98,6 @@ document.addEventListener("DOMContentLoaded", () => {
             window.location.href = project.link;
           });
         }
-
-        // Create and populate the project image div
-        const projectImageDiv = document.createElement("div");
-        projectImageDiv.classList.add("project-image");
-        projectImageDiv.textContent = project.image; // e.g., "💻"
-        projectCard.appendChild(projectImageDiv);
 
         // Create the project content div
         const projectContentDiv = document.createElement("div");
