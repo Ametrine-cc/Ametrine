@@ -23,6 +23,8 @@ document.addEventListener("DOMContentLoaded", () => {
       projectsContainer.style.scrollbarWidth = "none"; // Firefox
       projectsContainer.style.MsOverflowStyle = "none"; // IE/Edge
       projectsContainer.style.gridTemplateColumns = ""; // Clear grid columns if set
+      projectsContainer.style.flexWrap = ""; // Clear flex-wrap from desktop
+      projectsContainer.style.justifyContent = ""; // Clear justify-content from desktop
 
       // Apply mobile-specific card styles
       Array.from(projectsContainer.children).forEach((card) => {
@@ -31,23 +33,32 @@ document.addEventListener("DOMContentLoaded", () => {
           card.style.flexBasis = "100%"; // Set the preferred size for flex items to full width
           card.style.width = "100%"; // Explicitly set width for consistency
           card.style.scrollSnapAlign = "start"; // Align each card to the start of the scroll container
+          card.style.flex = ""; // Clear flex shorthand from desktop
+          card.style.maxWidth = ""; // Clear max-width from desktop
         }
       });
     } else {
-      // Desktop layout: Grid with 3 cards per row, no horizontal scroll
-      projectsContainer.style.display = "grid";
-      projectsContainer.style.gridTemplateColumns = "repeat(3, 1fr)"; // 3 equal width columns
-      projectsContainer.style.gap = `${gap}px`; // Space between grid items
+      // Desktop layout: Flexbox for centering, adaptive number of cards per row
+      projectsContainer.style.display = "flex";
+      projectsContainer.style.flexWrap = "wrap"; // Allow cards to wrap to the next line
+      projectsContainer.style.justifyContent = "center"; // Center cards when they don't fill the entire row
+      projectsContainer.style.gap = `${gap}px`; // Space between items
       projectsContainer.style.overflowX = "hidden"; // Disable horizontal scrolling
       projectsContainer.style.scrollSnapType = "none"; // Disable scroll snapping
-      projectsContainer.style.paddingBottom = "0"; // No scrollbar, so no extra padding needed
+      projectsContainer.style.paddingBottom = "0"; // No scrollbar, no extra padding
       // Restore default scrollbar behavior for desktop
       projectsContainer.style.scrollbarWidth = "unset";
       projectsContainer.style.MsOverflowStyle = "unset";
+      projectsContainer.style.gridTemplateColumns = ""; // Clear grid columns if set
 
-      // Clear flexbox-related styles from cards for grid layout
+      // Apply desktop-specific card styles
       Array.from(projectsContainer.children).forEach((card) => {
         if (card.classList.contains("project-card")) {
+          // Allow cards to grow and shrink, with a base width, and cap their maximum size
+          // This allows for approximately 3 cards per row, centering fewer cards
+          card.style.flex = "1 1 280px"; // Grow:1, Shrink:1, Basis: 280px
+          card.style.maxWidth = "350px"; // Cap the maximum width of a card to prevent over-stretching
+          // Clear any mobile-specific or previous grid-related styles
           card.style.flexShrink = "";
           card.style.flexBasis = "";
           card.style.width = "";
