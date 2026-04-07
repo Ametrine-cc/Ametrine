@@ -188,7 +188,7 @@ nav {
 .logo-gem {
     width: 20px;
     height: 20px;
-    background: linear-gradient(135deg, #a259f7 0%, #f7a259 100%);
+    background: linear-gradient(135deg, #a259f7 0%, #0071e3 100%);
     clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
     display: inline-block;
 }
