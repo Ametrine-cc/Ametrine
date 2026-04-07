@@ -3,248 +3,214 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Ametrine Foundation</title>
-        <link rel="icon" href="/icons/ametrine_logo.png" type="image/x-icon" />
-        <meta name="description" content="The company who cares." />
-        <link rel="stylesheet" href="/stylesheets/style.css" />
+        <title>Ametrine Foundation — The company who cares.</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="stylesheet" href="/style.css" />
         <link
+            href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500&display=swap"
             rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         />
     </head>
-
     <body>
-        <!-- Preloader -->
-        <div class="preloader" id="preloader">
-            <div class="gem-container" id="gemContainer">
-                <div class="gem"></div>
-                <div class="shard shard1"></div>
-                <div class="shard shard2"></div>
-                <div class="shard shard3"></div>
-                <div class="shard shard4"></div>
-                <div class="shard shard5"></div>
-                <div class="shard shard6"></div>
-                <div class="shard shard7"></div>
-                <div class="shard shard8"></div>
-            </div>
-        </div>
-
-        <!-- Gradient Orbs Background -->
-        <div class="gradient-orbs">
-            <div class="orb orb-1"></div>
-            <div class="orb orb-2"></div>
-            <div class="orb orb-3"></div>
-        </div>
-
-        <canvas id="particles"></canvas>
-        <div class="grain"></div>
-        <div class="scroll-progress"></div>
-
-        <nav id="navbar">
-            <div class="nav-content">
-                <div class="logo">
-                    <a
-                        style="color: white; text-decoration: none"
-                        href="/index.html"
-                        >Ametrine Foundation</a
-                    >
-                </div>
+        <!-- NAV -->
+        <nav>
+            <div class="nav-inner">
+                <a href="/index.html" class="logo">
+                    <span class="logo-gem"></span>
+                    Ametrine
+                </a>
                 <ul class="nav-links">
                     <li><a href="/projects/index.html">Projects</a></li>
-                    <li><a href="/about/index.html">About</a></li>
+                    <li><a href="https://github.com/Ametrine-cc">GitHub</a></li>
+                    <li>
+                        <a href="/about/index.html">About</a>
+                    </li>
                 </ul>
-                <div class="mobile-menu-toggle">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                <div style="display: flex; align-items: center; gap: 15px">
+                    <button
+                        id="theme-switch"
+                        class="theme-toggle"
+                        aria-label="Toggle dark mode"
+                    >
+                        <span class="mode-icon">◐</span>
+                    </button>
                 </div>
             </div>
         </nav>
 
-        <div class="container">
-            <section id="description">
-                <div class="section-header">
-                    <div class="eyebrow">Ametrine Foundation | About</div>
-                    <h2 class="section-title">About us</h2>
+        <!-- HERO -->
+        <section class="hero">
+            <div class="hero-gradient"></div>
+            <p class="hero-eyebrow">Ametrine Foundation</p>
+            <h1 class="hero-headline">Abo<span class="grad">ut.</span></h1>
+            <p class="hero-sub">
+                More information about us at Ametrine Foundation.
+            </p>
+        </section>
 
-                    <section
-                        class="features"
-                        style="
-                            display: flex;
-                            flex-wrap: wrap;
-                            gap: 2rem;
-                            align-items: flex-start;
-                        "
-                    >
-                        <div
-                            class="about-image"
-                            style="flex: 0 0 320px; text-align: center"
-                        >
-                            <img
-                                src="/images/noticxs_pfp.jpg"
-                                alt="Champage Logo"
-                                style="
-                                    width: 100%;
-                                    height: auto;
-                                    border-radius: 8px;
-                                    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
-                                "
-                            />
-                            <h3>Noticxs | Our CEO and Founder</h3>
-                            <div
-                                class="buttons-container"
-                                style="
-                                    display: flex;
-                                    justify-content: center;
-                                    gap: 1rem;
-                                    margin-top: 1.5rem;
-                                "
-                            >
-                                <a
-                                    href="https://bsky.app/profile/itznoticxs.bsky.social"
-                                    target="_blank"
-                                    class="about-card"
-                                    style="
-                                        color: white;
-                                        padding: 0.75rem 1.5rem;
-                                        border-radius: 8px;
-                                        text-decoration: none;
-                                        font-weight: 600;
-                                        transition: background-color 0.3s ease;
-                                    "
-                                    onmouseover="
-                                        this.style.backgroundColor = '#7c3aed'
-                                    "
-                                    onmouseout="this.style.backgroundColor = ''"
-                                    >Bluesky</a
-                                >
-                                <a
-                                    href="https://www.youtube.com/@ItsNoticxs"
-                                    target="_blank"
-                                    class="about-card"
-                                    style="
-                                        color: white;
-                                        padding: 0.75rem 1.5rem;
-                                        border-radius: 8px;
-                                        text-decoration: none;
-                                        font-weight: 600;
-                                        transition: background-color 0.3s ease;
-                                    "
-                                    onmouseover="
-                                        this.style.backgroundColor = '#7c3aed'
-                                    "
-                                    onmouseout="this.style.backgroundColor = ''"
-                                    >Youtube</a
-                                >
-                                <a
-                                    href="https://github.com/Noticxs"
-                                    class="about-card"
-                                    style="
-                                        color: white;
-                                        padding: 0.75rem 1.5rem;
-                                        border-radius: 8px;
-                                        text-decoration: none;
-                                        font-weight: 600;
-                                        transition: background-color 0.3s ease;
-                                    "
-                                    onmouseover="
-                                        this.style.backgroundColor = '#7c3aed'
-                                    "
-                                    onmouseout="this.style.backgroundColor = ''"
-                                    >Github</a
-                                >
-                            </div>
-                        </div>
-
-                        <div
-                            class="about-card"
-                            style="
-                                flex: 1 1 400px;
-                                min-width: 280px;
-                                margin-bottom: 2rem;
-                            "
-                        >
-                            <p class="section-subtitle">Who are we?</p>
-                            <p
-                                class="section-description"
-                                style="text-align: left; margin-top: 0.5rem"
-                            >
-                                I started Ametrine, as a project to save the
-                                internet. And by save the internet I mean
-                                removing the control that big corporate
-                                companies have on our software.
-                            </p>
-                            <p
-                                class="section-description"
-                                style="text-align: left; margin-top: 0.5rem"
-                            >
-                                I believe that software should be free, open,
-                                and accessible to everyone. Not just the people
-                                who can afford it or the people who work for big
-                                companies.
-                            </p>
-
-                            <p
-                                class="section-description"
-                                style="text-align: left; margin-top: 0.5rem"
-                            >
-                                At Ametrine, we are committed to building
-                                software that respects your freedom and privacy.
-                            </p>
-                            <p
-                                class="section-description"
-                                style="text-align: left; margin-top: 0.5rem"
-                            >
-                                We believe that everyone should have access to
-                                software that empowers them, without
-                                compromising their rights.
-                            </p>
-                        </div>
-                    </section>
+        <!-- FEATURE ROW -->
+        <section class="section section-center" style="background: var(--bg)">
+            <p class="section-eyebrow reveal">Description</p>
+            <div class="documentation-feature-row reveal">
+                <div class="feature-cell">
+                    <h3 class="feature-title">Who are we?</h3>
+                    <p class="documentation-feature-body">
+                        🙋‍♀️ A short introduction - Ametrine Foundation is a
+                        software company who strives to make open-source
+                        projects that are free for all customers, whislst
+                        maintaining a high quality standard. Here at Ametrine
+                        Foundation we only currently have 2 people helping to
+                        make the world of free open-source software a better
+                        place: our founder Noticxs and our web developer
+                        Phyzzicc.<br />🍪 Fun fact - The original Ametrine
+                        Project was made on a Dell Latitude e7250 later updated
+                        to a Dell Latitude 5300 which is what most projects are
+                        made on even till this day.
+                    </p>
                 </div>
-            </section>
-        </div>
+            </div>
 
+            <div class="documentation-feature-row reveal">
+                <div class="feature-cell">
+                    <h3 class="feature-title">Our values</h3>
+                    <p class="documentation-feature-body">
+                        Here at Ametrine, we believe your data is yours and we
+                        refuse to ever collect any data from you. We also
+                        believe in the idea that all software should be
+                        accessible to everybody and no features should be locked
+                        behind a paywall. We will never, release any software
+                        locked behind a paywall and all our projects will be
+                        available to everyone equally. We believe that everyone
+                        should have access to software that empowers them,
+                        without compromising their rights. At Ametrine, we are
+                        committed to building software that respects your
+                        freedom and privacy.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
         <footer>
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <div class="footer-logo">Ametrine</div>
-                    <div class="footer-text">
-                        © 2025 Ametrine Foundation. Building free software with
-                        ♥ for the community.
+            <div class="footer-inner">
+                <div class="footer-top">
+                    <p class="footer-copy">
+                        Copyright © 2026 Ametrine Foundation. All rights
+                        reserved.
+                    </p>
+                </div>
+                <div class="footer-grid">
+                    <div class="footer-col">
+                        <h4>Projects</h4>
+                        <ul>
+                            <li>
+                                <a href="/projects/kamakazi/index.html"
+                                    >Kamakazi</a
+                                >
+                            </li>
+                            <li>
+                                <a href="/projects/index.html">All Projects</a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/Ametrine-cc"
+                                    >GitHub</a
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Foundation</h4>
+                        <ul>
+                            <li>
+                                <a href="/about/index.html">About</a>
+                            </li>
+                            <li>
+                                <a href="/about/index.html">Our Values</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Legal</h4>
+                        <ul>
+                            <li>
+                                <a href="/about/privacy-policy/index.html"
+                                    >Privacy Policy</a
+                                >
+                            </li>
+                            <li>
+                                <a href="/license/index.html">GPL-3 License</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Social</h4>
+                        <ul>
+                            <li>
+                                <a
+                                    href="https://github.com/Ametrine-cc"
+                                    target="_blank"
+                                    rel="noopener"
+                                    >GitHub ⚡</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="https://bsky.app/profile/ametrine.cc"
+                                    target="_blank"
+                                    rel="noopener"
+                                    >Bluesky 🦋</a
+                                >
+                            </li>
+                        </ul>
                     </div>
                 </div>
-
-                <ul class="footer-links">
-                    <li><a href="/projects/index.html">Projects</a></li>
-                    <li><a href="/about/index.html">About</a></li>
-                    <li>
-                        <a href="https://github.com/Ametrine-cc" target="_blank"
-                            >GitHub</a
-                        >
-                    </li>
-                    <li><a href="#">Privacy</a></li>
-                </ul>
-
-                <div class="social-links">
-                    <a
-                        href="https://github.com/Ametrine-cc"
-                        class="social-link"
-                        title="GitHub"
-                        target="_blank"
-                        >⚡</a
-                    >
-                    <a
-                        href="https://bsky.app/profile/ametrine.cc"
-                        class="social-link"
-                        title="Bluesky"
-                        target="_blank"
-                        >🦋</a
-                    >
+                <div class="footer-bottom">
+                    <p class="footer-copy">
+                        Building free software with ♥ for the community.
+                    </p>
                 </div>
             </div>
         </footer>
-        <script src="/scripts/loader.js"></script>
-        <script src="/scripts/script.js"></script>
+
+        <script>
+            const themeSwitch = document.getElementById("theme-switch");
+            const body = document.body;
+
+            // Check for saved user preference
+            const currentTheme = localStorage.getItem("theme");
+            if (currentTheme === "dark") {
+                body.classList.add("dark-mode");
+            }
+
+            themeSwitch.addEventListener("click", () => {
+                body.classList.toggle("dark-mode");
+
+                // Save preference to localStorage
+                if (body.classList.contains("dark-mode")) {
+                    localStorage.setItem("theme", "dark");
+                } else {
+                    localStorage.setItem("theme", "light");
+                }
+            });
+
+            const io = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((e, i) => {
+                        if (e.isIntersecting) {
+                            setTimeout(
+                                () => e.target.classList.add("in"),
+                                i * 60,
+                            );
+                            io.unobserve(e.target);
+                        }
+                    });
+                },
+                { threshold: 0.08 },
+            );
+            document
+                .querySelectorAll(".reveal")
+                .forEach((el) => io.observe(el));
+        </script>
     </body>
 </html>

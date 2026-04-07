@@ -3,346 +3,399 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Ametrine Foundation</title>
-        <link rel="icon" href="/icons/ametrine_logo.png" type="image/x-icon" />
-        <meta name="description" content="The company who cares." />
-        <link rel="stylesheet" href="/stylesheets/style.css" />
+        <title>Ametrine Foundation — The company who cares.</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="stylesheet" href="/style.css" />
         <link
+            href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500&display=swap"
             rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         />
     </head>
-
     <body>
-        <!-- Preloader -->
-        <div class="preloader" id="preloader">
-            <div class="gem-container" id="gemContainer">
-                <div class="gem"></div>
-                <div class="shard shard1"></div>
-                <div class="shard shard2"></div>
-                <div class="shard shard3"></div>
-                <div class="shard shard4"></div>
-                <div class="shard shard5"></div>
-                <div class="shard shard6"></div>
-                <div class="shard shard7"></div>
-                <div class="shard shard8"></div>
-            </div>
+        <!-- ANNOUNCE STRIP -->
+        <div class="announce">
+            Kamakazi, our flagship project, is now available.
+            <a href="https://github.com/Ametrine-cc/Kamakazi">Download ›</a>
         </div>
 
-        <!-- Gradient Orbs Background -->
-        <div class="gradient-orbs">
-            <div class="orb orb-1"></div>
-            <div class="orb orb-2"></div>
-            <div class="orb orb-3"></div>
-        </div>
-
-        <canvas id="particles"></canvas>
-        <div class="grain"></div>
-        <div class="scroll-progress"></div>
-
-        <nav id="navbar">
-            <div class="nav-content">
-                <div class="logo">
-                    <a
-                        style="color: white; text-decoration: none"
-                        href="/index.html"
-                        >Ametrine Foundation</a
-                    >
-                </div>
+        <!-- NAV -->
+        <nav>
+            <div class="nav-inner">
+                <a href="/index.html" class="logo">
+                    <span class="logo-gem"></span>
+                    Ametrine
+                </a>
                 <ul class="nav-links">
                     <li><a href="/projects/index.html">Projects</a></li>
-                    <li><a href="/about/index.html">About</a></li>
+                    <li><a href="https://github.com/Ametrine-cc">GitHub</a></li>
+                    <li>
+                        <a href="/about/index.html">About</a>
+                    </li>
                 </ul>
-                <div class="mobile-menu-toggle">
-                    <span></span>
-                    <span></span>
-                    <span></span>
+                <div style="display: flex; align-items: center; gap: 15px">
+                    <button
+                        id="theme-switch"
+                        class="theme-toggle"
+                        aria-label="Toggle dark mode"
+                    >
+                        <span class="mode-icon">◐</span>
+                    </button>
                 </div>
             </div>
         </nav>
 
-        <div class="container">
-            <section class="hero">
-                <div class="floating-code code-left">
-                    <div class="code-snippet">
+        <!-- HERO -->
+        <section class="hero">
+            <div class="hero-gradient"></div>
+            <p class="hero-eyebrow">Ametrine Foundation</p>
+            <h1 class="hero-headline">
+                The company<br /><span class="grad">who cares.</span>
+            </h1>
+            <p class="hero-sub">
+                Software built for everyone. Free, private, and
+                community‑powered — with no hidden costs and no compromise.
+            </p>
+            <div class="hero-actions">
+                <a href="/projects/index.html" class="btn btn-blue"
+                    >Explore Projects</a
+                >
+                <a href="#why" class="btn btn-outline">Learn more ↓</a>
+            </div>
+        </section>
+
+        <!-- WHY BENTO -->
+        <section
+            class="section section-center"
+            id="why"
+            style="background: var(--bg)"
+        >
+            <p class="section-eyebrow reveal">Why Ametrine</p>
+            <h2 class="section-title reveal">
+                Built different.<br />By design.
+            </h2>
+            <p class="section-sub reveal">
+                We build software the right way — with freedom, privacy, and
+                community at the core. No VC money. No ads. No surveillance.
+            </p>
+
+            <div class="bento-wrap">
+                <div class="bento-card reveal">
+                    <span class="bento-label">Open Source</span>
+                    <p class="bento-big-num grad-purple">100%</p>
+                    <p class="bento-body">
+                        Every line of code is public. Audited by the community,
+                        for the community. Always.
+                    </p>
+                </div>
+                <div class="bento-card reveal">
+                    <span class="bento-label">Hidden Costs</span>
+                    <p class="bento-big-num grad-blue">$0</p>
+                    <p class="bento-body">
+                        Free to use, share, and modify. Zero paywalls, zero
+                        subscriptions, ever.
+                    </p>
+                </div>
+                <div class="bento-card reveal">
+                    <span class="bento-label">License</span>
+                    <p class="bento-big-num grad-purple">GPL</p>
+                    <p class="bento-body">
+                        GPL-3 licensed — guaranteeing your freedom to run,
+                        study, and distribute.
+                    </p>
+                </div>
+                <div class="bento-card purple span2 reveal">
+                    <span class="bento-icon">🛡️</span>
+                    <span class="bento-label">Privacy First</span>
+                    <h3 class="bento-heading">
+                        Your data belongs<br />to you. Full stop.
+                    </h3>
+                    <p class="bento-body">
+                        No telemetry. No analytics. No background services
+                        phoning home. We build software that stays exactly where
+                        you put it.
+                    </p>
+                </div>
+                <div class="bento-card blue reveal">
+                    <span class="bento-icon">♿</span>
+                    <span class="bento-label">Accessibility</span>
+                    <h3 class="bento-heading">
+                        Built for everyone, from day one.
+                    </h3>
+                    <p class="bento-body">
+                        Inclusivity isn't an afterthought. It's a foundation
+                        principle we never compromise on.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRODUCT -->
+        <section class="product-hero" id="projects">
+            <div class="product-hero-inner">
+                <div class="terminal reveal">
+                    <div class="terminal-bar">
+                        <span class="tdot r"></span><span class="tdot y"></span
+                        ><span class="tdot g"></span>
+                        <span class="tpath">~/home</span>
+                    </div>
+                    <div class="terminal-body">
                         <div>
-                            <span class="comment"
-                                >// Programming Language | C
-                            </span>
-                        </div>
-                        <div>
-                            <span class="keyword">const</span>
-                            <span class="function">char*</span>
-                            <span class="function">user_prompt</span> =
-                            <span class="keyword">"Enter your username: "</span
-                            >;
-                        </div>
-                        <div>
-                            <span class="keyword">int</span>
-                            <span class="function">user_prompt_len</span> =
-                            <span class="keyword">strlen(user_prompt)</span>;
-                        </div>
-                        <div>
-                            <span class="comment"
-                                >// Build with developers in mind</span
+                            <span class="tp">~ </span
+                            ><span class="tc"
+                                >git clone
+                                https://github.com/Ametrine-cc/Kamakazi.git</span
                             >
                         </div>
+                        <div>&nbsp;</div>
+                        <div>
+                            <span class="tp">~ </span>
+                            <span class="tc">cd Kamakazi</span>
+                        </div>
+                        <div>
+                            <span class="tp">~ </span>
+                            <span class="tc">chmod +x install.sh</span>
+                        </div>
+                        <div>&nbsp;</div>
+                        <div>
+                            <span class="tp">~ </span>
+                            <span class="tc">./install</span>
+                        </div>
+                        <div>&nbsp;</div>
+                        <div>
+                            <span class="tp">~ </span
+                            ><span class="tcursor"></span>
+                        </div>
                     </div>
                 </div>
-
-                <div class="floating-code code-right">
-                    <div class="code-snippet">
-                        <span class="comment"
-                            >// Programming Language | Rust</span
-                        >
-                        <div>
-                            #[derive(<span class="function">Deserialize</span>,
-                            <span class="function">Clone</span>)]
-                        </div>
-                        <div>
-                            <span class="keyword">struct</span>
-                            <span class="function">Config</span> {
-                        </div>
-                        <div>
-                            &nbsp;&nbsp;&nbsp;&nbsp;#[serde(default = "<span
-                                class="function"
-                                >default_dark_mode</span
-                            >")]
-                        </div>
-                        <div>
-                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="function"
-                                >dark_mode</span
-                            >: <span class="function">bool</span>,
-                        </div>
-                        <div>
-                            &nbsp;&nbsp;&nbsp;&nbsp;#[serde(default = "<span
-                                class="function"
-                                >default_window_width</span
-                            >")]
-                        </div>
-                        <div>
-                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="function"
-                                >window_width</span
-                            >: <span class="function">i32</span>,
-                        </div>
-                        <div>
-                            &nbsp;&nbsp;&nbsp;&nbsp;#[serde(default = "<span
-                                class="function"
-                                >default_window_height</span
-                            >")]
-                        </div>
-                        <div>
-                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="function"
-                                >window_height</span
-                            >: <span class="function">i32</span>,
-                        </div>
-                        <div>
-                            &nbsp;&nbsp;&nbsp;&nbsp;#[serde(default = "<span
-                                class="function"
-                                >default_update_interval</span
-                            >")]
-                        </div>
-                        <div>
-                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="function"
-                                >update_interval</span
-                            >: <span class="function">f32</span>,
-                        </div>
-                        <div>}</div>
-                    </div>
-                </div>
-
-                <div class="hero-content">
-                    <div class="eyebrow">Ametrine Foundation | Home</div>
-                    <h1>
-                        The company who
-                        <span class="gradient-word">cares</span>.
-                    </h1>
-                    <p class="tagline">
-                        Software built for everyone. Free, private, and
-                        community‑powered.
+                <div class="reveal">
+                    <span class="product-tag">Flagship Project</span>
+                    <h2 class="product-title">Kamakazi.</h2>
+                    <p class="product-desc">
+                        A fast, private logging tool made in c++ for simple and
+                        easy logs for your programs. Allowing seemless
+                        connectivity between applications.
                     </p>
-                    <div class="cta-group">
-                        <a href="/projects/index.html" class="btn btn-primary"
-                            >Explore Projects</a
-                        >
-                        <a href="#about" class="btn btn-secondary"
-                            >Learn More</a
-                        >
-                    </div>
-                    <div class="stats">
-                        <div class="stat-item">
-                            <div class="stat-value">100%</div>
-                            <div class="stat-label">
-                                Professional-grade performance.
-                            </div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value">0</div>
-                            <div class="stat-label">Hidden Costs</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="features">
-                <div class="section-header">
-                    <h2 class="section-title">Why Ametrine?</h2>
-                    <p class="section-subtitle">
-                        We build software the right way — with freedom, privacy,
-                        and community at the core.
-                    </p>
-                </div>
-
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <span class="feature-icon">⚡</span>
-                        <h3 class="feature-title">
-                            Professional-grade performance
-                        </h3>
-                        <p class="feature-text">
-                            All our software is built with professional-grade
-                            performance in mind. Performance that doesn't come
-                            at the cost of privacy or freedom.
-                        </p>
-                    </div>
-
-                    <div class="feature-card">
-                        <span class="feature-icon">🛡️</span>
-                        <h3 class="feature-title">Privacy First</h3>
-                        <p class="feature-text">
-                            Your data belongs to you. We build software that
-                            respects your privacy and keeps you in complete
-                            control of your information.
-                        </p>
-                    </div>
-
-                    <div class="feature-card">
-                        <span class="feature-icon">♿</span>
-                        <h3 class="feature-title">Accessible to All</h3>
-                        <p class="feature-text">
-                            We design for everyone. Our tools are built with
-                            accessibility and inclusivity at their core from day
-                            one.
-                        </p>
-                    </div>
-                </div>
-            </section>
-
-            <section id="projects">
-                <div class="section-header">
-                    <h2 class="section-title">Our Flagship Project</h2>
-                    <p class="section-subtitle">
-                        Explore our growing collection of open source tools and
-                        these are our favorites out of all of them.
-                    </p>
-                </div>
-
-                <div id="project-grid" class="projects-grid">
-                    <!-- Project cards will be loaded here by projects.js -->
-                </div>
-
-                <div class="showcase-section" style="margin-top: 80px">
-                    <div class="section-header" style="margin-bottom: 60px">
-                        <h2 class="section-title">Get Started</h2>
-                        <p class="section-subtitle">
-                            Install Search our file search.
-                        </p>
-                        <p class="section-subtitle">Example made for Linux</p>
-                    </div>
-
-                    <div class="terminal-window">
-                        <div class="terminal-header">
-                            <div style="display: flex; gap: 8px">
-                                <div class="terminal-dot dot-red"></div>
-                                <div class="terminal-dot dot-yellow"></div>
-                                <div class="terminal-dot dot-green"></div>
-                            </div>
-                            <div class="terminal-title">~/home</div>
-                            <div style="width: 60px"></div>
-                        </div>
-                        <div class="terminal-body">
-                            <div class="terminal-line">
-                                <span class="prompt">$</span> champagne -S
-                                search
-                            </div>
-                            <div class="terminal-line output">
-                                ✓ Dependencies installed remote: Counting
-                                objects: 100% complete.
-                            </div>
-                            <div class="terminal-line output">
-                                ✓ Installing Search: 100% complete.
-                            </div>
-                            <div class="terminal-line output">
-                                ✓ Search installed successfully
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="about">
-                <div class="cta-banner">
-                    <h2>Ready to build something amazing?</h2>
-                    <p>
-                        Join our community of developers and users who believe
-                        in software that respects freedom and privacy.
-                    </p>
-                    <div class="cta-group">
+                    <div
+                        style="
+                            display: flex;
+                            gap: 24px;
+                            flex-wrap: wrap;
+                            align-items: center;
+                        "
+                    >
                         <a
-                            href="https://github.com/Ametrine-cc"
-                            class="btn btn-primary"
+                            href="/projects/kamakazi/index.html"
+                            class="product-link"
+                            >Learn more ›</a
+                        >
+                        <a
+                            href="https://github.com/Ametrine-cc/Kamakazi"
+                            class="product-link grey"
                             target="_blank"
-                            >View on GitHub</a
-                        >
-                        <a href="/about/index.html" class="btn btn-primary"
-                            >Our about page</a
+                            rel="noopener"
+                            >View on GitHub ›</a
                         >
                     </div>
                 </div>
-            </section>
-        </div>
+            </div>
+        </section>
 
-        <footer>
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <div class="footer-logo">Ametrine</div>
-                    <div class="footer-text">
-                        © 2026 Ametrine Foundation. Building free software with
-                        ♥ for the community.
-                    </div>
+        <!-- FEATURE ROW -->
+        <section class="section section-center" style="background: var(--bg)">
+            <p class="section-eyebrow reveal">Performance</p>
+            <h2 class="section-title reveal">
+                Pro‑grade.<br />No compromises.
+            </h2>
+            <p class="section-sub reveal">
+                Performance that doesn't cost you your privacy. Speed and
+                ethics, finally together.
+            </p>
+            <div class="feature-row reveal">
+                <div class="feature-cell">
+                    <span class="feature-icon">⚡</span>
+                    <h3 class="feature-title">Blazing fast</h3>
+                    <p class="feature-body">
+                        Built in C++ and C where it matters most. Our tools
+                        start instantly and stay entirely out of your way.
+                    </p>
                 </div>
+                <div class="feature-cell">
+                    <span class="feature-icon">🌐</span>
+                    <h3 class="feature-title">Community powered</h3>
+                    <p class="feature-body">
+                        Every release shaped by the people who use it. Open
+                        issues, open discussions, open roadmap — always.
+                    </p>
+                </div>
+                <div class="feature-cell">
+                    <span class="feature-icon">🔧</span>
+                    <h3 class="feature-title">Developer first</h3>
+                    <p class="feature-body">
+                        Thoughtful APIs, clean code, and great docs. Made by
+                        developers, for developers who care about craft.
+                    </p>
+                </div>
+            </div>
+        </section>
 
-                <ul class="footer-links">
-                    <li><a href="/projects/index.html">Projects</a></li>
-                    <li><a href="/about/index.html">About</a></li>
-                    <li>
-                        <a href="https://github.com/Ametrine-cc" target="_blank"
-                            >GitHub</a
-                        >
-                    </li>
-                    <li><a href="#">Privacy</a></li>
-                </ul>
-
-                <div class="social-links">
+        <!-- CTA -->
+        <section class="cta-band">
+            <div
+                style="
+                    position: relative;
+                    z-index: 1;
+                    max-width: 640px;
+                    margin: 0 auto;
+                "
+            >
+                <p class="section-eyebrow reveal">Get started</p>
+                <h2 class="section-title reveal">
+                    Ready to build<br />something amazing?
+                </h2>
+                <p class="section-sub reveal">
+                    Join a community of developers and users who believe
+                    software should respect your freedom and your privacy.
+                </p>
+                <div class="cta-actions reveal">
                     <a
                         href="https://github.com/Ametrine-cc"
-                        class="social-link"
-                        title="GitHub"
+                        class="btn btn-ghost-white"
                         target="_blank"
-                        >⚡</a
+                        rel="noopener"
+                        >View on GitHub</a
                     >
                     <a
-                        href="https://bsky.app/profile/ametrine.cc"
-                        class="social-link"
-                        title="Bluesky"
+                        href="https://ametrine.cc/about/index.html"
+                        class="btn btn-ghost-white"
                         target="_blank"
-                        >🦋</a
+                        rel="noopener"
+                        >About Ametrine</a
                     >
                 </div>
             </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer>
+            <div class="footer-inner">
+                <div class="footer-top">
+                    <p class="footer-copy">
+                        Copyright © 2026 Ametrine Foundation. All rights
+                        reserved.
+                    </p>
+                </div>
+                <div class="footer-grid">
+                    <div class="footer-col">
+                        <h4>Projects</h4>
+                        <ul>
+                            <li>
+                                <a href="/projects/kamakazi/index.html"
+                                    >Kamakazi</a
+                                >
+                            </li>
+                            <li>
+                                <a href="/projects/index.html">All Projects</a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/Ametrine-cc"
+                                    >GitHub</a
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Foundation</h4>
+                        <ul>
+                            <li>
+                                <a href="/about/index.html">About</a>
+                            </li>
+                            <li>
+                                <a href="/about/index.html">Our Values</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Legal</h4>
+                        <ul>
+                            <li>
+                                <a href="/about/privacy-policy/index.html"
+                                    >Privacy Policy</a
+                                >
+                            </li>
+                            <li>
+                                <a href="/license/index.html">GPL-3 License</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Social</h4>
+                        <ul>
+                            <li>
+                                <a
+                                    href="https://github.com/Ametrine-cc"
+                                    target="_blank"
+                                    rel="noopener"
+                                    >GitHub ⚡</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="https://bsky.app/profile/ametrine.cc"
+                                    target="_blank"
+                                    rel="noopener"
+                                    >Bluesky 🦋</a
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p class="footer-copy">
+                        Building free software with ♥ for the community.
+                    </p>
+                </div>
+            </div>
         </footer>
-        <script src="/scripts/main_preloader.js"></script>
-        <script src="/scripts/script.js"></script>
-        <script src="/projects/flagship_products.js"></script>
+
+        <script>
+            const themeSwitch = document.getElementById("theme-switch");
+            const body = document.body;
+
+            // Check for saved user preference
+            const currentTheme = localStorage.getItem("theme");
+            if (currentTheme === "dark") {
+                body.classList.add("dark-mode");
+            }
+
+            themeSwitch.addEventListener("click", () => {
+                body.classList.toggle("dark-mode");
+
+                // Save preference to localStorage
+                if (body.classList.contains("dark-mode")) {
+                    localStorage.setItem("theme", "dark");
+                } else {
+                    localStorage.setItem("theme", "light");
+                }
+            });
+
+            const io = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((e, i) => {
+                        if (e.isIntersecting) {
+                            setTimeout(
+                                () => e.target.classList.add("in"),
+                                i * 60,
+                            );
+                            io.unobserve(e.target);
+                        }
+                    });
+                },
+                { threshold: 0.08 },
+            );
+            document
+                .querySelectorAll(".reveal")
+                .forEach((el) => io.observe(el));
+        </script>
     </body>
 </html>
