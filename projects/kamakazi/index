@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Ametrine Foundation — The company who cares.</title>
+        <title>Ametrine Foundation — Kamakazi</title>
         <link
             rel="icon"
             href="/icons/Ametrine_Foundation.png"
@@ -52,9 +52,9 @@
             <p class="hero-sub">The C++ log library.</p>
             <div class="hero-actions">
                 <a
-                    href="https://docs.ametrine.cc/projects/kamakazi.html"
+                    href="https://docs.ametrine.cc/projects/kamakazi"
                     class="btn btn-blue"
-                    >More documentation</a
+                    >More Documentation</a
                 >
                 <a
                     href="https://github.com/Ametrine-cc/Kamakazi"
@@ -64,7 +64,7 @@
             </div>
         </section>
 
-        <!-- FEATURE ROW -->
+        <!-- DESCRIPTION ROW -->
         <section class="section section-center" style="background: var(--bg)">
             <p class="section-eyebrow reveal">Description</p>
             <div class="product-feature-row reveal">
@@ -78,51 +78,120 @@
                         them through the terminal to be read through stdout. It
                         is also good for error handling as Kamakazi will end the
                         program before any major issues arise using its
-                        "dangerLevel" system from 0-10 (0 being: minor issue
-                        just ignore, and 10 being: massive issue end program
-                        immediately)
+                        "dangerLevel" system from 0-10.
                     </p>
                 </div>
                 <div class="feature-cell">
                     <span class="feature-icon">🌐</span>
                     <h3 class="feature-title">Why use Kamakazi?</h3>
                     <p class="feature-body">
-                        Kamakazi was made as a means to an end, a way to create
-                        logs for your programs and return them through the
-                        terminal to be read through stdout. It was made as an
-                        alternative to other solutions for ease of use and
-                        better control over what you can and can't do.
+                        Kamakazi was made as an alternative to other solutions
+                        for ease of use and better control. It includes a
+                        built-in safety system: if a dangerLevel is 10, the
+                        program crashes for safety. If it is 0, it exits
+                        quietly. In between, errors are logged without closing
+                        the program.
                     </p>
                 </div>
             </div>
         </section>
 
-        <!-- DOCUMENTATION ROW -->
-        <section class="section section-center" style="background: var(--bg)">
-            <p class="section-eyebrow reveal">Documentation</p>
+        <!-- INSTALLATION SECTION -->
+        <section
+            id="install"
+            class="section section-center"
+            style="background: var(--bg-alt)"
+        >
+            <p class="section-eyebrow reveal">Setup</p>
             <div class="documentation-feature-row reveal">
-                <div class="feature-cell">
-                    <h3 class="documentation-feature-title">Features:</h3>
-
+                <div class="feature-cell" style="text-align: left; width: 100%">
+                    <h3 class="documentation-feature-title">
+                        Installing Kamakazi:
+                    </h3>
+                    <p>Requirements:</p>
                     <ul class="documentation-list-feature-body">
-                        <li>Outputs log messages to stdout.<br /></li>
-                        <li>
-                            Uses danger level system to determine severity of
-                            log messages.<br />
-                        </li>
-                        <li>
-                            Quits the program immediately if a critical error
-                            occurs.<br /><br />
-                        </li>
+                        <li>Linux/UNIX (or UNIX system)<br /></li>
+                        <li>clang++ (to compile the code)<br /></li>
+                        <li>cargo (to build Kamakazi Reader)<br /></li>
+                        <li>make (automate build and install process)<br /></li>
                     </ul>
 
-                    <p class="documentation-feature-description">
-                        More information in the
+                    <br />
+
+                    <div class="terminal reveal">
+                        <div class="terminal-bar">
+                            <span class="tdot r"></span
+                            ><span class="tdot y"></span
+                            ><span class="tdot g"></span>
+                            <span class="tpath">~/home</span>
+                        </div>
+                        <div class="terminal-body">
+                            <div class="documentation-feature-body">
+                                <span class="tp">~ </span
+                                ><span class="tc"
+                                    >git clone
+                                    https://github.com/Ametrine-cc/Kamakazi.git</span
+                                >
+                            </div>
+                            <div class="documentation-feature-body">
+                                <span class="tp">~ </span
+                                ><span class="tc">cd Kamakazi</span>
+                            </div>
+                            <div>&nbsp;</div>
+                            <div class="documentation-feature-body">
+                                <span class="tp"></span
+                                ><span class="tc"># Build and install</span>
+                            </div>
+                            <div class="documentation-feature-body">
+                                <span class="tp">~/Kamakazi </span
+                                ><span class="tc">sudo make clean</span>
+                            </div>
+                            <div class="documentation-feature-body">
+                                <span class="tp">~/Kamakazi </span
+                                ><span class="tc">make</span>
+                            </div>
+                            <div class="documentation-feature-body">
+                                <span class="tp">~/Kamakazi </span
+                                ><span class="tc">sudo make install</span>
+                            </div>
+                            <div class="documentation-feature-body">
+                                <span class="tp">~/Kamakazi </span
+                                ><span class="tcursor"></span>
+                            </div>
+                            <div>&nbsp;</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- READER UTILITY -->
+        <section class="section section-center" style="background: var(--bg)">
+            <p class="section-eyebrow reveal">Tooling</p>
+            <div class="product-feature-row reveal">
+                <div class="feature-cell">
+                    <span class="feature-icon">🦀</span>
+                    <h3 class="feature-title">Kamakazi Reader</h3>
+                    <p class="feature-body">
+                        A dedicated log reader written in <b>Rust</b> with
+                        <b>ratatui</b>. Simply run
+                        <code>kamakazi my_log.log</code> in your terminal.
+                        Navigate using arrow keys or <b>h/j/k/l</b>, and exit
+                        with <b>q</b>.
+                    </p>
+                </div>
+                <div class="feature-cell">
+                    <span class="feature-icon">🛠️</span>
+                    <h3 class="feature-title">Contributing</h3>
+                    <p class="feature-body">
+                        Found a bug? Report it on the GitHub Issues page. We
+                        welcome suggestions for new features and code
+                        improvements. Lead Developer:
                         <a
-                            href="https://github.com/Ametrine-cc/kamakazi"
+                            href="https://github.com/Noticxs"
                             style="color: var(--text-primary)"
-                            >GitHub repository</a
-                        >
+                            >Noticxs</a
+                        >.
                     </p>
                 </div>
             </div>

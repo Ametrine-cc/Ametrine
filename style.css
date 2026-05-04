@@ -27,6 +27,25 @@ html {
         0 2px 12px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
     --card-shadow-hover:
         0 12px 40px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
+
+    /* Define surface and surface-elevated for project cards */
+    --surface: #f5f5f7; /* Default light mode surface */
+    --surface-elevated: #ffffff; /* Default light mode surface-elevated */
+
+    /* Language specific colors */
+    --lang-js: #f1db4f;
+    --lang-python: #306998;
+    --lang-html: #e34c26;
+    --lang-css: #2965f1;
+    --lang-java: #007396;
+    --lang-cpp: #004d7a;
+    --lang-csharp: #178600;
+    --lang-php: #777bb4;
+    --lang-go: #00add8;
+    --lang-ruby: #701516;
+    --lang-swift: #fa7137;
+    --lang-kotlin: #7b52ab;
+    --lang-typescript: #007acc;
 }
 
 /* DARK MODE COLOR OVERRIDES */
@@ -43,6 +62,25 @@ body.dark-mode {
     --border-strong: rgba(255, 255, 255, 0.24);
     --nav-bg: rgba(0, 0, 0, 0.72);
     --card-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+
+    /* Dark mode surface and surface-elevated for project cards */
+    --surface: #1c1c1e; /* Dark mode surface */
+    --surface-elevated: #28282a; /* Dark mode surface-elevated */
+
+    /* Dark mode language colors - adjust if needed for contrast */
+    --lang-js: #f5e06a;
+    --lang-python: #4a8fbf;
+    --lang-html: #f16d4e;
+    --lang-css: #5192ff;
+    --lang-java: #0099cc;
+    --lang-cpp: #0066a3;
+    --lang-csharp: #26a700;
+    --lang-php: #9b9fb5;
+    --lang-go: #21b4e0;
+    --lang-ruby: #912c2d;
+    --lang-swift: #ff8e5e;
+    --lang-kotlin: #9b72c7;
+    --lang-typescript: #2096d6;
 }
 
 /* SPECIFIC SECTION ADJUSTMENTS */
@@ -939,23 +977,123 @@ body.light-mode .project-card::after {
     opacity: 1;
 }
 
-.project-image {
-    width: 100%;
-    height: 240px;
-    background: linear-gradient(
-        135deg,
-        var(--surface),
-        var(--surface-elevated)
-    ); /* Brighter dark mode value */
+/* Apply dynamic background color based on language */
+.project-lang.js {
+    background-color: var(--lang-js);
+    color: #000000; /* Black text for better contrast on yellow */
+}
+.project-lang.python {
+    background-color: var(--lang-python);
+    color: #ffffff; /* White text for better contrast on blue */
+}
+.project-lang.html {
+    background-color: var(--lang-html);
+    color: #ffffff; /* White text for better contrast on orange */
+}
+.project-lang.css {
+    background-color: var(--lang-css);
+    color: #ffffff; /* White text for better contrast on blue */
+}
+.project-lang.java {
+    background-color: var(--lang-java);
+    color: #ffffff; /* White text for better contrast on dark blue */
+}
+.project-lang.cpp {
+    background-color: var(--lang-cpp);
+    color: #ffffff; /* White text for better contrast on dark blue */
+}
+.project-lang.csharp {
+    background-color: var(--lang-csharp);
+    color: #ffffff; /* White text for better contrast on green */
+}
+.project-lang.php {
+    background-color: var(--lang-php);
+    color: #ffffff; /* White text for better contrast on purple */
+}
+.project-lang.go {
+    background-color: var(--lang-go);
+    color: #ffffff; /* White text for better contrast on light blue */
+}
+.project-lang.ruby {
+    background-color: var(--lang-ruby);
+    color: #ffffff; /* White text for better contrast on red */
+}
+.project-lang.swift {
+    background-color: var(--lang-swift);
+    color: #ffffff; /* White text for better contrast on orange */
+}
+.project-lang.kotlin {
+    background-color: var(--lang-kotlin);
+    color: #ffffff; /* White text for better contrast on purple */
+}
+.project-lang.typescript {
+    background-color: var(--lang-typescript);
+    color: #ffffff; /* White text for better contrast on blue */
+}
+
+/* Position the language badge in the top-right corner */
+.project-language {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 10;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    backdrop-filter: blur(4px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Language Colors (Mapped to your existing variables) */
+.project-language.js {
+    background-color: var(--lang-js);
+    color: #000;
+}
+.project-language.python {
+    background-color: var(--lang-python);
+    color: #fff;
+}
+.project-language.html {
+    background-color: var(--lang-html);
+    color: #fff;
+}
+.project-language.css {
+    background-color: var(--lang-css);
+    color: #fff;
+}
+.project-language.java {
+    background-color: var(--lang-java);
+    color: #fff;
+}
+.project-language.typescript {
+    background-color: var(--lang-typescript);
+    color: #fff;
+}
+
+/* Adjust the card to ensure it handles the absolute badge */
+.project-card {
+    position: relative; /* Essential for the 'top/right' positioning to work */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Optional: If you had a large placeholder area where the icon was,
+   you might want to remove the fixed height from it now */
+.project-lang-header {
+    height: 160px; /* Reduced or removed depending on your design */
+    background: var(--surface);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 64px;
-    position: relative;
-    overflow: hidden;
+    font-size: 40px;
 }
 
-body.light-mode .project-image {
+body.light-mode .project-lang {
     background: linear-gradient(
         135deg,
         var(--surface-elevated),
@@ -963,7 +1101,7 @@ body.light-mode .project-image {
     ); /* Light mode value */
 }
 
-.project-image::before {
+.project-lang::before {
     content: "";
     position: absolute;
     inset: 0;
@@ -974,7 +1112,7 @@ body.light-mode .project-image {
     );
 }
 
-body.light-mode .project-image::before {
+body.light-mode .project-lang::before {
     background: radial-gradient(
         circle at 30% 50%,
         rgba(139, 92, 246, 0.15),

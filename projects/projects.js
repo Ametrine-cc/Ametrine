@@ -100,11 +100,22 @@ document.addEventListener("DOMContentLoaded", () => {
           });
         }
 
-        // Create and populate the project image div
-        const projectImageDiv = document.createElement("div");
-        projectImageDiv.classList.add("project-image");
-        projectImageDiv.textContent = project.image; // e.g., "💻"
-        projectCard.appendChild(projectImageDiv);
+        // ... inside your projects.forEach loop ...
+
+        // Create and populate the project lang badge
+        const projectLangDiv = document.createElement("div");
+        projectLangDiv.classList.add("project-language");
+
+        // This adds the specific class (e.g., 'js' or 'python') for the color
+        if (project.language) {
+          const langClass = project.language
+            .toLowerCase()
+            .replace("#", "sharp");
+          projectLangDiv.classList.add(langClass);
+          projectLangDiv.textContent = project.language;
+        }
+
+        projectCard.appendChild(projectLangDiv);
 
         // Create the project content div
         const projectContentDiv = document.createElement("div");
