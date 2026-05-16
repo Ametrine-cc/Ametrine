@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Ametrine Foundation — The company who cares.</title>
+        <link
+            rel="icon"
+            href="/icons/Ametrine_Foundation.png"
+            type="image/x-icon"
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="stylesheet" href="/style.css" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500&display=swap"
+            rel="stylesheet"
+        />
+    </head>
+    <body>
+        <!-- NAV -->
+        <nav>
+            <div class="nav-inner">
+                <a href="/index.html" class="logo">
+                    <span class="logo-gem"></span>
+                    Ametrine
+                </a>
+                <ul class="nav-links">
+                    <li><a href="/projects/index.html">Projects</a></li>
+                    <li><a href="https://github.com/Ametrine-cc">GitHub</a></li>
+                    <li>
+                        <a href="/about/index.html">About</a>
+                    </li>
+                </ul>
+                <div style="display: flex; align-items: center; gap: 15px">
+                    <button
+                        id="theme-switch"
+                        class="theme-toggle"
+                        aria-label="Toggle dark mode"
+                    >
+                        <span class="mode-icon">◐</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- HERO -->
+        <section class="hero">
+            <div class="hero-gradient"></div>
+            <p class="hero-eyebrow">Ametrine Foundation</p>
+            <h1 class="hero-headline">Proj<span class="grad">ects.</span></h1>
+            <p class="hero-sub">
+                Here is a list of all our projects. From the smallest to the
+                biggest. Enjoy.
+            </p>
+        </section>
+
+        <!-- PROJECTS -->
+        <section
+            class="section section-center"
+            id="why"
+            style="background: var(--bg)"
+        >
+            <div id="project-grid" class="projects-grid">
+                <!-- Project cards will be loaded here by projects.js -->
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer>
+            <div class="footer-inner">
+                <div class="footer-top">
+                    <p class="footer-copy">
+                        Copyright © 2026 Ametrine Foundation. All rights
+                        reserved.
+                    </p>
+                </div>
+                <div class="footer-grid">
+                    <div class="footer-col">
+                        <h4>Projects</h4>
+                        <ul>
+                            <li>
+                                <a href="https://docs.ametrine.cc/"
+                                    >Documentation</a
+                                >
+                            </li>
+                            <li>
+                                <a href="/projects/index.html">All Projects</a>
+                            </li>
+                            <li>
+                                <a href="https://github.com/Ametrine-cc"
+                                    >GitHub</a
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Foundation</h4>
+                        <ul>
+                            <li>
+                                <a href="/about/index.html">About</a>
+                            </li>
+                            <li>
+                                <a href="/about/index.html">Our Values</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Legal</h4>
+                        <ul>
+                            <li>
+                                <a href="/about/privacy-policy/index.html"
+                                    >Privacy Policy</a
+                                >
+                            </li>
+                            <li>
+                                <a href="/license/index.html">GPL-3 License</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="footer-col">
+                        <h4>Social</h4>
+                        <ul>
+                            <li>
+                                <a
+                                    href="https://github.com/Ametrine-cc"
+                                    target="_blank"
+                                    rel="noopener"
+                                    >GitHub ⚡</a
+                                >
+                            </li>
+                            <li>
+                                <a
+                                    href="https://bsky.app/profile/ametrine.cc"
+                                    target="_blank"
+                                    rel="noopener"
+                                    >Bluesky 🦋</a
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p class="footer-copy">
+                        Building free software with ♥ for the community.
+                    </p>
+                </div>
+            </div>
+        </footer>
+
+        <script src="/projects/projects.js"></script>
+        <script>
+            const themeSwitch = document.getElementById("theme-switch");
+            const body = document.body;
+
+            // Check for saved user preference
+            const currentTheme = localStorage.getItem("theme");
+            if (currentTheme === "dark") {
+                body.classList.add("dark-mode");
+            }
+
+            themeSwitch.addEventListener("click", () => {
+                body.classList.toggle("dark-mode");
+
+                // Save preference to localStorage
+                if (body.classList.contains("dark-mode")) {
+                    localStorage.setItem("theme", "dark");
+                } else {
+                    localStorage.setItem("theme", "light");
+                }
+            });
+
+            const io = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((e, i) => {
+                        if (e.isIntersecting) {
+                            setTimeout(
+                                () => e.target.classList.add("in"),
+                                i * 60,
+                            );
+                            io.unobserve(e.target);
+                        }
+                    });
+                },
+                { threshold: 0.08 },
+            );
+            document
+                .querySelectorAll(".reveal")
+                .forEach((el) => io.observe(el));
+        </script>
+    </body>
+</html>

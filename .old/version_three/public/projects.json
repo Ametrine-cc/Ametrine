@@ -1,0 +1,14 @@
+[
+  {
+    "platform": "Desktop, Mobile",
+    "title": "Anix",
+    "link": "/anix",
+    "description": "Anix, watch your local library across all devices easily."
+  },
+  {
+    "platform": "Desktop, Mobile",
+    "title": "Noka",
+    "link": "/noka",
+    "description": "Noka, the music player of your dreams."
+  }
+]
