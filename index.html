@@ -1,1 +1,1415 @@
+DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ametrine Foundation — The company who cares.</title>
+<meta name="description" content="Premium software built with privacy-first architecture. Professional-grade, priced for everyone.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+--bg:#07070F;--surface:rgba(255,255,255,.03);
+--border:rgba(255,255,255,.07);--bhi:rgba(255,255,255,.12);
+--text:#ECEDF8;--sub:#8585A5;--dim:#44445A;
+--violet:#9B6EFA;--vd:#6B3ED4;--vlt:#C4A0FA;
+--gold:#C89B3C;--glt:#E8BB60;--green:#2DCB6A;
+--fd:'Syne',sans-serif;--fb:'Inter',sans-serif;
+--mw:1100px;--pad:clamp(20px,5vw,64px);
+--ease:cubic-bezier(.22,1,.36,1);--spring:cubic-bezier(.34,1.56,.64,1);
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--fb);font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;cursor:none;}
+@media(pointer:coarse){body{cursor:auto;}}
+::-webkit-scrollbar{width:2px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:rgba(155,110,250,.25);}
+body::after{content:'';position:fixed;inset:0;z-index:9000;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:.02;mix-blend-mode:screen;}
 
+/* cursor */
+#c1,#c2{position:fixed;border-radius:50%;pointer-events:none;z-index:8999;transform:translate(-50%,-50%);}
+#c1{width:8px;height:8px;background:var(--vlt);mix-blend-mode:screen;transition:width .15s,height .15s,background .2s;}
+#c2{width:28px;height:28px;border:1px solid rgba(196,160,250,.28);transition:width .28s,height .28s,border-color .28s;}
+body:has(a:hover) #c1,body:has(button:hover) #c1{width:4px;height:4px;background:var(--glt);}
+body:has(a:hover) #c2,body:has(button:hover) #c2{width:46px;height:46px;border-color:rgba(232,187,96,.28);}
+@media(pointer:coarse){#c1,#c2{display:none;}}
+
+/* progress */
+#sprog{position:fixed;top:0;left:0;right:0;height:1px;z-index:500;background:linear-gradient(90deg,var(--violet),var(--glt));transform:scaleX(0);transform-origin:left;}
+
+/* bg */
+#sf{position:fixed;inset:0;z-index:0;pointer-events:none;}
+#glow{position:fixed;inset:0;z-index:0;pointer-events:none;
+background:radial-gradient(ellipse 52% 52% at 76% 8%,rgba(155,110,250,.1) 0%,transparent 65%),radial-gradient(ellipse 38% 42% at 8% 78%,rgba(200,155,60,.06) 0%,transparent 65%);}
+
+/* ── LANG PICKER OVERLAY ── */
+#lang-overlay{
+position:fixed;inset:0;z-index:10000;
+background:var(--bg);
+display:flex;flex-direction:column;align-items:center;justify-content:center;
+padding:24px;
+transition:opacity .5s var(--ease),transform .5s var(--ease);
+}
+#lang-overlay.hidden{opacity:0;pointer-events:none;transform:scale(.97);}
+.lo-gem{margin-bottom:32px;}
+.lo-title{font-family:var(--fd);font-size:clamp(22px,4vw,32px);font-weight:800;letter-spacing:-.025em;text-align:center;margin-bottom:8px;}
+.lo-sub{font-size:13.5px;color:var(--sub);text-align:center;margin-bottom:36px;font-weight:300;}
+.lang-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:480px;width:100%;}
+@media(max-width:420px){.lang-grid{grid-template-columns:repeat(2,1fr);}}
+.lang-btn{
+display:flex;flex-direction:column;align-items:center;gap:4px;
+padding:16px 12px;border-radius:12px;border:1px solid var(--border);
+background:rgba(255,255,255,.025);cursor:pointer;
+transition:border-color .2s,background .2s,transform .2s var(--spring);
+font-family:var(--fb);
+}
+.lang-btn:hover{border-color:var(--bhi);background:rgba(255,255,255,.05);transform:translateY(-2px);}
+.lang-btn.active{border-color:var(--vlt);background:rgba(155,110,250,.1);}
+.lang-flag{font-size:22px;line-height:1;}
+.lang-name{font-size:11.5px;font-weight:500;color:var(--sub);}
+.lang-native{font-size:10px;color:var(--dim);}
+.lo-confirm{
+margin-top:24px;
+font-family:var(--fd);font-size:14px;font-weight:700;
+color:#fff;background:linear-gradient(135deg,var(--violet),var(--vd));
+border:none;cursor:pointer;
+padding:13px 36px;border-radius:10px;
+box-shadow:inset 0 1px 0 rgba(255,255,255,.12);
+transition:box-shadow .2s,transform .2s var(--ease);
+opacity:.4;pointer-events:none;
+}
+.lo-confirm.ready{opacity:1;pointer-events:all;}
+.lo-confirm.ready:hover{box-shadow:0 8px 28px rgba(155,110,250,.4);transform:translateY(-1px);}
+
+/* ── NAV ── */
+nav{
+position:fixed;top:0;left:0;right:0;z-index:200;
+display:flex;align-items:center;justify-content:space-between;
+padding:0 var(--pad);height:60px;
+background:rgba(7,7,15,.55);
+backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+border-bottom:1px solid transparent;
+transition:border-color .4s,background .4s;
+}
+nav.on{border-color:var(--border);background:rgba(7,7,15,.92);}
+.nav-logo{display:flex;align-items:center;gap:9px;font-family:var(--fd);font-size:15px;font-weight:700;letter-spacing:-.02em;color:var(--text);text-decoration:none;flex-shrink:0;}
+.logo-gem{width:23px;height:23px;}
+.nav-links{display:flex;align-items:center;gap:26px;}
+.nav-links a{font-size:13px;font-weight:400;color:var(--sub);text-decoration:none;letter-spacing:.02em;transition:color .18s;white-space:nowrap;}
+.nav-links a:hover{color:var(--text);}
+.nav-right{display:flex;align-items:center;gap:12px;}
+.nav-lang-btn{
+display:flex;align-items:center;gap:5px;
+font-size:12px;font-weight:500;color:var(--sub);
+background:rgba(255,255,255,.04);border:1px solid var(--border);
+padding:5px 10px;border-radius:7px;cursor:pointer;
+transition:border-color .18s,color .18s;font-family:var(--fb);
+}
+.nav-lang-btn:hover{border-color:var(--bhi);color:var(--text);}
+.nav-btn{font-family:var(--fd);font-size:13px;font-weight:700;color:#fff;text-decoration:none;white-space:nowrap;background:linear-gradient(135deg,var(--violet),var(--vd));padding:8px 18px;border-radius:8px;box-shadow:inset 0 1px 0 rgba(255,255,255,.12);transition:box-shadow .2s,transform .2s var(--ease);}
+.nav-btn:hover{box-shadow:0 8px 24px rgba(155,110,250,.4),inset 0 1px 0 rgba(255,255,255,.15);transform:translateY(-1px);}
+@media(max-width:700px){.nav-links{display:none;}}
+
+/* ── GLASS ── */
+.glass{background:rgba(255,255,255,.035);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border:1px solid var(--bhi);border-radius:16px;position:relative;overflow:hidden;}
+.glass::before{content:'';position:absolute;inset:0;pointer-events:none;border-radius:inherit;background:linear-gradient(145deg,rgba(255,255,255,.05) 0%,transparent 50%);}
+
+/* ── HERO ── */
+.hero{
+position:relative;z-index:1;max-width:var(--mw);margin:0 auto;
+min-height:100svh;display:grid;grid-template-columns:1fr 1fr;
+align-items:center;gap:48px;padding:110px var(--pad) 80px;
+}
+.hero-left{display:flex;flex-direction:column;align-items:flex-start;}
+.hero-tag{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--vlt);background:rgba(155,110,250,.07);border:1px solid rgba(155,110,250,.17);padding:5px 12px;border-radius:100px;margin-bottom:26px;opacity:0;animation:fu .7s var(--ease) .1s both;}
+.tag-dot{width:5px;height:5px;border-radius:50%;background:var(--vlt);animation:pd 2.2s ease infinite;}
+@keyframes pd{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.3;transform:scale(.55);}}
+.hero-h{font-family:var(--fd);font-size:clamp(38px,6.2vw,78px);font-weight:800;line-height:1.03;letter-spacing:-.035em;opacity:0;animation:fu .85s var(--ease) .2s both;}
+.hero-h .g{background:linear-gradient(118deg,#fff 0%,var(--vlt) 44%,var(--glt) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-p{margin-top:20px;font-size:clamp(14px,1.4vw,16.5px);font-weight:300;color:var(--sub);max-width:400px;line-height:1.88;opacity:0;animation:fu .85s var(--ease) .34s both;}
+.hero-acts{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:34px;opacity:0;animation:fu .85s var(--ease) .48s both;}
+
+.btn-fill{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(135deg,var(--violet),var(--vd));color:#fff;font-family:var(--fd);font-size:14px;font-weight:700;padding:12px 24px;border-radius:10px;text-decoration:none;box-shadow:inset 0 1px 0 rgba(255,255,255,.13),0 4px 14px rgba(155,110,250,.18);transition:transform .2s var(--ease),box-shadow .2s;border:none;cursor:pointer;}
+.btn-fill:hover{transform:translateY(-2px);box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 10px 30px rgba(155,110,250,.38);}
+.btn-fill svg{transition:transform .2s var(--ease);}
+.btn-fill:hover svg{transform:translateX(3px);}
+.btn-ghost{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:400;color:var(--sub);text-decoration:none;border:1px solid var(--border);padding:12px 20px;border-radius:10px;transition:border-color .2s,color .2s,transform .2s var(--ease);cursor:pointer;background:none;}
+.btn-ghost:hover{border-color:var(--bhi);color:var(--text);transform:translateY(-1px);}
+
+.hero-kpis{display:flex;gap:24px;flex-wrap:wrap;margin-top:44px;padding-top:32px;border-top:1px solid var(--border);opacity:0;animation:fu .85s var(--ease) .62s both;}
+.kpi{display:flex;flex-direction:column;gap:2px;}
+.kpi-v{font-family:var(--fd);font-size:21px;font-weight:800;letter-spacing:-.02em;}
+.kpi-v.g{background:linear-gradient(110deg,var(--vlt),var(--glt));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.kpi-l{font-size:11px;color:var(--dim);font-weight:300;letter-spacing:.02em;}
+
+.hero-right{display:flex;align-items:center;justify-content:center;opacity:0;animation:gemIn 1.2s var(--ease) .55s both;}
+@keyframes gemIn{from{opacity:0;transform:scale(.88);}to{opacity:1;transform:scale(1);}}
+.gem-svg{width:100%;max-width:420px;filter:drop-shadow(0 0 50px rgba(155,110,250,.24)) drop-shadow(0 0 90px rgba(200,155,60,.09));}
+
+@media(max-width:760px){
+.hero{grid-template-columns:1fr;padding-top:88px;min-height:auto;padding-bottom:56px;gap:32px;}
+.hero-right{order:-1;}
+.gem-svg{max-width:220px;}
+.hero-p{max-width:100%;}
+}
+@keyframes fu{from{opacity:0;transform:translateY(15px);}to{opacity:1;transform:translateY(0);}}
+
+/* ── TICKER ── */
+.ticker{position:relative;z-index:1;border-top:1px solid var(--border);overflow:hidden;}
+.ticker-track{display:flex;width:max-content;animation:tick 30s linear infinite;padding:12px 0;}
+.ticker-track:hover{animation-play-state:paused;}
+.t-item{display:flex;align-items:center;gap:9px;padding:0 38px;font-size:12px;font-weight:400;color:var(--dim);white-space:nowrap;letter-spacing:.03em;}
+.t-gem{width:8px;height:8px;flex-shrink:0;}
+.ticker::before,.ticker::after{content:'';position:absolute;top:0;bottom:0;width:56px;z-index:2;}
+.ticker::before{left:0;background:linear-gradient(90deg,var(--bg),transparent);}
+.ticker::after{right:0;background:linear-gradient(-90deg,var(--bg),transparent);}
+@keyframes tick{to{transform:translateX(-50%);}}
+
+/* ── SECTION ── */
+.sec{max-width:var(--mw);margin:0 auto;padding:88px var(--pad);position:relative;z-index:1;}
+.eye{display:inline-flex;align-items:center;gap:8px;font-size:11px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);margin-bottom:13px;}
+.eye::before{content:'';display:block;width:14px;height:1px;background:var(--gold);opacity:.5;}
+.sh{font-family:var(--fd);font-size:clamp(27px,3.8vw,48px);font-weight:800;letter-spacing:-.03em;line-height:1.1;}
+.sh em{font-style:normal;color:var(--vlt);}
+.sp{font-size:15px;font-weight:300;color:var(--sub);line-height:1.85;max-width:480px;margin-top:15px;}
+
+/* ── VALUES ── */
+.val-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:48px;}
+@media(max-width:620px){.val-grid{grid-template-columns:1fr;}}
+.vcard{padding:32px 28px;cursor:default;transition:transform .3s var(--ease);}
+.vcard:hover{transform:translateY(-2px);}
+.vcard-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;background:rgba(155,110,250,.07);border:1px solid rgba(155,110,250,.13);margin-bottom:18px;transition:background .25s,border-color .25s;}
+.vcard:hover .vcard-icon{background:rgba(155,110,250,.12);border-color:rgba(155,110,250,.22);}
+.vcard-n{position:absolute;top:20px;right:20px;font-family:var(--fd);font-size:11px;font-weight:700;color:rgba(255,255,255,.05);letter-spacing:.05em;}
+.vcard-t{font-family:var(--fd);font-size:16px;font-weight:700;letter-spacing:-.01em;margin-bottom:7px;}
+.vcard-b{font-size:13px;font-weight:300;color:var(--sub);line-height:1.82;}
+
+/* ── STATS ── */
+.stats-wrap{position:relative;z-index:1;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:rgba(255,255,255,.01);}
+.stats-inner{max-width:var(--mw);margin:0 auto;padding:52px var(--pad);display:grid;grid-template-columns:repeat(4,1fr);}
+@media(max-width:620px){
+.stats-inner{grid-template-columns:repeat(2,1fr);}
+.si:nth-child(2){border-right:none;}
+.si:nth-child(n+3){border-top:1px solid var(--border);}
+}
+.si{padding:24px 14px;text-align:center;border-right:1px solid var(--border);transition:background .2s;}
+.si:last-child{border-right:none;}
+.si:hover{background:rgba(255,255,255,.015);}
+.sn{font-family:var(--fd);font-size:clamp(26px,4vw,44px);font-weight:800;letter-spacing:-.04em;display:block;background:linear-gradient(115deg,var(--vlt),var(--glt));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.sl{font-size:12px;color:var(--dim);font-weight:300;margin-top:5px;display:block;line-height:1.4;}
+
+/* ── ABOUT ── */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;}
+@media(max-width:760px){.about-grid{grid-template-columns:1fr;gap:32px;}}
+.terminal{font-family:'Courier New',monospace;font-size:12px;line-height:1.95;padding:22px 18px;}
+.thdr{display:flex;align-items:center;gap:6px;padding-bottom:12px;border-bottom:1px solid var(--border);margin-bottom:14px;}
+.td{width:9px;height:9px;border-radius:50%;}
+.td:nth-child(1){background:#FF5F57;}.td:nth-child(2){background:#FFBD2E;}.td:nth-child(3){background:#28CA41;}
+.thdr span{margin-left:8px;font-size:10.5px;color:var(--dim);}
+.tp{color:var(--vlt);}.tc{color:var(--glt);}.to{color:var(--sub);}.tok{color:var(--green);}
+.tl{display:block;}
+.tcur{display:inline-block;width:7px;height:12px;background:var(--vlt);vertical-align:middle;animation:bl 1.1s step-end infinite;}
+@keyframes bl{0%,100%{opacity:1;}50%{opacity:0;}}
+.about-pill{display:inline-flex;align-items:center;gap:7px;margin-top:22px;font-family:var(--fd);font-size:12px;font-weight:600;color:var(--vlt);background:rgba(155,110,250,.07);border:1px solid rgba(155,110,250,.13);padding:7px 13px;border-radius:8px;}
+
+/* ── HOW ── */
+.how-grid{display:grid;grid-template-columns:2fr 3fr;gap:68px;align-items:start;}
+@media(max-width:760px){.how-grid{grid-template-columns:1fr;gap:32px;}}
+.tline{display:flex;flex-direction:column;}
+.tli{display:grid;grid-template-columns:38px 1fr;gap:16px;position:relative;}
+.tli:not(:last-child)::after{content:'';position:absolute;left:18px;top:38px;bottom:-4px;width:1px;background:linear-gradient(to bottom,rgba(155,110,250,.28),transparent);}
+.tlc{width:34px;height:34px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:12px;font-weight:700;background:rgba(155,110,250,.07);border:1px solid rgba(155,110,250,.17);color:var(--vlt);}
+.tli.lit .tlc{background:linear-gradient(135deg,var(--violet),var(--vd));border-color:transparent;color:#fff;box-shadow:0 0 16px rgba(155,110,250,.38);}
+.tl-b{padding-bottom:38px;}
+.tl-e{font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--dim);font-weight:500;margin-bottom:5px;}
+.tl-t{font-family:var(--fd);font-size:17px;font-weight:700;letter-spacing:-.01em;margin-bottom:6px;}
+.tl-p{font-size:13px;color:var(--sub);font-weight:300;line-height:1.82;}
+
+/* ── KOFI / RELEASES ── */
+.releases-wrap{
+position:relative;z-index:1;
+background:rgba(155,110,250,.02);
+border-top:1px solid rgba(155,110,250,.06);
+border-bottom:1px solid rgba(155,110,250,.06);
+}
+.releases-inner{max-width:var(--mw);margin:0 auto;padding:72px var(--pad);display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+@media(max-width:760px){.releases-inner{grid-template-columns:1fr;gap:32px;}}
+.kofi-card{padding:28px 26px;}
+.kofi-header{display:flex;align-items:center;gap:12px;margin-bottom:20px;}
+.kofi-icon{width:40px;height:40px;border-radius:10px;background:rgba(255,99,71,.12);border:1px solid rgba(255,99,71,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.kofi-title-text{font-family:var(--fd);font-size:15.5px;font-weight:700;}
+.kofi-sub-text{font-size:12px;color:var(--sub);font-weight:300;}
+.release-tag{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:100px;margin-bottom:8px;}
+.release-tag.prem{color:var(--glt);background:rgba(200,155,60,.1);border:1px solid rgba(200,155,60,.2);}
+.release-tag.free{color:var(--sub);background:rgba(255,255,255,.05);border:1px solid var(--border);}
+.release-item{padding:14px 0;border-bottom:1px solid var(--border);}
+.release-item:last-child{border-bottom:none;}
+.release-name{font-family:var(--fd);font-size:14px;font-weight:600;letter-spacing:-.01em;margin-bottom:3px;}
+.release-desc{font-size:12.5px;color:var(--sub);font-weight:300;line-height:1.6;}
+.release-date{font-size:11px;color:var(--dim);margin-top:4px;}
+.kofi-btn{
+display:inline-flex;align-items:center;gap:7px;
+font-family:var(--fd);font-size:13px;font-weight:700;
+color:#fff;text-decoration:none;
+background:linear-gradient(135deg,#FF5E5B,#e0433f);
+padding:11px 22px;border-radius:9px;margin-top:18px;
+box-shadow:inset 0 1px 0 rgba(255,255,255,.15),0 4px 14px rgba(255,94,91,.2);
+transition:box-shadow .2s,transform .2s var(--ease);
+}
+.kofi-btn:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 8px 24px rgba(255,94,91,.38);transform:translateY(-1px);}
+
+/* ── VISION ── */
+.vis-wrap{position:relative;z-index:1;}
+.vis-inner{max-width:var(--mw);margin:0 auto;padding:80px var(--pad);display:grid;grid-template-columns:1fr 2.4fr;gap:56px;align-items:center;}
+@media(max-width:640px){.vis-inner{grid-template-columns:1fr;gap:22px;}}
+.vis-q{font-family:var(--fd);font-size:clamp(20px,2.7vw,32px);font-weight:700;letter-spacing:-.022em;line-height:1.28;position:relative;padding-left:16px;}
+.vis-q::before{content:'"';position:absolute;left:-8px;top:-18px;font-size:80px;font-weight:800;line-height:1;color:var(--violet);opacity:.06;pointer-events:none;}
+.vis-q em{font-style:normal;color:var(--glt);}
+.vis-attr{display:flex;align-items:center;gap:9px;margin-top:14px;font-size:12px;color:var(--dim);}
+.vis-attr::before{content:'';display:block;width:14px;height:1px;background:var(--border);}
+
+/* ── PRICING ── */
+.price-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:48px;max-width:700px;}
+@media(max-width:620px){.price-grid{grid-template-columns:1fr;}}
+
+.pc{padding:30px 26px;cursor:default;transition:transform .3s var(--ease);}
+.pc:hover{transform:translateY(-3px);}
+.pc.feat{background:rgba(18,10,40,.85);border-color:rgba(155,110,250,.26)!important;}
+.ftag{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--vlt);background:rgba(155,110,250,.12);border:1px solid rgba(155,110,250,.2);padding:3px 9px;border-radius:100px;margin-bottom:14px;}
+.pc-tier{font-family:var(--fd);font-size:11px;font-weight:700;color:var(--dim);letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px;}
+.pc-price{font-family:var(--fd);font-size:38px;font-weight:800;letter-spacing:-.04em;line-height:1;}
+.pc-price sup{font-size:17px;font-weight:600;vertical-align:top;margin-top:6px;display:inline-block;}
+.pc-price sub{font-size:12px;font-weight:400;color:var(--dim);margin-left:1px;}
+.pc-desc{font-size:12.5px;color:var(--sub);font-weight:300;margin:8px 0 18px;line-height:1.6;}
+.pc-div{height:1px;background:var(--border);margin-bottom:16px;}
+.pf{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--sub);font-weight:300;margin-bottom:8px;}
+.pfc{width:13px;height:13px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:rgba(155,110,250,.07);border:1px solid rgba(155,110,250,.15);}
+
+/* details expand */
+.pc-details{
+overflow:hidden;max-height:0;
+transition:max-height .4s var(--ease),opacity .3s;
+opacity:0;
+}
+.pc-details.open{max-height:400px;opacity:1;}
+.pc-details-inner{padding-top:14px;border-top:1px solid var(--border);margin-top:14px;}
+.pc-details-title{font-family:var(--fd);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dim);margin-bottom:10px;}
+.pd-item{font-size:12px;color:var(--sub);font-weight:300;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04);line-height:1.5;}
+.pd-item:last-child{border-bottom:none;}
+.pd-item strong{color:var(--text);font-weight:500;}
+
+.pc-btn{display:block;text-align:center;text-decoration:none;font-family:var(--fd);font-size:13px;font-weight:700;padding:11px;border-radius:9px;margin-top:18px;border:1px solid var(--border);color:var(--text);background:rgba(255,255,255,.02);transition:background .18s,border-color .18s,transform .18s var(--ease);}
+.pc-btn:hover{background:rgba(255,255,255,.04);border-color:var(--bhi);transform:translateY(-1px);}
+.feat .pc-btn{background:linear-gradient(135deg,var(--violet),var(--vd));border-color:transparent;color:#fff;box-shadow:0 6px 20px rgba(155,110,250,.24);}
+.feat .pc-btn:hover{box-shadow:0 10px 30px rgba(155,110,250,.4);}
+
+.details-toggle{
+display:flex;align-items:center;justify-content:center;gap:5px;
+font-size:12px;font-weight:500;color:var(--sub);
+background:none;border:none;cursor:pointer;
+margin-top:12px;width:100%;
+transition:color .18s;padding:4px;
+}
+.details-toggle:hover{color:var(--text);}
+.details-toggle svg{transition:transform .3s var(--ease);}
+.details-toggle.open svg{transform:rotate(180deg);}
+
+/* ── CTA ── */
+.cta-sec{max-width:var(--mw);margin:0 auto;padding:36px var(--pad) 96px;position:relative;z-index:1;}
+.cta-box{padding:clamp(36px,5vw,68px) clamp(24px,5vw,68px);display:flex;align-items:center;justify-content:space-between;gap:36px;flex-wrap:wrap;}
+.cta-h{font-family:var(--fd);font-size:clamp(22px,3.3vw,38px);font-weight:800;letter-spacing:-.025em;line-height:1.18;}
+.cta-h em{font-style:normal;background:linear-gradient(115deg,var(--vlt),var(--glt));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.cta-p{font-size:14px;color:var(--sub);font-weight:300;margin-top:8px;max-width:300px;}
+.cta-acts{display:flex;flex-direction:column;gap:8px;flex-shrink:0;}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--border);position:relative;z-index:1;}
+.ft{max-width:var(--mw);margin:0 auto;padding:44px var(--pad) 24px;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:32px;}
+@media(max-width:760px){.ft{grid-template-columns:1fr 1fr;}}
+@media(max-width:420px){.ft{grid-template-columns:1fr;}}
+.ftb{display:flex;flex-direction:column;}
+@media(max-width:760px){.ftb{grid-column:1/-1;}}
+.ftb-logo{display:flex;align-items:center;gap:8px;font-family:var(--fd);font-size:14px;font-weight:700;letter-spacing:-.015em;color:var(--text);text-decoration:none;margin-bottom:11px;}
+.ftb-tag{font-size:12px;color:var(--dim);font-weight:300;line-height:1.7;max-width:190px;}
+.ftb-copy{font-size:11px;color:var(--dim);margin-top:16px;}
+.ftc-t{font-family:var(--fd);font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--dim);margin-bottom:11px;}
+.ftc ul{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.ftc a{font-size:12px;color:var(--sub);text-decoration:none;font-weight:300;transition:color .18s;}
+.ftc a:hover{color:var(--text);}
+.ft-bot{max-width:var(--mw);margin:0 auto;padding:14px var(--pad) 22px;border-top:1px solid rgba(255,255,255,.04);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:9px;}
+.ft-status{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--dim);}
+.sdot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:pd 3s ease infinite;}
+.ft-lnks{display:flex;gap:18px;list-style:none;}
+.ft-lnks a{font-size:11px;color:var(--dim);text-decoration:none;transition:color .18s;}
+.ft-lnks a:hover{color:var(--sub);}
+
+/* ── CURRENCY BADGE (in pricing) ── */
+.currency-note{font-size:11px;color:var(--dim);margin-top:4px;font-weight:300;}
+
+/* ── REVEALS ── */
+.rv{opacity:0;transform:translateY(20px);transition:opacity .6s var(--ease),transform .6s var(--ease);}
+.rv.in{opacity:1;transform:none;}
+.rv-l{opacity:0;transform:translateX(-20px);transition:opacity .6s var(--ease),transform .6s var(--ease);}
+.rv-l.in{opacity:1;transform:none;}
+.rv-r{opacity:0;transform:translateX(20px);transition:opacity .6s var(--ease),transform .6s var(--ease);}
+.rv-r.in{opacity:1;transform:none;}
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div id="c1" aria-hidden="true"></div>
+<div id="c2" aria-hidden="true"></div>
+<div id="sprog" aria-hidden="true"></div>
+<canvas id="sf" aria-hidden="true"></canvas>
+<div id="glow" aria-hidden="true"></div>
+
+<!-- ════════════════════════════════
+LANGUAGE PICKER OVERLAY
+════════════════════════════════ -->
+<div id="lang-overlay" role="dialog" aria-modal="true" aria-labelledby="lo-title">
+<!-- Gem -->
+<div class="lo-gem">
+<svg width="52" height="52" viewBox="0 0 52 52" fill="none" aria-hidden="true">
+<defs>
+<linearGradient id="lo-g" x1="0" y1="0" x2="1" y2="1">
+<stop stop-color="#C4A0FA"/><stop offset="1" stop-color="#E8BB60"/>
+</linearGradient>
+</defs>
+<polygon points="26,3 48,15 48,37 26,49 4,37 4,15" fill="none" stroke="url(#lo-g)" stroke-width="1.5"/>
+<polygon points="26,3 48,15 26,26" fill="#9B6EFA" opacity=".5"/>
+<polygon points="48,15 48,37 26,26" fill="#C89B3C" opacity=".36"/>
+<polygon points="26,26 48,37 26,49 4,37" fill="#C4A0FA" opacity=".26"/>
+<polygon points="4,15 26,26 4,37" fill="#E8BB60" opacity=".36"/>
+<polygon points="26,3 4,15 26,26" fill="#9B6EFA" opacity=".44"/>
+</svg>
+</div>
+<h2 class="lo-title" id="lo-title">Choose your language</h2>
+<p class="lo-sub">We'll remember your preference for next time.</p>
+<div class="lang-grid" id="langGrid">
+<button class="lang-btn" data-lang="en" data-currency="USD" data-symbol="$" data-rate="1">
+<span class="lang-flag">🇬🇧</span>
+<span class="lang-name">English</span>
+<span class="lang-native">English</span>
+</button>
+<button class="lang-btn" data-lang="es" data-currency="EUR" data-symbol="€" data-rate="0.92">
+<span class="lang-flag">🇪🇸</span>
+<span class="lang-name">Spanish</span>
+<span class="lang-native">Español</span>
+</button>
+<button class="lang-btn" data-lang="fr" data-currency="EUR" data-symbol="€" data-rate="0.92">
+<span class="lang-flag">🇫🇷</span>
+<span class="lang-name">French</span>
+<span class="lang-native">Français</span>
+</button>
+<button class="lang-btn" data-lang="de" data-currency="EUR" data-symbol="€" data-rate="0.92">
+<span class="lang-flag">🇩🇪</span>
+<span class="lang-name">German</span>
+<span class="lang-native">Deutsch</span>
+</button>
+<button class="lang-btn" data-lang="ja" data-currency="JPY" data-symbol="¥" data-rate="150.2">
+<span class="lang-flag">🇯🇵</span>
+<span class="lang-name">Japanese</span>
+<span class="lang-native">日本語</span>
+</button>
+<button class="lang-btn" data-lang="pt" data-currency="BRL" data-symbol="R$" data-rate="4.97">
+<span class="lang-flag">🇧🇷</span>
+<span class="lang-name">Portuguese</span>
+<span class="lang-native">Português</span>
+</button>
+</div>
+<button class="lo-confirm" id="lo-confirm" disabled>Continue</button>
+</div>
+
+<!-- ════════════════════════════════
+NAV
+════════════════════════════════ -->
+<nav id="nav">
+<a href="/" class="nav-logo" aria-label="Ametrine Foundation">
+<svg class="logo-gem" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+<defs><linearGradient id="ng" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#C4A0FA"/><stop offset="1" stop-color="#E8BB60"/></linearGradient></defs>
+<polygon points="12,1 22,6.5 22,17.5 12,23 2,17.5 2,6.5" fill="none" stroke="url(#ng)" stroke-width="1.1"/>
+<polygon points="12,1 22,6.5 12,12" fill="#9B6EFA" opacity=".5"/>
+<polygon points="22,6.5 22,17.5 12,12" fill="#C89B3C" opacity=".36"/>
+<polygon points="12,12 22,17.5 12,23 2,17.5" fill="#C4A0FA" opacity=".26"/>
+<polygon points="2,6.5 12,12 2,17.5" fill="#E8BB60" opacity=".36"/>
+<polygon points="12,1 2,6.5 12,12" fill="#9B6EFA" opacity=".44"/>
+</svg>
+Ametrine
+</a>
+<div class="nav-links" role="navigation" aria-label="Primary">
+<a href="#values" data-i18n="nav_values">Values</a>
+<a href="#about" data-i18n="nav_about">About</a>
+<a href="#releases" data-i18n="nav_releases">Releases</a>
+<a href="#pricing" data-i18n="nav_pricing">Pricing</a>
+</div>
+<div class="nav-right">
+<button class="nav-lang-btn" id="navLangBtn" aria-label="Change language">
+<span id="navLangFlag">🌐</span>
+<span id="navLangCode">EN</span>
+</button>
+<a href="#contact" class="nav-btn" data-i18n="nav_cta">Get started</a>
+</div>
+</nav>
+
+<!-- ════════════════════════════════
+HERO
+════════════════════════════════ -->
+<section aria-labelledby="hero-h">
+<div class="hero">
+<div class="hero-left">
+<div class="hero-tag">
+<span class="tag-dot" aria-hidden="true"></span>
+<span data-i18n="hero_tag">Now in public access</span>
+</div>
+<h1 class="hero-h" id="hero-h">
+<span data-i18n="hero_h1">Software that</span><br>
+<span class="g" data-i18n="hero_h2">actually cares</span><br>
+<span data-i18n="hero_h3">about you.</span>
+</h1>
+<p class="hero-p" data-i18n="hero_p">
+Ametrine Foundation builds professional-grade tools with privacy-first architecture — priced for real people, not corporate budgets. Advanced technology, accessible to everyone, forever.
+</p>
+<div class="hero-acts">
+<a href="#about" class="btn-fill">
+<span data-i18n="hero_cta1">Explore our work</span>
+<svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</a>
+<a href="#releases" class="btn-ghost" data-i18n="hero_cta2">View releases</a>
+</div>
+<div class="hero-kpis">
+<div class="kpi">
+<span class="kpi-v g">100%</span>
+<span class="kpi-l" data-i18n="kpi1">Privacy-first</span>
+</div>
+<div class="kpi">
+<span class="kpi-v">Fair</span>
+<span class="kpi-l" data-i18n="kpi2">Pricing — always</span>
+</div>
+<div class="kpi">
+<span class="kpi-v">Zero</span>
+<span class="kpi-l" data-i18n="kpi3">Data sold</span>
+</div>
+</div>
+</div>
+
+<!-- THE GEM -->
+<div class="hero-right" id="gem-wrap">
+<svg class="gem-svg" viewBox="0 0 480 480" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<defs>
+<linearGradient id="fv1" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#9B6EFA" stop-opacity=".55"/><stop offset="1" stop-color="#7040E0" stop-opacity=".1"/></linearGradient>
+<linearGradient id="fv2" x1="1" y1="0" x2="0" y2="1"><stop stop-color="#C4A0FA" stop-opacity=".38"/><stop offset="1" stop-color="#9B6EFA" stop-opacity=".06"/></linearGradient>
+<linearGradient id="fg1" x1="1" y1="0" x2="0" y2="1"><stop stop-color="#C89B3C" stop-opacity=".58"/><stop offset="1" stop-color="#E8BB60" stop-opacity=".1"/></linearGradient>
+<linearGradient id="fg2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#E8BB60" stop-opacity=".32"/><stop offset="1" stop-color="#C89B3C" stop-opacity=".04"/></linearGradient>
+<linearGradient id="gs" x1="0" y1="0" x2="480" y2="480" gradientUnits="userSpaceOnUse"><stop stop-color="#C4A0FA"/><stop offset=".45" stop-color="#E8BB60"/><stop offset="1" stop-color="#9B6EFA"/></linearGradient>
+<filter id="gf"><feGaussianBlur stdDeviation="3.5"/></filter>
+</defs>
+<circle cx="240" cy="240" r="218" fill="none" stroke="url(#gs)" stroke-width=".3" opacity=".09"/>
+<circle cx="240" cy="240" r="170" fill="none" stroke="url(#gs)" stroke-width=".2" opacity=".06"/>
+<!-- facet fills -->
+<polygon points="240,26 408,112 434,258 240,240" fill="url(#fv1)" opacity="0" style="animation:fi .7s ease 1.5s both"/>
+<polygon points="240,240 46,258 120,410 240,454" fill="url(#fv2)" opacity="0" style="animation:fi .7s ease 1.65s both"/>
+<polygon points="240,240 46,258 80,112" fill="url(#fv2)" opacity="0" style="animation:fi .7s ease 1.8s both"/>
+<polygon points="240,26 408,112 434,258 240,240" fill="url(#fg1)" opacity="0" style="animation:fiG .7s ease 1.55s both"/>
+<polygon points="240,240 434,258 360,410 240,454" fill="url(#fg2)" opacity="0" style="animation:fiG .7s ease 1.7s both"/>
+<!-- skeleton lines -->
+<line x1="240" y1="26" x2="240" y2="454" stroke="url(#gs)" stroke-width=".6" opacity=".36" style="stroke-dasharray:900;stroke-dashoffset:900;animation:dl 1.8s ease .7s both"/>
+<line x1="46" y1="258" x2="434" y2="258" stroke="url(#gs)" stroke-width=".6" opacity=".36" style="stroke-dasharray:900;stroke-dashoffset:900;animation:dl 1.8s ease .8s both"/>
+<line x1="80" y1="112" x2="360" y2="410" stroke="url(#gs)" stroke-width=".5" opacity=".26" style="stroke-dasharray:900;stroke-dashoffset:900;animation:dl 1.8s ease .9s both"/>
+<line x1="408" y1="112" x2="120" y2="410" stroke="url(#gs)" stroke-width=".5" opacity=".26" style="stroke-dasharray:900;stroke-dashoffset:900;animation:dl 1.8s ease 1.0s both"/>
+<line x1="240" y1="240" x2="240" y2="26" stroke="url(#gs)" stroke-width=".38" opacity=".18" style="stroke-dasharray:300;stroke-dashoffset:300;animation:dl 1.2s ease 1.1s both"/>
+<line x1="240" y1="240" x2="408" y2="112" stroke="url(#gs)" stroke-width=".38" opacity=".18" style="stroke-dasharray:300;stroke-dashoffset:300;animation:dl 1.2s ease 1.15s both"/>
+<line x1="240" y1="240" x2="434" y2="258" stroke="url(#gs)" stroke-width=".38" opacity=".18" style="stroke-dasharray:300;stroke-dashoffset:300;animation:dl 1.2s ease 1.2s both"/>
+<line x1="240" y1="240" x2="360" y2="410" stroke="url(#gs)" stroke-width=".38" opacity=".18" style="stroke-dasharray:300;stroke-dashoffset:300;animation:dl 1.2s ease 1.25s both"/>
+<line x1="240" y1="240" x2="240" y2="454" stroke="url(#gs)" stroke-width=".38" opacity=".18" style="stroke-dasharray:300;stroke-dashoffset:300;animation:dl 1.2s ease 1.3s both"/>
+<line x1="240" y1="240" x2="120" y2="410" stroke="url(#gs)" stroke-width=".38" opacity=".18" style="stroke-dasharray:300;stroke-dashoffset:300;animation:dl 1.2s ease 1.25s both"/>
+<line x1="240" y1="240" x2="46" y2="258" stroke="url(#gs)" stroke-width=".38" opacity=".18" style="stroke-dasharray:300;stroke-dashoffset:300;animation:dl 1.2s ease 1.2s both"/>
+<line x1="240" y1="240" x2="80" y2="112" stroke="url(#gs)" stroke-width=".38" opacity=".18" style="stroke-dasharray:300;stroke-dashoffset:300;animation:dl 1.2s ease 1.15s both"/>
+<!-- perimeter -->
+<polygon points="240,26 408,112 434,258 360,410 240,454 120,410 46,258 80,112" fill="none" stroke="url(#gs)" stroke-width="1.1" opacity=".7" style="stroke-dasharray:2200;stroke-dashoffset:2200;animation:dl 2s cubic-bezier(.22,1,.36,1) .3s both"/>
+<!-- vertex dots -->
+<circle cx="240" cy="26" r="3" fill="#C4A0FA" filter="url(#gf)" opacity="0" style="animation:dp .4s ease 2.2s both"/>
+<circle cx="408" cy="112" r="2.6" fill="#E8BB60" filter="url(#gf)" opacity="0" style="animation:dp .4s ease 2.3s both"/>
+<circle cx="434" cy="258" r="2.6" fill="#C4A0FA" opacity="0" style="animation:dp .4s ease 2.4s both"/>
+<circle cx="360" cy="410" r="2.3" fill="#E8BB60" opacity="0" style="animation:dp .4s ease 2.5s both"/>
+<circle cx="240" cy="454" r="3" fill="#C4A0FA" filter="url(#gf)" opacity="0" style="animation:dp .4s ease 2.6s both"/>
+<circle cx="120" cy="410" r="2.3" fill="#E8BB60" opacity="0" style="animation:dp .4s ease 2.5s both"/>
+<circle cx="46" cy="258" r="2.6" fill="#C4A0FA" opacity="0" style="animation:dp .4s ease 2.4s both"/>
+<circle cx="80" cy="112" r="2.6" fill="#E8BB60" filter="url(#gf)" opacity="0" style="animation:dp .4s ease 2.3s both"/>
+<circle cx="240" cy="240" r="4.2" fill="#C4A0FA" filter="url(#gf)" opacity="0" style="animation:dp .5s ease 2.7s both"/>
+<style>
+@keyframes dl{to{stroke-dashoffset:0;}}
+@keyframes fi{from{opacity:0;}to{opacity:1;}}
+@keyframes fiG{from{opacity:0;}to{opacity:.58;}}
+@keyframes dp{from{opacity:0;}to{opacity:.92;}}
+</style>
+</svg>
+</div>
+</div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker" aria-hidden="true">
+<div class="ticker-track">
+<div class="t-item"><svg class="t-gem" viewBox="0 0 9 9" fill="none"><polygon points="4.5,.5 8.5,2.5 8.5,6.5 4.5,8.5 .5,6.5 .5,2.5" stroke="#9B6EFA" stroke-width=".7"/><polygon points="4.5,.5 8.5,2.5 4.5,4.5" fill="#9B6EFA" opacity=".4"/></svg><span data-i18n="tick1">End-to-end encryption</span></div>
+<div class="t-item"><svg class="t-gem" viewBox="0 0 9 9" fill="none"><polygon points="4.5,.5 8.5,2.5 8.5,6.5 4.5,8.5 .5,6.5 .5,2.5" stroke="#C89B3C" stroke-width=".7"/><polygon points="4.5,.5 8.5,2.5 4.5,4.5" fill="#C89B3C" opacity=".4"/></svg><span data-i18n="tick2">No data brokering — ever</span></div>
+<div class="t-item"><svg class="t-gem" viewBox="0 0 9 9" fill="none"><polygon points="4.5,.5 8.5,2.5 8.5,6.5 4.5,8.5 .5,6.5 .5,2.5" stroke="#9B6EFA" stroke-width=".7"/></svg><span data-i18n="tick3">Professional-grade performance</span></div>
+<div class="t-item"><svg class="t-gem" viewBox="0 0 9 9" fill="none"><polygon points="4.5,.5 8.5,2.5 8.5,6.5 4.5,8.5 .5,6.5 .5,2.5" stroke="#C89B3C" stroke-width=".7"/></svg><span data-i18n="tick4">Accessible pricing — forever</span></div>
+<div class="t-item"><svg class="t-gem" viewBox="0 0 9 9" fill="none"><polygon points="4.5,.5 8.5,2.5 8.5,6.5 4.5,8.5 .5,6.5 .5,2.5" stroke="#9B6EFA" stroke-width=".7"/></svg><span data-i18n="tick5">Zero telemetry</span></div>
+<div class="t-item"><svg class="t-gem" viewBox="0 0 9 9" fill="none"><polygon points="4.5,.5 8.5,2.5 8.5,6.5 4.5,8.5 .5,6.5 .5,2.5" stroke="#C89B3C" stroke-width=".7"/></svg><span>99.9% uptime SLA</span></div>
+<div class="t-item"><svg class="t-gem" viewBox="0 0 9 9" fill="none"><polygon points="4.5,.5 8.5,2.5 8.5,6.5 4.5,8.5 .5,6.5 .5,2.5" stroke="#9B6EFA" stroke-width=".7"/></svg><span data-i18n="tick6">Privacy-first by design</span></div>
+<div class="t-item"><svg class="t-gem" viewBox="0 0 9 9" fill="none"><polygon points="4.5,.5 8.5,2.5 8.5,6.5 4.5,8.5 .5,6.5 .5,2.5" stroke="#C89B3C" stroke-width=".7"/></svg>Ametrine Foundation</div>
+<!-- duplicate for loop -->
+<div class="t-item"><svg class="t-gem" viewBox="0 0 9 9" fill="none"><polygon points="4.5,.5 8.5,2.5 8.5,6.5 4.5,8.5 .5,6.5 .5,2.5" stroke="#9B6EFA" stroke-width=".7"/><polygon points="4.5,.5 8.5,2.5 4.5,4.5" fill="#9B6EFA" opacity=".4"/></svg><span data-i18n="tick1">End-to-end encryption</span></div>
+<div class="t-item"><svg class="t-gem" viewBox="0 0 9 9" fill="none"><polygon points="4.5,.5 8.5,2.5 8.5,6.5 4.5,8.5 .5,6.5 .5,2.5" stroke="#C89B3C" stroke-width=".7"/><polygon points="4.5,.5 8.5,2.5 4.5,4.5" fill="#C89B3C" opacity=".4"/></svg><span data-i18n="tick2">No data brokering — ever</span></div>
+<div class="t-item"><svg class="t-gem" viewBox="0 0 9 9" fill="none"><polygon points="4.5,.5 8.5,2.5 8.5,6.5 4.5,8.5 .5,6.5 .5,2.5" stroke="#9B6EFA" stroke-width=".7"/></svg><span data-i18n="tick3">Professional-grade performance</span></div>
+<div class="t-item"><svg class="t-gem" viewBox="0 0 9 9" fill="none"><polygon points="4.5,.5 8.5,2.5 8.5,6.5 4.5,8.5 .5,6.5 .5,2.5" stroke="#C89B3C" stroke-width=".7"/></svg><span data-i18n="tick4">Accessible pricing — forever</span></div>
+<div class="t-item"><svg class="t-gem" viewBox="0 0 9 9" fill="none"><polygon points="4.5,.5 8.5,2.5 8.5,6.5 4.5,8.5 .5,6.5 .5,2.5" stroke="#9B6EFA" stroke-width=".7"/></svg><span data-i18n="tick5">Zero telemetry</span></div>
+<div class="t-item"><svg class="t-gem" viewBox="0 0 9 9" fill="none"><polygon points="4.5,.5 8.5,2.5 8.5,6.5 4.5,8.5 .5,6.5 .5,2.5" stroke="#C89B3C" stroke-width=".7"/></svg><span>99.9% uptime SLA</span></div>
+<div class="t-item"><svg class="t-gem" viewBox="0 0 9 9" fill="none"><polygon points="4.5,.5 8.5,2.5 8.5,6.5 4.5,8.5 .5,6.5 .5,2.5" stroke="#9B6EFA" stroke-width=".7"/></svg><span data-i18n="tick6">Privacy-first by design</span></div>
+<div class="t-item"><svg class="t-gem" viewBox="0 0 9 9" fill="none"><polygon points="4.5,.5 8.5,2.5 8.5,6.5 4.5,8.5 .5,6.5 .5,2.5" stroke="#C89B3C" stroke-width=".7"/></svg>Ametrine Foundation</div>
+</div>
+</div>
+
+<!-- VALUES -->
+<section id="values" aria-labelledby="val-h">
+<div class="sec">
+<p class="eye rv" data-i18n="val_eye">What we stand for</p>
+<h2 class="sh rv" id="val-h"><span data-i18n="val_h">Built different.</span><br><em data-i18n="val_h2">By design.</em></h2>
+<p class="sp rv" data-i18n="val_p">Every product ships with the same non-negotiables: professional performance, privacy by default, a price that doesn't require a corporate card.</p>
+<div class="val-grid">
+<div class="glass vcard rv">
+<span class="vcard-n">01</span>
+<div class="vcard-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 1.5L17.5 5v4.5C17.5 14 14 17.7 10 18.5 6 17.7 2.5 14 2.5 9.5V5L10 1.5z" stroke="#9B6EFA" stroke-width="1.3" stroke-linejoin="round"/><path d="M6.5 10l2.5 2.5 5-5" stroke="#2DCB6A" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+<h3 class="vcard-t" data-i18n="v1_t">Privacy First</h3>
+<p class="vcard-b" data-i18n="v1_p">Your data is architecturally yours. No silent telemetry, no ad networks, no brokering. Privacy isn't a checkbox — it's a design constraint in every line of code.</p>
+</div>
+<div class="glass vcard rv" style="transition-delay:.08s">
+<span class="vcard-n">02</span>
+<div class="vcard-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.5" stroke="#9B6EFA" stroke-width="1.3"/><path d="M6.5 10l2.5 2.5 5-5" stroke="#9B6EFA" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+<h3 class="vcard-t" data-i18n="v2_t">Professional-Grade Performance</h3>
+<p class="vcard-b" data-i18n="v2_p">Speed, reliability, precision — baked into every layer. Enterprise standard, built for everyone. We don't ask you to trade capability for cost.</p>
+</div>
+<div class="glass vcard rv" style="transition-delay:.16s">
+<span class="vcard-n">03</span>
+<div class="vcard-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2.5v1M10 16.5v1M2.5 10h1M16.5 10h1M4.9 4.9l.7.7M14.4 14.4l.7.7M4.9 15.1l.7-.7M14.4 5.6l.7-.7" stroke="#C89B3C" stroke-width="1.3" stroke-linecap="round"/><circle cx="10" cy="10" r="3" stroke="#C89B3C" stroke-width="1.3"/></svg></div>
+<h3 class="vcard-t" data-i18n="v3_t">Cost-Effective — Forever</h3>
+<p class="vcard-b" data-i18n="v3_p">Priced for individuals, not procurement teams. We commit in writing: our pricing stays accessible. Advanced technology shouldn't require a corporate salary.</p>
+</div>
+<div class="glass vcard rv" style="transition-delay:.24s">
+<span class="vcard-n">04</span>
+<div class="vcard-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="3" stroke="#9B6EFA" stroke-width="1.3"/><path d="M3.5 17c0-3.3 2.9-6 6.5-6s6.5 2.7 6.5 6" stroke="#9B6EFA" stroke-width="1.3" stroke-linecap="round"/></svg></div>
+<h3 class="vcard-t" data-i18n="v4_t">User-Centric</h3>
+<p class="vcard-b" data-i18n="v4_p">We build around people, not metrics. Intuitive interfaces, thoughtful UX, and genuine attention to how our software fits into daily life.</p>
+</div>
+</div>
+</div>
+</section>
+
+<!-- STATS -->
+<div class="stats-wrap">
+<div class="stats-inner">
+<div class="si rv"><span class="sn" data-count="100" data-sfx="%">0%</span><span class="sl" data-i18n="s1">Privacy compliance</span></div>
+<div class="si rv" style="transition-delay:.07s"><span class="sn" data-count="0">0</span><span class="sl" data-i18n="s2">Data sold, ever</span></div>
+<div class="si rv" style="transition-delay:.14s"><span class="sn" data-count="99.9" data-sfx="%">0%</span><span class="sl" data-i18n="s3">Uptime SLA</span></div>
+<div class="si rv" style="transition-delay:.21s"><span class="sn">Fair</span><span class="sl" data-i18n="s4">Pricing — always</span></div>
+</div>
+</div>
+
+<!-- ABOUT -->
+<section id="about" aria-labelledby="about-h">
+<div class="sec">
+<div class="about-grid">
+<div class="rv-l">
+<div class="glass terminal">
+<div class="thdr"><div class="td"></div><div class="td"></div><div class="td"></div><span>ametrine — audit</span></div>
+<span class="tl"><span class="tp">$ </span><span class="tc">run privacy-check --deep</span></span>
+<span class="tl"><span class="to">→ Scanning data collection...</span></span>
+<span class="tl"><span class="tok">✓ </span><span class="to">No telemetry endpoints</span></span>
+<span class="tl"><span class="tok">✓ </span><span class="to">No third-party trackers</span></span>
+<span class="tl"><span class="tok">✓ </span><span class="to">No ad networks</span></span>
+<span class="tl"><span class="tok">✓ </span><span class="to">No data brokering</span></span>
+<span class="tl"><span class="to">→ Checking encryption...</span></span>
+<span class="tl"><span class="tok">✓ </span><span class="to">E2E encryption: active</span></span>
+<span class="tl"><span class="tok">✓ </span><span class="to">Zero-knowledge arch: verified</span></span>
+<span class="tl">&nbsp;</span>
+<span class="tl"><span class="tok">✓ ALL CLEAR — Score: 100/100</span></span>
+<span class="tl"><span class="tp">$ </span><span class="tcur"></span></span>
+</div>
+</div>
+<div class="rv-r">
+<p class="eye" data-i18n="about_eye">Who we are</p>
+<h2 class="sh" id="about-h"><span data-i18n="about_h">The company</span><br><em data-i18n="about_h2">who cares.</em></h2>
+<p class="sp" data-i18n="about_p1">At Ametrine Foundation, we deliver premium software that enhances your experience without compromise. Every product is built for the people who rely on it — carefully crafted, continuously improved, unconditionally private.</p>
+<p class="sp" style="margin-top:12px" data-i18n="about_p2">We're not a corporation chasing enterprise contracts. We believe advanced technology should be within everyone's reach — and we hold ourselves to that standard with every single release.</p>
+<div class="about-pill">
+<svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 .8l1.5 3 3.3.5-2.4 2.3.6 3.3L6 8.4l-3 1.5.6-3.3L1.2 4.3l3.3-.5L6 .8z" fill="#9B6EFA" opacity=".85"/></svg>
+<span data-i18n="about_pill">Partners in your technological journey.</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- HOW -->
+<section id="how" aria-labelledby="how-h">
+<div class="sec" style="padding-top:0">
+<div class="how-grid">
+<div>
+<p class="eye rv" data-i18n="how_eye">The process</p>
+<h2 class="sh rv" id="how-h"><span data-i18n="how_h">How Ametrine</span><br><em data-i18n="how_h2">works for you</em></h2>
+<p class="sp rv" data-i18n="how_p">Privacy-native by design. Enterprise standard, human pricing.</p>
+</div>
+<div class="tline rv-r">
+<div class="tli lit">
+<div class="tlc">1</div>
+<div class="tl-b">
+<p class="tl-e" data-i18n="tl1_e">Design</p>
+<h3 class="tl-t" data-i18n="tl1_t">Privacy-native architecture</h3>
+<p class="tl-p" data-i18n="tl1_p">Every product starts with a privacy impact assessment before a line of code is written. Data minimisation isn't retrofitted — it's the blueprint.</p>
+</div>
+</div>
+<div class="tli">
+<div class="tlc">2</div>
+<div class="tl-b">
+<p class="tl-e" data-i18n="tl2_e">Build</p>
+<h3 class="tl-t" data-i18n="tl2_t">Performance without compromise</h3>
+<p class="tl-p" data-i18n="tl2_p">We build against enterprise standards — rigorous testing, optimised delivery, zero regression tolerance — then price it for individuals.</p>
+</div>
+</div>
+<div class="tli">
+<div class="tlc">3</div>
+<div class="tl-b">
+<p class="tl-e" data-i18n="tl3_e">Ship</p>
+<h3 class="tl-t" data-i18n="tl3_t">Accessible to everyone</h3>
+<p class="tl-p" data-i18n="tl3_p">We release with honest, fair pricing. No "contact sales," no inflated tiers. A commitment to keep it that way — forever.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- RELEASES + KO-FI -->
+<div class="releases-wrap" id="releases">
+<div class="releases-inner">
+<div class="rv-l">
+<p class="eye" data-i18n="rel_eye">New releases</p>
+<h2 class="sh" style="margin-bottom:6px" data-i18n="rel_h">Stay in the loop.</h2>
+<p class="sp" data-i18n="rel_p">Premium members get early access 2–3 weeks before public release. Free members receive updates on launch day.</p>
+
+<div style="margin-top:28px">
+<div class="release-item">
+<span class="release-tag prem" data-i18n="rel_prem_tag">⭐ Premium — Early Access</span>
+<div class="release-name">v2.4.0 — Core Update</div>
+<div class="release-desc" data-i18n="rel1_desc">Major performance improvements, new privacy dashboard, and enhanced encryption layer.</div>
+<div class="release-date">Available now for Premium · Public in 2 weeks</div>
+</div>
+<div class="release-item">
+<span class="release-tag free" data-i18n="rel_free_tag">Free</span>
+<div class="release-name">v2.3.1 — Stability Release</div>
+<div class="release-desc" data-i18n="rel2_desc">Bug fixes, performance tweaks, and improved mobile support across all products.</div>
+<div class="release-date">Released to all users</div>
+</div>
+</div>
+</div>
+
+<div class="rv-r">
+<div class="glass kofi-card">
+<div class="kofi-header">
+<div class="kofi-icon">
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+<path d="M18 8h1a4 4 0 0 1 0 8h-1" stroke="#FF5E5B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" stroke="#FF5E5B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<line x1="6" y1="1" x2="6" y2="4" stroke="#FF5E5B" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="10" y1="1" x2="10" y2="4" stroke="#FF5E5B" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="14" y1="1" x2="14" y2="4" stroke="#FF5E5B" stroke-width="1.5" stroke-linecap="round"/>
+</svg>
+</div>
+<div>
+<div class="kofi-title-text" data-i18n="kofi_t">Support on Ko-fi</div>
+<div class="kofi-sub-text" data-i18n="kofi_s">Back the project, get early access</div>
+</div>
+</div>
+<p class="sp" style="max-width:100%;font-size:13.5px" data-i18n="kofi_p">Join as a Premium member on Ko-fi and get early access to every new release 2–3 weeks before the public. You become part of our beta testing team — your feedback shapes what ships next.</p>
+<div style="margin-top:18px;padding:14px 16px;background:rgba(155,110,250,.05);border:1px solid rgba(155,110,250,.12);border-radius:10px;">
+<div style="font-family:var(--fd);font-size:12px;font-weight:700;color:var(--vlt);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px" data-i18n="kofi_prem_label">Premium benefits</div>
+<div class="pf"><div class="pfc"><svg width="7" height="7" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="#C4A0FA" stroke-width="1.2" stroke-linecap="round"/></svg></div><span data-i18n="kofi_b1">Early access — 2–3 weeks ahead</span></div>
+<div class="pf"><div class="pfc"><svg width="7" height="7" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="#C4A0FA" stroke-width="1.2" stroke-linecap="round"/></svg></div><span data-i18n="kofi_b2">Beta tester status</span></div>
+<div class="pf"><div class="pfc"><svg width="7" height="7" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="#C4A0FA" stroke-width="1.2" stroke-linecap="round"/></svg></div><span data-i18n="kofi_b3">Direct input on product roadmap</span></div>
+<div class="pf"><div class="pfc"><svg width="7" height="7" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="#C4A0FA" stroke-width="1.2" stroke-linecap="round"/></svg></div><span data-i18n="kofi_b4">Priority support channel</span></div>
+</div>
+<!-- Replace href with your Ko-fi URL -->
+<a href="https://ko-fi.com/YOURPAGE" target="_blank" rel="noopener" class="kofi-btn">
+<svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M18 8h1a4 4 0 0 1 0 8h-1" stroke="currentColor" stroke-width="1.8"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" stroke="currentColor" stroke-width="1.8"/></svg>
+<span data-i18n="kofi_btn">Become a member on Ko-fi</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+
+<!-- VISION -->
+<div class="vis-wrap" id="vision">
+<div class="vis-inner">
+<div class="rv">
+<p class="eye" data-i18n="vis_eye">Our vision</p>
+<p class="sp" style="max-width:180px;margin-top:8px" data-i18n="vis_p">Technology that empowers — never exploits.</p>
+</div>
+<div class="rv-r">
+<div class="vis-q">
+"<span data-i18n="vis_q">We continuously push the boundaries of what is possible — delivering technology that <em>empowers</em> rather than gatekeeps. Advanced software for everyone, <em>forever.</em></span>"
+</div>
+<div class="vis-attr" data-i18n="vis_attr">Ametrine Foundation — Mission Statement</div>
+</div>
+</div>
+</div>
+
+<!-- PRICING -->
+<section id="pricing" aria-labelledby="price-h">
+<div class="sec">
+<p class="eye rv" data-i18n="pri_eye">Fair pricing</p>
+<h2 class="sh rv" id="price-h"><span data-i18n="pri_h">Priced for</span> <em data-i18n="pri_h2">people</em>,<br><span data-i18n="pri_h3">not procurement.</span></h2>
+<p class="sp rv" data-i18n="pri_p">No enterprise sales calls, no bait-and-switch. Our commitment to accessible pricing is a principle, not a promotion.</p>
+
+<div class="price-grid">
+
+<!-- FREE CARD -->
+<div class="glass pc rv">
+<p class="pc-tier" data-i18n="free_tier">Free</p>
+<p class="pc-price"><sup id="free-sym">$</sup><span id="free-price">0</span><sub>/mo</sub></p>
+<p class="currency-note" id="free-currency-note"></p>
+<p class="pc-desc" data-i18n="free_desc">Full access to core tools. No credit card, no time limit.</p>
+<div class="pc-div"></div>
+<div class="pf"><div class="pfc"><svg width="7" height="7" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="#9B6EFA" stroke-width="1.2" stroke-linecap="round"/></svg></div><span data-i18n="f1">Core product suite</span></div>
+<div class="pf"><div class="pfc"><svg width="7" height="7" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="#9B6EFA" stroke-width="1.2" stroke-linecap="round"/></svg></div><span data-i18n="f2">Privacy-first by default</span></div>
+<div class="pf"><div class="pfc"><svg width="7" height="7" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="#9B6EFA" stroke-width="1.2" stroke-linecap="round"/></svg></div><span data-i18n="f3">Zero data collected</span></div>
+<div class="pf"><div class="pfc"><svg width="7" height="7" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="#9B6EFA" stroke-width="1.2" stroke-linecap="round"/></svg></div><span data-i18n="f4">Community support</span></div>
+
+<!-- Details expand -->
+<div class="pc-details" id="free-details">
+<div class="pc-details-inner">
+<div class="pc-details-title" data-i18n="details_title">What's included</div>
+<div class="pd-item"><strong data-i18n="fd1_t">Core Tools</strong> — <span data-i18n="fd1_d">Add your detail here</span></div>
+<div class="pd-item"><strong data-i18n="fd2_t">Privacy Controls</strong> — <span data-i18n="fd2_d">Add your detail here</span></div>
+<div class="pd-item"><strong data-i18n="fd3_t">Data Handling</strong> — <span data-i18n="fd3_d">Add your detail here</span></div>
+<div class="pd-item"><strong data-i18n="fd4_t">Support</strong> — <span data-i18n="fd4_d">Add your detail here</span></div>
+</div>
+</div>
+
+<button class="details-toggle" id="free-toggle" onclick="toggleDetails('free')" aria-expanded="false">
+<span data-i18n="show_more">Show more details</span>
+<svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+<a href="#contact" class="pc-btn" data-i18n="free_cta">Get started free</a>
+</div>
+
+<!-- PREMIUM CARD -->
+<div class="glass pc feat rv" style="transition-delay:.1s">
+<div class="ftag">
+<svg width="8" height="8" viewBox="0 0 9 9" fill="none" aria-hidden="true"><path d="M4.5.8l1.1 2.2L8 3.6 6.3 5.2l.4 2.5-2-1-2 1 .4-2.5L1 3.6l2.4-.6L4.5.8z" fill="#C4A0FA"/></svg>
+<span data-i18n="prem_badge">Premium · Beta Tester</span>
+</div>
+<p class="pc-tier" data-i18n="prem_tier">Premium</p>
+<p class="pc-price" style="color:var(--vlt)"><sup id="prem-sym">$</sup><span id="prem-price">9</span><sub>/mo</sub></p>
+<p class="currency-note" id="prem-currency-note"></p>
+<p class="pc-desc" data-i18n="prem_desc">Full access + early releases. Shape what ships next as a beta tester.</p>
+<div class="pc-div"></div>
+<div class="pf"><div class="pfc"><svg width="7" height="7" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="#C4A0FA" stroke-width="1.2" stroke-linecap="round"/></svg></div><span data-i18n="p1">Everything in Free</span></div>
+<div class="pf"><div class="pfc"><svg width="7" height="7" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="#C4A0FA" stroke-width="1.2" stroke-linecap="round"/></svg></div><span data-i18n="p2">Early access — 2–3 weeks ahead</span></div>
+<div class="pf"><div class="pfc"><svg width="7" height="7" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="#C4A0FA" stroke-width="1.2" stroke-linecap="round"/></svg></div><span data-i18n="p3">Beta tester status</span></div>
+<div class="pf"><div class="pfc"><svg width="7" height="7" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="#C4A0FA" stroke-width="1.2" stroke-linecap="round"/></svg></div><span data-i18n="p4">Advanced privacy controls</span></div>
+<div class="pf"><div class="pfc"><svg width="7" height="7" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="#C4A0FA" stroke-width="1.2" stroke-linecap="round"/></svg></div><span data-i18n="p5">Priority support</span></div>
+
+<!-- Details expand -->
+<div class="pc-details" id="prem-details">
+<div class="pc-details-inner">
+<div class="pc-details-title" data-i18n="details_title">What's included</div>
+<div class="pd-item"><strong data-i18n="pd1_t">Early Access</strong> — <span data-i18n="pd1_d">Add your detail here</span></div>
+<div class="pd-item"><strong data-i18n="pd2_t">Beta Testing</strong> — <span data-i18n="pd2_d">Add your detail here</span></div>
+<div class="pd-item"><strong data-i18n="pd3_t">Privacy Controls</strong> — <span data-i18n="pd3_d">Add your detail here</span></div>
+<div class="pd-item"><strong data-i18n="pd4_t">Support</strong> — <span data-i18n="pd4_d">Add your detail here</span></div>
+<div class="pd-item"><strong data-i18n="pd5_t">Ko-fi Membership</strong> — <span data-i18n="pd5_d">Add your detail here</span></div>
+</div>
+</div>
+
+<button class="details-toggle" id="prem-toggle" onclick="toggleDetails('prem')" aria-expanded="false">
+<span data-i18n="show_more">Show more details</span>
+<svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</button>
+<a href="https://ko-fi.com/YOURPAGE" target="_blank" rel="noopener" class="pc-btn" data-i18n="prem_cta">Become Premium on Ko-fi</a>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- CTA -->
+<div id="contact" class="cta-sec">
+<div class="glass cta-box rv">
+<div>
+<h2 class="cta-h"><span data-i18n="cta_h">Experience software that</span><br><em data-i18n="cta_h2">respects you.</em></h2>
+<p class="cta-p" data-i18n="cta_p">No lock-in, no tricks. Software that works — and a team that actually cares.</p>
+</div>
+<div class="cta-acts">
+<a href="#pricing" class="btn-fill">
+<span data-i18n="cta_btn1">Get started free</span>
+<svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</a>
+<a href="mailto:hello@ametrine.cc" class="btn-ghost" style="font-size:13px" data-i18n="cta_btn2">Get in touch →</a>
+</div>
+</div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+<div class="ft">
+<div class="ftb">
+<a href="/" class="ftb-logo">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+<defs><linearGradient id="flg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#C4A0FA"/><stop offset="1" stop-color="#E8BB60"/></linearGradient></defs>
+<polygon points="12,1 22,6.5 22,17.5 12,23 2,17.5 2,6.5" fill="none" stroke="url(#flg)" stroke-width="1.1"/>
+<polygon points="12,1 22,6.5 12,12" fill="#9B6EFA" opacity=".48"/>
+<polygon points="22,6.5 22,17.5 12,12" fill="#C89B3C" opacity=".34"/>
+<polygon points="12,12 22,17.5 12,23 2,17.5" fill="#C4A0FA" opacity=".24"/>
+<polygon points="2,6.5 12,12 2,17.5" fill="#E8BB60" opacity=".34"/>
+<polygon points="12,1 2,6.5 12,12" fill="#9B6EFA" opacity=".42"/>
+</svg>
+Ametrine Foundation
+</a>
+<p class="ftb-tag" data-i18n="ft_tag">Premium software — private, professional, priced for everyone.</p>
+<p class="ftb-copy">© 2025 Ametrine Foundation.</p>
+</div>
+<div class="ftc">
+<p class="ftc-t" data-i18n="ft_product">Product</p>
+<ul>
+<li><a href="#" data-i18n="ft_features">Features</a></li>
+<li><a href="#pricing" data-i18n="nav_pricing">Pricing</a></li>
+<li><a href="#releases" data-i18n="ft_changelog">Releases</a></li>
+<li><a href="#" data-i18n="ft_roadmap">Roadmap</a></li>
+</ul>
+</div>
+<div class="ftc">
+<p class="ftc-t" data-i18n="ft_company">Company</p>
+<ul>
+<li><a href="#about" data-i18n="nav_about">About</a></li>
+<li><a href="https://ko-fi.com/YOURPAGE" target="_blank" rel="noopener">Ko-fi</a></li>
+<li><a href="mailto:hello@ametrine.cc" data-i18n="ft_contact">Contact</a></li>
+</ul>
+</div>
+<div class="ftc">
+<p class="ftc-t" data-i18n="ft_legal">Legal</p>
+<ul>
+<li><a href="#" data-i18n="ft_privacy">Privacy</a></li>
+<li><a href="#" data-i18n="ft_terms">Terms</a></li>
+<li><a href="#" data-i18n="ft_security">Security</a></li>
+</ul>
+</div>
+</div>
+<div class="ft-bot">
+<div class="ft-status">
+<span class="sdot" aria-hidden="true"></span>
+<span data-i18n="ft_status">All systems operational</span>
+</div>
+<ul class="ft-lnks">
+<li><a href="#" data-i18n="ft_privacy">Privacy</a></li>
+<li><a href="#" data-i18n="ft_terms">Terms</a></li>
+<li><a href="#" data-i18n="ft_status_link">Status</a></li>
+</ul>
+</div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════
+TRANSLATIONS
+═══════════════════════════════════════ */
+const LANGS={
+en:{flag:'🇬🇧',code:'EN',name:'English',currency:'USD',symbol:'$',rate:1,
+hero_tag:'Now in public access',hero_h1:'Software that',hero_h2:'actually cares',hero_h3:'about you.',
+hero_p:'Ametrine Foundation builds professional-grade tools with privacy-first architecture — priced for real people, not corporate budgets.',
+hero_cta1:'Explore our work',hero_cta2:'View releases',
+kpi1:'Privacy-first',kpi2:'Pricing — always',kpi3:'Data sold',
+nav_values:'Values',nav_about:'About',nav_releases:'Releases',nav_pricing:'Pricing',nav_cta:'Get started',
+val_eye:'What we stand for',val_h:'Built different.',val_h2:'By design.',
+val_p:'Every product ships with the same non-negotiables: professional performance, privacy by default, a price that doesn\'t require a corporate card.',
+v1_t:'Privacy First',v1_p:'Your data is architecturally yours. No silent telemetry, no ad networks, no brokering. Privacy isn\'t a checkbox — it\'s a design constraint.',
+v2_t:'Professional-Grade Performance',v2_p:'Speed, reliability, precision — baked in. Enterprise standard, built for everyone. We don\'t ask you to trade capability for cost.',
+v3_t:'Cost-Effective — Forever',v3_p:'Priced for individuals, not procurement. We commit in writing: our pricing stays accessible.',
+v4_t:'User-Centric',v4_p:'We build around people, not metrics. Intuitive interfaces, thoughtful UX, attention to how software fits into daily life.',
+s1:'Privacy compliance',s2:'Data sold, ever',s3:'Uptime SLA',s4:'Pricing — always',
+about_eye:'Who we are',about_h:'The company',about_h2:'who cares.',
+about_p1:'At Ametrine Foundation, we deliver premium software without compromise. Every product is built for the people who rely on it — carefully crafted, continuously improved, unconditionally private.',
+about_p2:'We\'re not a corporation chasing enterprise contracts. We believe advanced technology should be within everyone\'s reach.',
+about_pill:'Partners in your technological journey.',
+how_eye:'The process',how_h:'How Ametrine',how_h2:'works for you',how_p:'Privacy-native by design. Enterprise standard, human pricing.',
+tl1_e:'Design',tl1_t:'Privacy-native architecture',tl1_p:'Every product starts with a privacy impact assessment before a line of code is written.',
+tl2_e:'Build',tl2_t:'Performance without compromise',tl2_p:'We build against enterprise standards — rigorous testing, optimised delivery — then price it for individuals.',
+tl3_e:'Ship',tl3_t:'Accessible to everyone',tl3_p:'We release with honest, fair pricing. No "contact sales." A commitment to keep it that way — forever.',
+rel_eye:'New releases',rel_h:'Stay in the loop.',rel_p:'Premium members get early access 2–3 weeks before public release.',
+rel_prem_tag:'⭐ Premium — Early Access',rel_free_tag:'Free',
+rel1_desc:'Major performance improvements, new privacy dashboard, and enhanced encryption.',
+rel2_desc:'Bug fixes, performance tweaks, and improved mobile support.',
+kofi_t:'Support on Ko-fi',kofi_s:'Back the project, get early access',
+kofi_p:'Join as a Premium member on Ko-fi and get early access to every new release 2–3 weeks before the public. You become part of our beta testing team.',
+kofi_prem_label:'Premium benefits',
+kofi_b1:'Early access — 2–3 weeks ahead',kofi_b2:'Beta tester status',kofi_b3:'Direct input on product roadmap',kofi_b4:'Priority support channel',
+kofi_btn:'Become a member on Ko-fi',
+vis_eye:'Our vision',vis_p:'Technology that empowers — never exploits.',
+vis_q:'We continuously push the boundaries of what is possible — delivering technology that empowers rather than gatekeeps. Advanced software for everyone, forever.',
+vis_attr:'Ametrine Foundation — Mission Statement',
+pri_eye:'Fair pricing',pri_h:'Priced for',pri_h2:'people',pri_h3:'not procurement.',
+pri_p:'No enterprise sales calls, no bait-and-switch. Our commitment to accessible pricing is a principle.',
+free_tier:'Free',free_desc:'Full access to core tools. No credit card, no time limit.',
+f1:'Core product suite',f2:'Privacy-first by default',f3:'Zero data collected',f4:'Community support',
+prem_badge:'Premium · Beta Tester',prem_tier:'Premium',prem_desc:'Full access + early releases. Shape what ships next as a beta tester.',
+p1:'Everything in Free',p2:'Early access — 2–3 weeks ahead',p3:'Beta tester status',p4:'Advanced privacy controls',p5:'Priority support',
+details_title:'What\'s included',show_more:'Show more details',show_less:'Show less',
+fd1_t:'Core Tools',fd1_d:'Add your detail here',fd2_t:'Privacy Controls',fd2_d:'Add your detail here',
+fd3_t:'Data Handling',fd3_d:'Add your detail here',fd4_t:'Support',fd4_d:'Add your detail here',
+pd1_t:'Early Access',pd1_d:'Add your detail here',pd2_t:'Beta Testing',pd2_d:'Add your detail here',
+pd3_t:'Privacy Controls',pd3_d:'Add your detail here',pd4_t:'Support',pd4_d:'Add your detail here',pd5_t:'Ko-fi Membership',pd5_d:'Add your detail here',
+free_cta:'Get started free',prem_cta:'Become Premium on Ko-fi',
+cta_h:'Experience software that',cta_h2:'respects you.',cta_p:'No lock-in, no tricks. Software that works — and a team that actually cares.',
+cta_btn1:'Get started free',cta_btn2:'Get in touch →',
+ft_tag:'Premium software — private, professional, priced for everyone.',
+ft_product:'Product',ft_features:'Features',ft_changelog:'Releases',ft_roadmap:'Roadmap',
+ft_company:'Company',ft_contact:'Contact',ft_legal:'Legal',ft_privacy:'Privacy',ft_terms:'Terms',ft_security:'Security',
+ft_status:'All systems operational',ft_status_link:'Status',
+tick1:'End-to-end encryption',tick2:'No data brokering — ever',tick3:'Professional-grade performance',tick4:'Accessible pricing — forever',tick5:'Zero telemetry',tick6:'Privacy-first by design',
+},
+es:{flag:'🇪🇸',code:'ES',name:'Español',currency:'EUR',symbol:'€',rate:0.92,
+hero_tag:'Ahora en acceso público',hero_h1:'Software que',hero_h2:'realmente cuida',hero_h3:'de ti.',
+hero_p:'Ametrine Foundation crea herramientas de nivel profesional con arquitectura de privacidad primero — con precios para personas reales.',
+hero_cta1:'Explorar nuestro trabajo',hero_cta2:'Ver lanzamientos',
+kpi1:'Privacidad primero',kpi2:'Precios — siempre',kpi3:'Datos vendidos',
+nav_values:'Valores',nav_about:'Nosotros',nav_releases:'Lanzamientos',nav_pricing:'Precios',nav_cta:'Comenzar',
+val_eye:'En qué creemos',val_h:'Construido diferente.',val_h2:'Por diseño.',
+val_p:'Cada producto incluye los mismos principios: rendimiento profesional, privacidad por defecto, precios accesibles.',
+v1_t:'Privacidad Primero',v1_p:'Tus datos son tuyo. Sin telemetría silenciosa, sin redes publicitarias. La privacidad es una restricción de diseño.',
+v2_t:'Rendimiento Profesional',v2_p:'Velocidad, fiabilidad y precisión en cada capa. Estándar empresarial, construido para todos.',
+v3_t:'Económico — Siempre',v3_p:'Precios para personas, no para departamentos de compras. Lo comprometemos por escrito.',
+v4_t:'Centrado en el Usuario',v4_p:'Construimos para personas, no para métricas. Interfaces intuitivas, UX cuidado.',
+s1:'Cumplimiento de privacidad',s2:'Datos vendidos, nunca',s3:'SLA de disponibilidad',s4:'Precios — siempre',
+about_eye:'Quiénes somos',about_h:'La empresa',about_h2:'que se preocupa.',
+about_p1:'En Ametrine Foundation, entregamos software premium sin compromiso.',
+about_p2:'No somos una corporación. Creemos que la tecnología debe ser accesible para todos.',
+about_pill:'Socios en tu viaje tecnológico.',
+how_eye:'El proceso',how_h:'Cómo Ametrine',how_h2:'trabaja para ti',how_p:'Privacidad nativa por diseño. Estándar empresarial, precio humano.',
+tl1_e:'Diseño',tl1_t:'Arquitectura nativa de privacidad',tl1_p:'Cada producto comienza con una evaluación de impacto de privacidad.',
+tl2_e:'Construcción',tl2_t:'Rendimiento sin compromiso',tl2_p:'Construimos según estándares empresariales, luego lo ponemos a precio para individuos.',
+tl3_e:'Lanzamiento',tl3_t:'Accesible para todos',tl3_p:'Lanzamos con precios honestos. Sin trucos, sin niveles inflados.',
+rel_eye:'Nuevos lanzamientos',rel_h:'Mantente al día.',rel_p:'Los miembros Premium obtienen acceso anticipado 2–3 semanas antes.',
+rel_prem_tag:'⭐ Premium — Acceso Anticipado',rel_free_tag:'Gratis',
+rel1_desc:'Mejoras de rendimiento, nuevo panel de privacidad y cifrado mejorado.',
+rel2_desc:'Corrección de errores, ajustes de rendimiento y mejor soporte móvil.',
+kofi_t:'Apóyanos en Ko-fi',kofi_s:'Apoya el proyecto, obtén acceso anticipado',
+kofi_p:'Únete como miembro Premium en Ko-fi y obtén acceso anticipado 2–3 semanas antes.',
+kofi_prem_label:'Beneficios Premium',
+kofi_b1:'Acceso anticipado — 2–3 semanas antes',kofi_b2:'Estado de beta tester',kofi_b3:'Influencia directa en la hoja de ruta',kofi_b4:'Canal de soporte prioritario',
+kofi_btn:'Hazte miembro en Ko-fi',
+vis_eye:'Nuestra visión',vis_p:'Tecnología que empodera — nunca explota.',
+vis_q:'Continuamente superamos los límites de lo posible — entregando tecnología que empodera en lugar de excluir.',
+vis_attr:'Ametrine Foundation — Declaración de Misión',
+pri_eye:'Precios justos',pri_h:'Precios para',pri_h2:'personas',pri_h3:'no para corporaciones.',
+pri_p:'Sin llamadas de ventas empresariales. Nuestro compromiso con precios accesibles es un principio.',
+free_tier:'Gratis',free_desc:'Acceso completo a las herramientas básicas. Sin tarjeta de crédito.',
+f1:'Suite de productos básicos',f2:'Privacidad por defecto',f3:'Cero datos recopilados',f4:'Soporte comunitario',
+prem_badge:'Premium · Beta Tester',prem_tier:'Premium',prem_desc:'Acceso completo + lanzamientos anticipados. Da forma al próximo producto.',
+p1:'Todo en Gratis',p2:'Acceso anticipado — 2–3 semanas antes',p3:'Estado de beta tester',p4:'Controles de privacidad avanzados',p5:'Soporte prioritario',
+details_title:'Qué incluye',show_more:'Mostrar más detalles',show_less:'Mostrar menos',
+fd1_t:'Herramientas básicas',fd1_d:'Añade tu detalle aquí',fd2_t:'Controles de privacidad',fd2_d:'Añade tu detalle aquí',
+fd3_t:'Manejo de datos',fd3_d:'Añade tu detalle aquí',fd4_t:'Soporte',fd4_d:'Añade tu detalle aquí',
+pd1_t:'Acceso anticipado',pd1_d:'Añade tu detalle aquí',pd2_t:'Beta Testing',pd2_d:'Añade tu detalle aquí',
+pd3_t:'Controles de privacidad',pd3_d:'Añade tu detalle aquí',pd4_t:'Soporte',pd4_d:'Añade tu detalle aquí',pd5_t:'Membresía Ko-fi',pd5_d:'Añade tu detalle aquí',
+free_cta:'Comenzar gratis',prem_cta:'Hazte Premium en Ko-fi',
+cta_h:'Experimenta software que',cta_h2:'te respeta.',cta_p:'Sin ataduras, sin trucos. Software que funciona.',
+cta_btn1:'Comenzar gratis',cta_btn2:'Contactar →',
+ft_tag:'Software premium — privado, profesional, para todos.',
+ft_product:'Producto',ft_features:'Características',ft_changelog:'Lanzamientos',ft_roadmap:'Hoja de ruta',
+ft_company:'Empresa',ft_contact:'Contacto',ft_legal:'Legal',ft_privacy:'Privacidad',ft_terms:'Términos',ft_security:'Seguridad',
+ft_status:'Todos los sistemas operativos',ft_status_link:'Estado',
+tick1:'Cifrado de extremo a extremo',tick2:'Sin venta de datos — nunca',tick3:'Rendimiento profesional',tick4:'Precios accesibles — siempre',tick5:'Sin telemetría',tick6:'Privacidad por diseño',
+},
+fr:{flag:'🇫🇷',code:'FR',name:'Français',currency:'EUR',symbol:'€',rate:0.92,
+hero_tag:'Maintenant en accès public',hero_h1:'Un logiciel qui',hero_h2:'se soucie vraiment',hero_h3:'de vous.',
+hero_p:'Ametrine Foundation crée des outils professionnels avec une architecture respectueuse de la vie privée — pour les vraies personnes.',
+hero_cta1:'Explorer notre travail',hero_cta2:'Voir les sorties',
+kpi1:'Vie privée d\'abord',kpi2:'Tarification — toujours',kpi3:'Données vendues',
+nav_values:'Valeurs',nav_about:'À propos',nav_releases:'Sorties',nav_pricing:'Tarifs',nav_cta:'Commencer',
+val_eye:'Ce en quoi nous croyons',val_h:'Construit différemment.',val_h2:'Par conception.',val_p:'Chaque produit est livré avec les mêmes principes non négociables.',
+v1_t:'Vie privée d\'abord',v1_p:'Vos données vous appartiennent. Pas de télémétrie silencieuse, pas de réseaux publicitaires.',
+v2_t:'Performance Professionnelle',v2_p:'Vitesse, fiabilité, précision — intégrées partout. Standard entreprise pour tous.',
+v3_t:'Économique — Pour Toujours',v3_p:'Tarification pour les individus, pas les équipes d\'achat.',
+v4_t:'Centré sur l\'Utilisateur',v4_p:'Nous construisons autour des personnes, pas des métriques.',
+s1:'Conformité vie privée',s2:'Données vendues, jamais',s3:'SLA de disponibilité',s4:'Tarification — toujours',
+about_eye:'Qui nous sommes',about_h:'L\'entreprise',about_h2:'qui se soucie.',
+about_p1:'Chez Ametrine Foundation, nous livrons des logiciels premium sans compromis.',
+about_p2:'Nous ne sommes pas une corporation. Nous croyons que la technologie doit être accessible à tous.',
+about_pill:'Partenaires dans votre voyage technologique.',
+how_eye:'Le processus',how_h:'Comment Ametrine',how_h2:'travaille pour vous',how_p:'Vie privée native par conception.',
+tl1_e:'Conception',tl1_t:'Architecture native vie privée',tl1_p:'Chaque produit commence par une évaluation d\'impact sur la vie privée.',
+tl2_e:'Construction',tl2_t:'Performance sans compromis',tl2_p:'Nous construisons selon des normes entreprise, puis le tarif pour les individus.',
+tl3_e:'Livraison',tl3_t:'Accessible à tous',tl3_p:'Nous livrons avec des tarifs honnêtes. Sans tours de passe-passe.',
+rel_eye:'Nouvelles sorties',rel_h:'Restez informé.',rel_p:'Les membres Premium obtiennent un accès anticipé 2–3 semaines avant.',
+rel_prem_tag:'⭐ Premium — Accès Anticipé',rel_free_tag:'Gratuit',
+rel1_desc:'Améliorations de performance, nouveau tableau de bord vie privée, chiffrement amélioré.',
+rel2_desc:'Corrections de bugs, ajustements de performance.',
+kofi_t:'Soutenir sur Ko-fi',kofi_s:'Soutenez le projet, obtenez un accès anticipé',
+kofi_p:'Rejoignez en tant que membre Premium sur Ko-fi et obtenez un accès anticipé 2–3 semaines avant.',
+kofi_prem_label:'Avantages Premium',
+kofi_b1:'Accès anticipé — 2–3 semaines avant',kofi_b2:'Statut bêta testeur',kofi_b3:'Influence directe sur la feuille de route',kofi_b4:'Canal d\'assistance prioritaire',
+kofi_btn:'Devenir membre sur Ko-fi',
+vis_eye:'Notre vision',vis_p:'Technologie qui responsabilise — jamais exploite.',
+vis_q:'Nous repoussons continuellement les limites du possible — livrant une technologie qui responsabilise plutôt qu\'exclut.',
+vis_attr:'Ametrine Foundation — Déclaration de Mission',
+pri_eye:'Tarification équitable',pri_h:'Tarifé pour',pri_h2:'les personnes',pri_h3:'pas les entreprises.',pri_p:'Pas d\'appels de vente. Notre engagement est un principe.',
+free_tier:'Gratuit',free_desc:'Accès complet aux outils de base. Sans carte de crédit.',
+f1:'Suite de base',f2:'Vie privée par défaut',f3:'Zéro donnée collectée',f4:'Support communautaire',
+prem_badge:'Premium · Bêta Testeur',prem_tier:'Premium',prem_desc:'Accès complet + sorties anticipées.',
+p1:'Tout en Gratuit',p2:'Accès anticipé — 2–3 semaines avant',p3:'Statut bêta testeur',p4:'Contrôles vie privée avancés',p5:'Support prioritaire',
+details_title:'Ce qui est inclus',show_more:'Afficher plus de détails',show_less:'Afficher moins',
+fd1_t:'Outils de base',fd1_d:'Ajoutez votre détail ici',fd2_t:'Contrôles vie privée',fd2_d:'Ajoutez votre détail ici',
+fd3_t:'Gestion données',fd3_d:'Ajoutez votre détail ici',fd4_t:'Support',fd4_d:'Ajoutez votre détail ici',
+pd1_t:'Accès anticipé',pd1_d:'Ajoutez votre détail ici',pd2_t:'Bêta Testing',pd2_d:'Ajoutez votre détail ici',
+pd3_t:'Contrôles vie privée',pd3_d:'Ajoutez votre détail ici',pd4_t:'Support',pd4_d:'Ajoutez votre détail ici',pd5_t:'Adhésion Ko-fi',pd5_d:'Ajoutez votre détail ici',
+free_cta:'Commencer gratuitement',prem_cta:'Devenir Premium sur Ko-fi',
+cta_h:'Découvrez un logiciel qui',cta_h2:'vous respecte.',cta_p:'Pas d\'engagement, pas de trucs.',
+cta_btn1:'Commencer gratuitement',cta_btn2:'Nous contacter →',
+ft_tag:'Logiciel premium — privé, professionnel, pour tous.',
+ft_product:'Produit',ft_features:'Fonctionnalités',ft_changelog:'Sorties',ft_roadmap:'Feuille de route',
+ft_company:'Entreprise',ft_contact:'Contact',ft_legal:'Légal',ft_privacy:'Confidentialité',ft_terms:'CGU',ft_security:'Sécurité',
+ft_status:'Tous les systèmes opérationnels',ft_status_link:'Statut',
+tick1:'Chiffrement de bout en bout',tick2:'Pas de courtage de données — jamais',tick3:'Performance professionnelle',tick4:'Tarification accessible — pour toujours',tick5:'Zéro télémétrie',tick6:'Vie privée par conception',
+},
+de:{flag:'🇩🇪',code:'DE',name:'Deutsch',currency:'EUR',symbol:'€',rate:0.92,
+hero_tag:'Jetzt öffentlich zugänglich',hero_h1:'Software, die',hero_h2:'wirklich für dich',hero_h3:'da ist.',
+hero_p:'Ametrine Foundation baut professionelle Tools mit datenschutzorientierter Architektur — für echte Menschen.',
+hero_cta1:'Unsere Arbeit entdecken',hero_cta2:'Releases ansehen',
+kpi1:'Datenschutz zuerst',kpi2:'Preise — immer',kpi3:'Daten verkauft',
+nav_values:'Werte',nav_about:'Über uns',nav_releases:'Releases',nav_pricing:'Preise',nav_cta:'Starten',
+val_eye:'Wofür wir stehen',val_h:'Anders gebaut.',val_h2:'By Design.',val_p:'Jedes Produkt kommt mit denselben Grundsätzen: professionelle Leistung, Datenschutz als Standard.',
+v1_t:'Datenschutz zuerst',v1_p:'Ihre Daten gehören Ihnen. Keine stille Telemetrie, keine Werbenetzwerke.',
+v2_t:'Professionelle Leistung',v2_p:'Geschwindigkeit, Zuverlässigkeit, Präzision — überall eingebaut.',
+v3_t:'Kosteneffektiv — Für Immer',v3_p:'Preise für Einzelpersonen, nicht für Einkaufsabteilungen.',
+v4_t:'Nutzerzentriert',v4_p:'Wir bauen für Menschen, nicht für Metriken.',
+s1:'Datenschutz-Konformität',s2:'Daten verkauft, niemals',s3:'Verfügbarkeits-SLA',s4:'Preise — immer',
+about_eye:'Wer wir sind',about_h:'Das Unternehmen',about_h2:'dem es wichtig ist.',
+about_p1:'Bei Ametrine Foundation liefern wir Premium-Software ohne Kompromisse.',
+about_p2:'Wir sind kein Konzern. Wir glauben, dass Technologie für alle zugänglich sein sollte.',
+about_pill:'Partner auf Ihrer technologischen Reise.',
+how_eye:'Der Prozess',how_h:'Wie Ametrine',how_h2:'für Sie arbeitet',how_p:'Datenschutz-nativ nach Design.',
+tl1_e:'Design',tl1_t:'Datenschutz-native Architektur',tl1_p:'Jedes Produkt beginnt mit einer Datenschutz-Folgenabschätzung.',
+tl2_e:'Bauen',tl2_t:'Leistung ohne Kompromisse',tl2_p:'Wir bauen nach Unternehmensstandards, dann setzen wir den Preis für Einzelpersonen.',
+tl3_e:'Liefern',tl3_t:'Zugänglich für alle',tl3_p:'Wir liefern mit ehrlicher, fairer Preisgestaltung.',
+rel_eye:'Neue Releases',rel_h:'Bleib auf dem Laufenden.',rel_p:'Premium-Mitglieder erhalten 2–3 Wochen früher Zugang.',
+rel_prem_tag:'⭐ Premium — Früher Zugang',rel_free_tag:'Kostenlos',
+rel1_desc:'Große Leistungsverbesserungen, neues Datenschutz-Dashboard.',
+rel2_desc:'Fehlerbehebungen, Leistungsanpassungen und verbesserte mobile Unterstützung.',
+kofi_t:'Ko-fi unterstützen',kofi_s:'Projekt unterstützen, frühen Zugang erhalten',
+kofi_p:'Werde Premium-Mitglied auf Ko-fi und erhalte 2–3 Wochen früher Zugang.',
+kofi_prem_label:'Premium-Vorteile',
+kofi_b1:'Früher Zugang — 2–3 Wochen früher',kofi_b2:'Beta-Tester-Status',kofi_b3:'Direkter Einfluss auf die Roadmap',kofi_b4:'Prioritäts-Support-Kanal',
+kofi_btn:'Mitglied auf Ko-fi werden',
+vis_eye:'Unsere Vision',vis_p:'Technologie, die stärkt — nie ausbeutet.',
+vis_q:'Wir stoßen kontinuierlich an die Grenzen des Möglichen — und liefern Technologie, die stärkt, anstatt auszuschließen.',
+vis_attr:'Ametrine Foundation — Leitbild',
+pri_eye:'Faire Preise',pri_h:'Preise für',pri_h2:'Menschen',pri_h3:'nicht für Konzerne.',pri_p:'Keine Unternehmens-Verkaufsgespräche.',
+free_tier:'Kostenlos',free_desc:'Vollständiger Zugang zu Kerntools. Keine Kreditkarte.',
+f1:'Kern-Produktpaket',f2:'Datenschutz standardmäßig',f3:'Null Daten gesammelt',f4:'Community-Support',
+prem_badge:'Premium · Beta-Tester',prem_tier:'Premium',prem_desc:'Voller Zugang + frühe Releases.',
+p1:'Alles in Kostenlos',p2:'Früher Zugang — 2–3 Wochen früher',p3:'Beta-Tester-Status',p4:'Erweiterte Datenschutzkontrollen',p5:'Prioritäts-Support',
+details_title:'Was enthalten ist',show_more:'Mehr Details anzeigen',show_less:'Weniger anzeigen',
+fd1_t:'Kerntools',fd1_d:'Fügen Sie Ihren Detail hier ein',fd2_t:'Datenschutzkontrollen',fd2_d:'Fügen Sie Ihren Detail hier ein',
+fd3_t:'Datenverarbeitung',fd3_d:'Fügen Sie Ihren Detail hier ein',fd4_t:'Support',fd4_d:'Fügen Sie Ihren Detail hier ein',
+pd1_t:'Früher Zugang',pd1_d:'Fügen Sie Ihren Detail hier ein',pd2_t:'Beta-Testing',pd2_d:'Fügen Sie Ihren Detail hier ein',
+pd3_t:'Datenschutzkontrollen',pd3_d:'Fügen Sie Ihren Detail hier ein',pd4_t:'Support',pd4_d:'Fügen Sie Ihren Detail hier ein',pd5_t:'Ko-fi-Mitgliedschaft',pd5_d:'Fügen Sie Ihren Detail hier ein',
+free_cta:'Kostenlos starten',prem_cta:'Premium auf Ko-fi werden',
+cta_h:'Software erleben, die',cta_h2:'Sie respektiert.',cta_p:'Keine Bindung, keine Tricks.',
+cta_btn1:'Kostenlos starten',cta_btn2:'Kontakt aufnehmen →',
+ft_tag:'Premium-Software — privat, professionell, für alle.',
+ft_product:'Produkt',ft_features:'Funktionen',ft_changelog:'Releases',ft_roadmap:'Roadmap',
+ft_company:'Unternehmen',ft_contact:'Kontakt',ft_legal:'Rechtliches',ft_privacy:'Datenschutz',ft_terms:'AGB',ft_security:'Sicherheit',
+ft_status:'Alle Systeme betriebsbereit',ft_status_link:'Status',
+tick1:'Ende-zu-Ende-Verschlüsselung',tick2:'Kein Datenhandel — niemals',tick3:'Professionelle Leistung',tick4:'Erschwingliche Preise — für immer',tick5:'Null Telemetrie',tick6:'Datenschutz nach Design',
+},
+ja:{flag:'🇯🇵',code:'JA',name:'日本語',currency:'JPY',symbol:'¥',rate:150.2,
+hero_tag:'一般公開中',hero_h1:'あなたのことを',hero_h2:'本当に大切にする',hero_h3:'ソフトウェア。',
+hero_p:'Ametrine Foundationは、プライバシーファーストのアーキテクチャで構築されたプロ仕様のツールを、すべての人に適正価格で提供します。',
+hero_cta1:'私たちの作品を見る',hero_cta2:'リリースを見る',
+kpi1:'プライバシーファースト',kpi2:'価格設定 — 常に',kpi3:'売られたデータ',
+nav_values:'価値観',nav_about:'について',nav_releases:'リリース',nav_pricing:'料金',nav_cta:'始める',
+val_eye:'私たちの信念',val_h:'違う方法で。',val_h2:'デザインによって。',val_p:'すべての製品は同じ原則で提供されます。',
+v1_t:'プライバシーファースト',v1_p:'あなたのデータはあなたのものです。サイレントテレメトリなし、広告ネットワークなし。',
+v2_t:'プロ仕様のパフォーマンス',v2_p:'スピード、信頼性、精度 — すべてのレイヤーに組み込まれています。',
+v3_t:'費用対効果 — 永遠に',v3_p:'個人向けに価格設定。企業の調達部門向けではありません。',
+v4_t:'ユーザー中心',v4_p:'私たちは指標ではなく、人々のために作ります。',
+s1:'プライバシーコンプライアンス',s2:'販売されたデータ、なし',s3:'稼働時間SLA',s4:'価格設定 — 常に',
+about_eye:'私たちについて',about_h:'気にかける',about_h2:'会社。',
+about_p1:'Ametrine Foundationでは、妥協なくプレミアムソフトウェアを提供します。',
+about_p2:'私たちは企業契約を追いかけている企業ではありません。',
+about_pill:'あなたの技術的な旅のパートナー。',
+how_eye:'プロセス',how_h:'Amtrineが',how_h2:'あなたのために働く方法',how_p:'設計によるプライバシーネイティブ。',
+tl1_e:'設計',tl1_t:'プライバシーネイティブアーキテクチャ',tl1_p:'すべての製品はプライバシー影響評価から始まります。',
+tl2_e:'構築',tl2_t:'妥協なきパフォーマンス',tl2_p:'エンタープライズ基準で構築し、個人向けに価格設定します。',
+tl3_e:'リリース',tl3_t:'すべての人にアクセス可能',tl3_p:'正直で公正な価格設定でリリースします。',
+rel_eye:'新しいリリース',rel_h:'最新情報を入手。',rel_p:'プレミアムメンバーは2〜3週間早くアクセスできます。',
+rel_prem_tag:'⭐ プレミアム — 早期アクセス',rel_free_tag:'無料',
+rel1_desc:'大幅なパフォーマンス改善、新しいプライバシーダッシュボード。',
+rel2_desc:'バグ修正、パフォーマンス調整、モバイルサポート改善。',
+kofi_t:'Ko-fiでサポート',kofi_s:'プロジェクトを支援し、早期アクセスを取得',
+kofi_p:'Ko-fiでプレミアムメンバーになり、2〜3週間早くアクセスできます。',
+kofi_prem_label:'プレミアム特典',
+kofi_b1:'早期アクセス — 2〜3週間早く',kofi_b2:'ベータテスターステータス',kofi_b3:'製品ロードマップへの直接影響',kofi_b4:'優先サポートチャンネル',
+kofi_btn:'Ko-fiでメンバーになる',
+vis_eye:'私たちのビジョン',vis_p:'技術は力を与える — 決して搾取しない。',
+vis_q:'私たちは可能性の境界を継続的に押し広げています — 排除するのではなく力を与える技術を提供しています。',
+vis_attr:'Ametrine Foundation — ミッションステートメント',
+pri_eye:'公正な価格設定',pri_h:'人々のための',pri_h2:'価格設定',pri_h3:'調達部門のためではない。',pri_p:'企業向けの営業電話なし。',
+free_tier:'無料',free_desc:'コアツールへのフルアクセス。クレジットカード不要。',
+f1:'コア製品スイート',f2:'デフォルトでプライバシーファースト',f3:'データ収集ゼロ',f4:'コミュニティサポート',
+prem_badge:'プレミアム · ベータテスター',prem_tier:'プレミアム',prem_desc:'フルアクセス + 早期リリース。',
+p1:'無料のすべて',p2:'早期アクセス — 2〜3週間早く',p3:'ベータテスターステータス',p4:'高度なプライバシーコントロール',p5:'優先サポート',
+details_title:'含まれる内容',show_more:'詳細を表示',show_less:'表示を減らす',
+fd1_t:'コアツール',fd1_d:'ここに詳細を追加',fd2_t:'プライバシーコントロール',fd2_d:'ここに詳細を追加',
+fd3_t:'データ処理',fd3_d:'ここに詳細を追加',fd4_t:'サポート',fd4_d:'ここに詳細を追加',
+pd1_t:'早期アクセス',pd1_d:'ここに詳細を追加',pd2_t:'ベータテスト',pd2_d:'ここに詳細を追加',
+pd3_t:'プライバシーコントロール',pd3_d:'ここに詳細を追加',pd4_t:'サポート',pd4_d:'ここに詳細を追加',pd5_t:'Ko-fiメンバーシップ',pd5_d:'ここに詳細を追加',
+free_cta:'無料で始める',prem_cta:'Ko-fiでプレミアムになる',
+cta_h:'あなたを尊重する',cta_h2:'ソフトウェアを体験。',cta_p:'ロックインなし、トリックなし。',
+cta_btn1:'無料で始める',cta_btn2:'お問い合わせ →',
+ft_tag:'プレミアムソフトウェア — プライベート、プロフェッショナル、すべての人のために。',
+ft_product:'製品',ft_features:'機能',ft_changelog:'リリース',ft_roadmap:'ロードマップ',
+ft_company:'会社',ft_contact:'連絡先',ft_legal:'法的情報',ft_privacy:'プライバシー',ft_terms:'利用規約',ft_security:'セキュリティ',
+ft_status:'すべてのシステムが稼働中',ft_status_link:'ステータス',
+tick1:'エンドツーエンド暗号化',tick2:'データの仲介なし — 決して',tick3:'プロ仕様のパフォーマンス',tick4:'アクセス可能な価格 — 永遠に',tick5:'ゼロテレメトリ',tick6:'プライバシーファーストの設計',
+},
+pt:{flag:'🇧🇷',code:'PT',name:'Português',currency:'BRL',symbol:'R$',rate:4.97,
+hero_tag:'Agora em acesso público',hero_h1:'Software que',hero_h2:'realmente se importa',hero_h3:'com você.',
+hero_p:'Ametrine Foundation constrói ferramentas profissionais com arquitetura de privacidade em primeiro lugar — com preços para pessoas reais.',
+hero_cta1:'Explorar nosso trabalho',hero_cta2:'Ver lançamentos',
+kpi1:'Privacidade em primeiro',kpi2:'Preços — sempre',kpi3:'Dados vendidos',
+nav_values:'Valores',nav_about:'Sobre',nav_releases:'Lançamentos',nav_pricing:'Preços',nav_cta:'Começar',
+val_eye:'No que acreditamos',val_h:'Construído diferente.',val_h2:'Por design.',val_p:'Cada produto vem com os mesmos princípios inegociáveis.',
+v1_t:'Privacidade em Primeiro',v1_p:'Seus dados são seus. Sem telemetria silenciosa, sem redes de anúncios.',
+v2_t:'Desempenho Profissional',v2_p:'Velocidade, confiabilidade, precisão — em cada camada.',
+v3_t:'Econômico — Para Sempre',v3_p:'Preços para indivíduos, não para equipes de compras.',
+v4_t:'Centrado no Usuário',v4_p:'Construímos para pessoas, não para métricas.',
+s1:'Conformidade de privacidade',s2:'Dados vendidos, nunca',s3:'SLA de disponibilidade',s4:'Preços — sempre',
+about_eye:'Quem somos',about_h:'A empresa',about_h2:'que se importa.',
+about_p1:'Na Ametrine Foundation, entregamos software premium sem compromisso.',
+about_p2:'Não somos uma corporação. Acreditamos que a tecnologia deve ser acessível a todos.',
+about_pill:'Parceiros na sua jornada tecnológica.',
+how_eye:'O processo',how_h:'Como a Ametrine',how_h2:'trabalha para você',how_p:'Privacidade nativa por design.',
+tl1_e:'Design',tl1_t:'Arquitetura nativa de privacidade',tl1_p:'Cada produto começa com uma avaliação de impacto na privacidade.',
+tl2_e:'Construção',tl2_t:'Desempenho sem compromisso',tl2_p:'Construímos segundo padrões empresariais, depois precificamos para indivíduos.',
+tl3_e:'Lançamento',tl3_t:'Acessível a todos',tl3_p:'Lançamos com preços honestos e justos.',
+rel_eye:'Novos lançamentos',rel_h:'Fique informado.',rel_p:'Membros Premium obtêm acesso antecipado 2–3 semanas antes.',
+rel_prem_tag:'⭐ Premium — Acesso Antecipado',rel_free_tag:'Gratuito',
+rel1_desc:'Grandes melhorias de desempenho, novo painel de privacidade.',
+rel2_desc:'Correções de bugs, ajustes de desempenho.',
+kofi_t:'Apoiar no Ko-fi',kofi_s:'Apoie o projeto, obtenha acesso antecipado',
+kofi_p:'Torne-se membro Premium no Ko-fi e obtenha acesso antecipado 2–3 semanas antes.',
+kofi_prem_label:'Benefícios Premium',
+kofi_b1:'Acesso antecipado — 2–3 semanas antes',kofi_b2:'Status de testador beta',kofi_b3:'Influência direta no roteiro do produto',kofi_b4:'Canal de suporte prioritário',
+kofi_btn:'Tornar-se membro no Ko-fi',
+vis_eye:'Nossa visão',vis_p:'Tecnologia que fortalece — nunca explora.',
+vis_q:'Continuamos empurrando os limites do possível — entregando tecnologia que fortalece em vez de excluir.',
+vis_attr:'Ametrine Foundation — Declaração de Missão',
+pri_eye:'Preços justos',pri_h:'Preços para',pri_h2:'pessoas',pri_h3:'não para corporações.',pri_p:'Sem chamadas de vendas empresariais.',
+free_tier:'Gratuito',free_desc:'Acesso completo às ferramentas básicas. Sem cartão de crédito.',
+f1:'Suite de produtos básicos',f2:'Privacidade por padrão',f3:'Zero dados coletados',f4:'Suporte da comunidade',
+prem_badge:'Premium · Beta Tester',prem_tier:'Premium',prem_desc:'Acesso completo + lançamentos antecipados.',
+p1:'Tudo no Gratuito',p2:'Acesso antecipado — 2–3 semanas antes',p3:'Status de beta tester',p4:'Controles de privacidade avançados',p5:'Suporte prioritário',
+details_title:'O que está incluído',show_more:'Mostrar mais detalhes',show_less:'Mostrar menos',
+fd1_t:'Ferramentas básicas',fd1_d:'Adicione seu detalhe aqui',fd2_t:'Controles de privacidade',fd2_d:'Adicione seu detalhe aqui',
+fd3_t:'Tratamento de dados',fd3_d:'Adicione seu detalhe aqui',fd4_t:'Suporte',fd4_d:'Adicione seu detalhe aqui',
+pd1_t:'Acesso antecipado',pd1_d:'Adicione seu detalhe aqui',pd2_t:'Beta Testing',pd2_d:'Adicione seu detalhe aqui',
+pd3_t:'Controles de privacidade',pd3_d:'Adicione seu detalhe aqui',pd4_t:'Suporte',pd4_d:'Adicione seu detalhe aqui',pd5_t:'Associação Ko-fi',pd5_d:'Adicione seu detalhe aqui',
+free_cta:'Começar gratuitamente',prem_cta:'Tornar-se Premium no Ko-fi',
+cta_h:'Experimente software que',cta_h2:'respeita você.',cta_p:'Sem lock-in, sem truques.',
+cta_btn1:'Começar gratuitamente',cta_btn2:'Entre em contato →',
+ft_tag:'Software premium — privado, profissional, para todos.',
+ft_product:'Produto',ft_features:'Recursos',ft_changelog:'Lançamentos',ft_roadmap:'Roteiro',
+ft_company:'Empresa',ft_contact:'Contato',ft_legal:'Legal',ft_privacy:'Privacidade',ft_terms:'Termos',ft_security:'Segurança',
+ft_status:'Todos os sistemas operacionais',ft_status_link:'Status',
+tick1:'Criptografia de ponta a ponta',tick2:'Sem corretagem de dados — nunca',tick3:'Desempenho profissional',tick4:'Preços acessíveis — para sempre',tick5:'Zero telemetria',tick6:'Privacidade por design',
+}
+};
+
+/* base prices in USD */
+const BASE={free:0,prem:9};
+
+let currentLang='en',currentLangData=LANGS.en;
+let selectedLang=null;
+
+/* ── COOKIE HELPERS ── */
+function setCookie(k,v,days=365){
+const d=new Date();d.setTime(d.getTime()+days*864e5);
+document.cookie=`${k}=${v};expires=${d.toUTCString()};path=/;SameSite=Lax`;
+}
+function getCookie(k){
+const r=document.cookie.match(new RegExp('(?:^|; )'+k+'=([^;]*)'));
+return r?decodeURIComponent(r[1]):null;
+}
+
+/* ── APPLY LANGUAGE ── */
+function applyLang(code){
+const L=LANGS[code]||LANGS.en;
+currentLang=code;currentLangData=L;
+document.documentElement.lang=code;
+/* translate all data-i18n */
+document.querySelectorAll('[data-i18n]').forEach(el=>{
+const k=el.dataset.i18n;
+if(L[k]!==undefined){
+if(el.tagName==='INPUT'||el.tagName==='TEXTAREA')el.placeholder=L[k];
+else el.innerHTML=L[k];
+}
+});
+/* update prices */
+const sym=L.symbol,rate=L.rate;
+const freeP=rate===1?'0':+(BASE.free*rate).toFixed(rate<2?2:0);
+const premP=+(BASE.prem*rate).toFixed(rate<2?2:0);
+document.getElementById('free-sym').textContent=sym;
+document.getElementById('free-price').textContent=freeP;
+document.getElementById('prem-sym').textContent=sym;
+document.getElementById('prem-price').textContent=premP;
+/* currency note */
+const fNote=document.getElementById('free-currency-note');
+const pNote=document.getElementById('prem-currency-note');
+if(L.currency!=='USD'){
+fNote.textContent=`Approx. ${L.currency} (USD $${BASE.free})`;
+pNote.textContent=`Approx. ${L.currency} (USD $${BASE.prem})`;
+} else {
+fNote.textContent='';pNote.textContent='';
+}
+/* nav flag */
+document.getElementById('navLangFlag').textContent=L.flag;
+document.getElementById('navLangCode').textContent=L.code;
+}
+
+/* ── LANG PICKER ── */
+const overlay=document.getElementById('lang-overlay');
+const loConfirm=document.getElementById('lo-confirm');
+const langGrid=document.getElementById('langGrid');
+
+function showOverlay(){
+overlay.classList.remove('hidden');
+document.body.style.overflow='hidden';
+}
+function hideOverlay(){
+overlay.classList.add('hidden');
+document.body.style.overflow='';
+}
+
+/* check cookie on load */
+window.addEventListener('DOMContentLoaded',()=>{
+const saved=getCookie('am_lang');
+if(saved&&LANGS[saved]){
+applyLang(saved);
+hideOverlay();
+}
+// nav lang btn
+document.getElementById('navLangBtn').addEventListener('click',()=>{
+selectedLang=null;
+document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+loConfirm.classList.remove('ready');
+loConfirm.disabled=true;
+showOverlay();
+});
+});
+
+langGrid.addEventListener('click',e=>{
+const btn=e.target.closest('.lang-btn');
+if(!btn)return;
+document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+btn.classList.add('active');
+selectedLang=btn.dataset.lang;
+loConfirm.classList.add('ready');
+loConfirm.disabled=false;
+});
+
+loConfirm.addEventListener('click',()=>{
+if(!selectedLang)return;
+setCookie('am_lang',selectedLang);
+applyLang(selectedLang);
+hideOverlay();
+});
+
+/* ── PRICING DETAILS TOGGLE ── */
+function toggleDetails(id){
+const det=document.getElementById(id+'-details');
+const tog=document.getElementById(id+'-toggle');
+const open=det.classList.toggle('open');
+tog.classList.toggle('open',open);
+tog.setAttribute('aria-expanded',open);
+const L=currentLangData;
+tog.querySelector('span').textContent=open?(L.show_less||'Show less'):(L.show_more||'Show more details');
+}
+window.toggleDetails=toggleDetails;
+
+/* ── STARFIELD ── */
+(function(){
+const cv=document.getElementById('sf'),x=cv.getContext('2d');
+let W,H,S=[];
+function rsz(){W=cv.width=innerWidth;H=cv.height=innerHeight;}
+function init(){S=[];const n=Math.floor(W*H/4400);for(let i=0;i<n;i++)S.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*.75+.1,o:Math.random()*.38+.06,s:Math.random()*.22+.04,t:Math.random()*Math.PI*2});}
+rsz();init();window.addEventListener('resize',()=>{rsz();init();},{passive:true});
+(function draw(){x.clearRect(0,0,W,H);S.forEach(s=>{s.t+=s.s*.016;const o=s.o*(.5+.5*Math.sin(s.t));x.beginPath();x.arc(s.x,s.y,s.r,0,Math.PI*2);x.fillStyle=s.r>.55?`rgba(196,160,250,${o})`:`rgba(208,208,235,${o*.6})`;x.fill();});requestAnimationFrame(draw);})();
+})();
+
+/* ── CURSOR ── */
+(function(){
+const a=document.getElementById('c1'),b=document.getElementById('c2');
+if(!a||window.matchMedia('(pointer:coarse)').matches)return;
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;},{passive:true});
+(function t(){a.style.left=mx+'px';a.style.top=my+'px';rx+=(mx-rx)*.12;ry+=(my-ry)*.12;b.style.left=rx+'px';b.style.top=ry+'px';requestAnimationFrame(t);})();
+})();
+
+/* ── PROGRESS ── */
+window.addEventListener('scroll',()=>{document.getElementById('sprog').style.transform=`scaleX(${scrollY/(document.documentElement.scrollHeight-innerHeight)})`;},{passive:true});
+
+/* ── NAV ── */
+const navEl=document.getElementById('nav');
+window.addEventListener('scroll',()=>navEl.classList.toggle('on',scrollY>30),{passive:true});
+
+/* ── GEM PARALLAX ── */
+(function(){
+const g=document.getElementById('gem-wrap');if(!g||window.matchMedia('(pointer:coarse)').matches)return;
+let tx=0,ty=0,cx=0,cy=0;
+document.addEventListener('mousemove',e=>{tx=(e.clientX/innerWidth-.5)*18;ty=(e.clientY/innerHeight-.5)*11;},{passive:true});
+(function t(){cx+=(tx-cx)*.05;cy+=(ty-cy)*.05;g.style.transform=`translate(${cx}px,${cy}px)`;requestAnimationFrame(t);})();
+})();
+
+/* ── REVEALS ── */
+const obs=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}}),{threshold:.1,rootMargin:'0px 0px -20px 0px'});
+document.querySelectorAll('.rv,.rv-l,.rv-r').forEach(el=>obs.observe(el));
+
+/* ── COUNTERS ── */
+document.querySelectorAll('[data-count]').forEach(el=>{
+const o2=new IntersectionObserver(es=>{if(!es[0].isIntersecting)return;o2.unobserve(el);if(el._d)return;el._d=1;
+const tgt=parseFloat(el.dataset.count),sfx=el.dataset.sfx||'',dur=1400,s=performance.now();
+(function step(n){const p=Math.min((n-s)/dur,1),v=tgt*(1-Math.pow(1-p,3));el.textContent=(Number.isInteger(tgt)?Math.round(v):v.toFixed(1))+sfx;if(p<1)requestAnimationFrame(step);})(s);
+},{threshold:.3});
+o2.observe(el);
+});
+
+/* ── MAGNETIC BUTTONS ── */
+document.querySelectorAll('.btn-fill,.btn-ghost,.nav-btn').forEach(b=>{
+if(window.matchMedia('(pointer:coarse)').matches)return;
+b.addEventListener('mousemove',e=>{const r=b.getBoundingClientRect(),x=(e.clientX-r.left-r.width/2)*.14,y=(e.clientY-r.top-r.height/2)*.14;b.style.transform=`translate(${x}px,${y}px)`;});
+b.addEventListener('mouseleave',()=>b.style.transform='');
+});
+
+/* ── GLASS TILT ── */
+document.querySelectorAll('.glass.vcard,.glass.pc').forEach(c=>{
+if(window.matchMedia('(pointer:coarse)').matches)return;
+c.addEventListener('mousemove',e=>{const r=c.getBoundingClientRect(),x=(e.clientX-r.left)/r.width,y=(e.clientY-r.top)/r.height;c.style.transition='transform .08s';c.style.transform=`perspective(900px) rotateX(${(y-.5)*5}deg) rotateY(${(x-.5)*-5}deg) translateY(-2px)`;});
+c.addEventListener('mouseleave',()=>{c.style.transition='transform .5s cubic-bezier(.22,1,.36,1)';c.style.transform='';});
+});
+
+/* ── SMOOTH ANCHORS ── */
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const t=document.querySelector(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}}));
+</script>
+</body>
+</html>
