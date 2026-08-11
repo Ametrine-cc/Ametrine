@@ -1,0 +1,202 @@
+---
+// LanguageSwitcher.astro
+//
+// English ships in the HTML at build time (default, zero network cost, works
+// with JS off). Every other language is fetched from /i18n/<code>.json only
+// when picked, and at most 2 dictionaries are ever kept in memory at once.
+//
+// Dispatches `i18n:change` on `document` with { code, dict, meta } whenever
+// the active language changes (including the initial English pass), so
+// other components — e.g. the pricing section's currency conversion — can
+// react without needing their own copy of the language-loading logic.
+
+// Vite/Astro bundles JSON imports at build time, so this resolves correctly
+// regardless of where the compiled output ends up (unlike a runtime fs read
+// against a relative path, which breaks once the file moves during build).
+import en from "../../public/i18n/en.json";
+
+const LANG_META = [
+  { code: "en", flag: "🇬🇧", name: "English", native: "English", currency: "USD", symbol: "$", rate: 1 },
+  { code: "es", flag: "🇪🇸", name: "Spanish", native: "Español", currency: "EUR", symbol: "€", rate: 0.92 },
+  { code: "fr", flag: "🇫🇷", name: "French", native: "Français", currency: "EUR", symbol: "€", rate: 0.92 },
+  { code: "de", flag: "🇩🇪", name: "German", native: "Deutsch", currency: "EUR", symbol: "€", rate: 0.92 },
+  { code: "ja", flag: "🇯🇵", name: "Japanese", native: "日本語", currency: "JPY", symbol: "¥", rate: 150.2 },
+  { code: "pt", flag: "🇧🇷", name: "Portuguese", native: "Português", currency: "BRL", symbol: "R$", rate: 4.97 },
+];
+---
+
+<button class="nav-lang-btn" id="navLangBtn" aria-label="Change language">
+  <span id="navLangFlag">🇬🇧</span>
+  <span id="navLangCode">EN</span>
+</button>
+
+<div id="lang-overlay" class="lang-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="lo-title">
+  <div class="lo-gem">
+    <svg width="52" height="52" viewBox="0 0 52 52" fill="none" aria-hidden="true">
+      <defs>
+        <linearGradient id="lo-g" x1="0" y1="0" x2="1" y2="1">
+          <stop stop-color="#C4A0FA"/><stop offset="1" stop-color="#E8BB60"/>
+        </linearGradient>
+      </defs>
+      <polygon points="26,3 48,15 48,37 26,49 4,37 4,15" fill="none" stroke="url(#lo-g)" stroke-width="1.5"/>
+      <polygon points="26,3 48,15 26,26" fill="#9B6EFA" opacity=".5"/>
+      <polygon points="48,15 48,37 26,26" fill="#C89B3C" opacity=".36"/>
+      <polygon points="26,26 48,37 26,49 4,37" fill="#C4A0FA" opacity=".26"/>
+      <polygon points="4,15 26,26 4,37" fill="#E8BB60" opacity=".36"/>
+      <polygon points="26,3 4,15 26,26" fill="#9B6EFA" opacity=".44"/>
+    </svg>
+  </div>
+  <h2 class="lo-title" id="lo-title">Choose your language</h2>
+  <p class="lo-sub">We'll remember your preference for next time.</p>
+  <div class="lang-grid" id="langGrid">
+    {LANG_META.map((l) => (
+      <button class="lang-btn" data-lang={l.code}>
+        <span class="lang-flag" aria-hidden="true">{l.flag}</span>
+        <span class="lang-name">{l.name}</span>
+        <span class="lang-native">{l.native}</span>
+      </button>
+    ))}
+  </div>
+  <button class="lo-confirm" id="lo-confirm" disabled>Continue</button>
+</div>
+
+<script define:vars={{ en, LANG_META }}>
+  const CACHE_LIMIT = 2; // locale dictionaries held in memory at once, English always included
+  const cache = new Map([["en", en]]);
+  const metaByCode = Object.fromEntries(LANG_META.map((l) => [l.code, l]));
+  let current = "en";
+  let pendingSelection = null;
+
+  function setCookie(k, v) {
+    document.cookie = `${k}=${v};max-age=${60 * 60 * 24 * 365};path=/;SameSite=Lax`;
+  }
+  function getCookie(k) {
+    const m = document.cookie.match(new RegExp(`(?:^|; )${k}=([^;]*)`));
+    return m ? decodeURIComponent(m[1]) : null;
+  }
+
+  function applyDict(dict, code) {
+    document.querySelectorAll("[data-i18n]").forEach((el) => {
+      const key = el.dataset.i18n;
+      if (dict[key] !== undefined) {
+        if (el.tagName === "INPUT" || el.tagName === "TEXTAREA") el.placeholder = dict[key];
+        else el.innerHTML = dict[key];
+      }
+    });
+    const meta = metaByCode[code];
+    if (meta) document.getElementById("navLangFlag").textContent = meta.flag;
+    document.getElementById("navLangCode").textContent = code.toUpperCase();
+    document.documentElement.lang = code;
+    window.__i18nDict = dict;
+    window.__i18nMeta = meta;
+    document.dispatchEvent(new CustomEvent("i18n:change", { detail: { code, dict, meta } }));
+  }
+
+  async function loadLang(code) {
+    if (!cache.has(code)) {
+      try {
+        const res = await fetch(`/i18n/${code}.json`);
+        if (!res.ok) return false;
+        cache.set(code, await res.json());
+      } catch {
+        return false; // offline / fetch failed — stay on current language
+      }
+      if (cache.size > CACHE_LIMIT) {
+        for (const key of cache.keys()) {
+          if (key !== "en" && key !== code) { cache.delete(key); break; }
+        }
+      }
+    }
+    current = code;
+    applyDict(cache.get(code), code);
+    setCookie("am_lang", code);
+    return true;
+  }
+
+  // English is already rendered server-side, so fire the event once for
+  // any listeners (e.g. pricing currency) even if we never fetch anything.
+  applyDict(en, "en");
+
+  const saved = getCookie("am_lang");
+  if (saved && saved !== "en" && metaByCode[saved]) loadLang(saved);
+
+  const overlay = document.getElementById("lang-overlay");
+  const loConfirm = document.getElementById("lo-confirm");
+  const langGrid = document.getElementById("langGrid");
+
+  document.getElementById("navLangBtn")?.addEventListener("click", () => {
+    pendingSelection = null;
+    document.querySelectorAll(".lang-btn").forEach((b) => b.classList.remove("active"));
+    loConfirm.classList.remove("ready");
+    loConfirm.disabled = true;
+    overlay.classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+  });
+
+  langGrid?.addEventListener("click", (e) => {
+    const btn = e.target.closest(".lang-btn");
+    if (!btn) return;
+    document.querySelectorAll(".lang-btn").forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
+    pendingSelection = btn.dataset.lang;
+    loConfirm.classList.add("ready");
+    loConfirm.disabled = false;
+  });
+
+  loConfirm?.addEventListener("click", async () => {
+    if (!pendingSelection) return;
+    await loadLang(pendingSelection);
+    overlay.classList.add("hidden");
+    document.body.style.overflow = "";
+  });
+</script>
+
+<style>
+  .lang-overlay {
+    position: fixed; inset: 0; z-index: 10000;
+    background: var(--bg, #07070F);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 24px;
+    transition: opacity .5s var(--ease, ease), transform .5s var(--ease, ease);
+  }
+  .lang-overlay.hidden { opacity: 0; pointer-events: none; transform: scale(.97); display: none; }
+  .lo-gem { margin-bottom: 32px; }
+  .lo-title { font-family: var(--fd, 'Sora', sans-serif); font-size: clamp(22px,4vw,32px); font-weight: 800; letter-spacing: -.025em; text-align: center; margin-bottom: 8px; color: var(--text, #ECEDF8); }
+  .lo-sub { font-size: 13.5px; color: var(--sub, #8585A5); text-align: center; margin-bottom: 36px; font-weight: 300; }
+  .lang-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-width: 480px; width: 100%; }
+  @media (max-width: 420px) { .lang-grid { grid-template-columns: repeat(2, 1fr); } }
+  .lang-btn {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    padding: 16px 12px; border-radius: 12px;
+    border: 1px solid var(--border, rgba(255,255,255,.07));
+    background: rgba(255,255,255,.025); cursor: pointer;
+    font-family: var(--fb, 'Inter', sans-serif);
+    transition: border-color .2s, background .2s, transform .2s;
+  }
+  .lang-btn:hover { border-color: var(--bhi, rgba(255,255,255,.12)); background: rgba(255,255,255,.05); transform: translateY(-2px); }
+  .lang-btn.active { border-color: var(--vlt, #C4A0FA); background: rgba(155,110,250,.1); }
+  .lang-flag { font-size: 22px; line-height: 1; }
+  .lang-name { font-size: 11.5px; font-weight: 500; color: var(--sub, #8585A5); }
+  .lang-native { font-size: 10px; color: var(--dim, #44445A); }
+  .lo-confirm {
+    margin-top: 24px;
+    font-family: var(--fd, 'Sora', sans-serif); font-size: 14px; font-weight: 700;
+    color: #fff; background: linear-gradient(135deg, var(--violet, #9B6EFA), var(--vd, #6B3ED4));
+    border: none; cursor: pointer;
+    padding: 13px 36px; border-radius: 10px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.12);
+    transition: box-shadow .2s, transform .2s;
+    opacity: .4; pointer-events: none;
+  }
+  .lo-confirm.ready { opacity: 1; pointer-events: all; }
+  .lo-confirm.ready:hover { box-shadow: 0 8px 28px rgba(155,110,250,.4); transform: translateY(-1px); }
+  .nav-lang-btn {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 12px; font-weight: 500; color: var(--sub, #8585A5);
+    background: rgba(255,255,255,.04); border: 1px solid var(--border, rgba(255,255,255,.07));
+    padding: 5px 10px; border-radius: 7px; cursor: pointer;
+    font-family: var(--fb, 'Inter', sans-serif);
+    transition: border-color .18s, color .18s;
+  }
+  .nav-lang-btn:hover { border-color: var(--bhi, rgba(255,255,255,.12)); color: var(--text, #ECEDF8); }
+</style>

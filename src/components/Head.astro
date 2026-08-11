@@ -1,0 +1,28 @@
+---
+// Head.astro
+// Drop this inside <head> on any page that uses the dark/gem design system.
+//
+// Font change: Syne → Sora for headings. Syne's exaggerated, quirky curves
+// read more "crypto landing page" than "privacy software company" — Sora
+// keeps the geometric, confident feel but sits closer to what you'd see on
+// a serious infra/security product (Linear, Vercel, etc. use similar
+// geometric sans stacks). Inter stays for body copy, it's already solid.
+//
+// Only the weights actually used in the design are loaded (600/700/800 for
+// Sora, 300/400/500 for Inter) instead of the full default range — smaller
+// download, less font-parsing/layout work per visitor.
+---
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@300;400;500&display=swap"
+  rel="stylesheet"
+/>
+
+<style is:global>
+  :root {
+    --fd: "Sora", sans-serif;
+    --fb: "Inter", sans-serif;
+  }
+</style>

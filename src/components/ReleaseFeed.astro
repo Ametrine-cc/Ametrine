@@ -1,0 +1,132 @@
+---
+// ReleaseFeed.astro
+//
+// Two ways to get a release onto this list, and you can use either or both:
+//
+// 1. MANUAL (edit src/data/releases.json) — just add an object to that file
+//    whenever you want. No code, no Mastodon, no rebuild logic to think
+//    about — add the entry, run `astro build` (or push, if CI builds for
+//    you), done. This is the simplest path and always works.
+//
+// 2. AUTOMATIC (Mastodon) — Ko-fi has no public API for reading posts, only
+//    donation webhooks, but Mastodon has a public unauthenticated API for
+//    public accounts. So: publish on Ko-fi, then toot a short summary with
+//    the Ko-fi post link in the text. This component fetches your recent
+//    public toots at BUILD TIME, keeps only ones containing a ko-fi.com
+//    link, and merges them in. No client JS, no per-visitor cost.
+//
+// Manual entries always show and always win — if a Mastodon toot links to
+// a Ko-fi URL you've already listed manually, the automatic copy is
+// dropped so you never get a duplicate card.
+
+import manualReleasesRaw from "../data/releases.json";
+
+interface Release {
+  id: string;
+  summary: string;
+  kofiUrl: string;
+  date: string;
+  tag: "premium" | "free";
+}
+
+const MASTODON_INSTANCE = "https://mastodon.social"; // your instance
+const MASTODON_HANDLE = "ametrine"; // your @handle, no leading @
+const MAX_ITEMS = 4;
+
+const manualReleases: Release[] = (manualReleasesRaw as Omit<Release, "id">[]).map((r, i) => ({
+  id: `manual-${i}`,
+  ...r,
+}));
+
+let releases: Release[] = [];
+
+try {
+  const lookupRes = await fetch(
+    `${MASTODON_INSTANCE}/api/v1/accounts/lookup?acct=${encodeURIComponent(MASTODON_HANDLE)}`,
+  );
+  if (lookupRes.ok) {
+    const account = await lookupRes.json();
+    const statusesRes = await fetch(
+      `${MASTODON_INSTANCE}/api/v1/accounts/${account.id}/statuses?exclude_replies=true&exclude_reblogs=true&limit=20`,
+    );
+    if (statusesRes.ok) {
+      const statuses: any[] = await statusesRes.json();
+      releases = statuses
+        .map((s): Release | null => {
+          const text = s.content.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+          const kofiMatch = text.match(/https?:\/\/ko-fi\.com\S+/i);
+          if (!kofiMatch) return null; // skip toots that aren't tied to a Ko-fi post
+          const kofiUrl = kofiMatch[0].replace(/[.,)]+$/, "");
+          const summary = text.replace(kofiMatch[0], "").trim().slice(0, 160);
+          return {
+            id: s.id,
+            summary,
+            kofiUrl,
+            date: new Date(s.created_at).toLocaleDateString("en-GB", {
+              day: "numeric",
+              month: "short",
+              year: "numeric",
+            }),
+            tag: /premium|early access/i.test(text) ? "premium" : "free",
+          };
+        })
+        .filter((r): r is Release => r !== null)
+        .slice(0, MAX_ITEMS);
+    }
+  }
+} catch {
+  // build stays green — falls through to manualReleases below
+}
+
+// Manual entries first and always kept; auto-fetched ones fill in behind
+// them, skipping any that duplicate a manual entry's Ko-fi link.
+const seenUrls = new Set(manualReleases.map((r) => r.kofiUrl));
+const autoOnly = releases.filter((r) => !seenUrls.has(r.kofiUrl));
+const items = [...manualReleases, ...autoOnly].slice(0, MAX_ITEMS);
+---
+
+<div class="release-feed">
+  {items.map((r) => (
+    <a class="release-item" href={r.kofiUrl} target="_blank" rel="noopener">
+      <span class={`release-tag ${r.tag}`}>
+        {r.tag === "premium" ? "⭐ Premium — Early Access" : "Free"}
+      </span>
+      <p class="release-summary">{r.summary}</p>
+      <div class="release-foot">
+        {r.date && <span class="release-date">{r.date}</span>}
+        <span class="release-link" data-i18n="rel_read_more">Read full update on Ko-fi</span>
+        <span aria-hidden="true">→</span>
+      </div>
+    </a>
+  ))}
+</div>
+
+<style>
+  .release-feed { display: flex; flex-direction: column; }
+  .release-item {
+    display: block; padding: 16px 0;
+    border-bottom: 1px solid var(--border, rgba(255,255,255,.07));
+    text-decoration: none; color: inherit;
+    transition: opacity .18s ease;
+  }
+  .release-item:last-child { border-bottom: none; }
+  .release-item:hover { opacity: .82; }
+  .release-tag {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 10.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+    padding: 3px 9px; border-radius: 100px; margin-bottom: 9px;
+  }
+  .release-tag.premium { color: #E8BB60; background: rgba(200,155,60,.1); border: 1px solid rgba(200,155,60,.2); }
+  .release-tag.free { color: var(--sub, #8585A5); background: rgba(255,255,255,.05); border: 1px solid var(--border, rgba(255,255,255,.07)); }
+  .release-summary {
+    font-family: var(--fb, 'Inter', sans-serif); font-size: 13px;
+    color: var(--sub, #8585A5); font-weight: 300; line-height: 1.65; margin-bottom: 8px;
+  }
+  .release-foot { display: flex; align-items: center; gap: 8px; }
+  .release-date { font-size: 11px; color: var(--dim, #44445A); }
+  .release-date + .release-link::before { content: "·"; margin-right: 8px; color: var(--dim, #44445A); }
+  .release-link {
+    font-family: var(--fd, 'Sora', sans-serif); font-size: 11.5px; font-weight: 600;
+    color: var(--violet, #9B6EFA);
+  }
+</style>

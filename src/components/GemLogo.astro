@@ -1,0 +1,20 @@
+---
+interface Props {
+  size?: number;
+  gradientId: string; // must be unique per instance on the page (SVG defs are global to the DOM)
+}
+const { size = 23, gradientId } = Astro.props;
+---
+<svg class="logo-gem" width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+  <defs>
+    <linearGradient id={gradientId} x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#C4A0FA"/><stop offset="1" stop-color="#E8BB60"/>
+    </linearGradient>
+  </defs>
+  <polygon points="12,1 22,6.5 22,17.5 12,23 2,17.5 2,6.5" fill="none" stroke={`url(#${gradientId})`} stroke-width="1.1"/>
+  <polygon points="12,1 22,6.5 12,12" fill="#9B6EFA" opacity=".5"/>
+  <polygon points="22,6.5 22,17.5 12,12" fill="#C89B3C" opacity=".36"/>
+  <polygon points="12,12 22,17.5 12,23 2,17.5" fill="#C4A0FA" opacity=".26"/>
+  <polygon points="2,6.5 12,12 2,17.5" fill="#E8BB60" opacity=".36"/>
+  <polygon points="12,1 2,6.5 12,12" fill="#9B6EFA" opacity=".44"/>
+</svg>
