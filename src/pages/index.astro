@@ -4,6 +4,35 @@ import LanguageSwitcher from "../components/LanguageSwitcher.astro";
 import ReleaseFeed from "../components/ReleaseFeed.astro";
 import GemLogo from "../components/GemLogo.astro";
 ---
+<!--
+  ============================================================
+  AMETRINE FOUNDATION — HOME PAGE
+  ============================================================
+  Page sections, top to bottom:
+    NAV       – sticky header, desktop links + mobile burger menu
+    HERO      – headline, CTA buttons, animated gem SVG
+    TICKER    – scrolling strip of feature call-outs (looped 2x for seamless scroll)
+    VALUES    – 4-card grid of company principles
+    STATS     – animated count-up numbers
+    ABOUT     – fake "terminal" audit readout + company blurb
+    HOW       – 3-step vertical timeline
+    RELEASES  – changelog feed (ReleaseFeed.astro) + Ko-fi membership card
+    VISION    – pull-quote mission statement
+    PRICING   – Free vs Premium plan cards, currency-aware pricing
+    CTA       – final "get started" banner
+    FOOTER    – sitemap links + status indicator
+
+  Imported components:
+    Head              – shared <head> extras (fonts, analytics, etc.)
+    LanguageSwitcher  – dropdown that drives the i18n system (data-i18n attrs below)
+    ReleaseFeed       – renders the Mastodon-bridged release list
+    GemLogo           – reusable logo mark (used in nav + footer)
+
+  The big inline <script> at the bottom (search "SCRIPT" below) handles:
+  pricing/currency updates, mobile menu, scroll effects, animations,
+  and smooth-scrolling for in-page anchor links.
+  ============================================================
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +45,7 @@ import GemLogo from "../components/GemLogo.astro";
 </head>
 <body>
 
+<!-- Scroll progress bar, ambient starfield canvas, and background glow — all decorative, driven by the script at the bottom -->
 <div id="sprog" aria-hidden="true"></div>
 <canvas id="sf" aria-hidden="true"></canvas>
 <div id="glow" aria-hidden="true"></div>
@@ -86,6 +116,17 @@ Ametrine
 </div>
 </div>
 
+<!--
+  Hero gem: a hand-built low-poly gem made of layered SVG shapes, animated
+  in sequence via inline `animation` styles (not CSS classes) so each piece
+  fades/draws in on its own delay. Draw order matters here:
+    1. faint outer rings (depth)
+    2. filled facet polygons (violet "fv*", gold "fg*") — the gem's faces
+    3. facet edge lines, outer ring first, then spokes from the centre
+    4. the bold outline polygon traced last via stroke-dashoffset (the "dl" keyframe)
+    5. small glowing dots ("dp" keyframe) at each vertex, drawn last so they sit on top
+  JS in #gem-wrap (search "GEM PARALLAX" below) adds mouse-follow drift on top of this.
+-->
 <div class="hero-right" id="gem-wrap">
 <svg class="gem-svg" viewBox="0 0 480 480" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
 <defs>
@@ -136,7 +177,13 @@ Ametrine
 </div>
 </section>
 
-<!-- TICKER -->
+<!--
+  TICKER — infinite scrolling strip. The whole item list is rendered
+  TWICE back-to-back (Array.from({ length: 2 })) so the CSS marquee
+  animation can loop seamlessly: when the first copy scrolls fully
+  off-screen, the second copy is already in position to continue.
+  aria-hidden because it's decorative/duplicated content, not real nav.
+-->
 <div class="ticker" aria-hidden="true">
 <div class="ticker-track">
 {Array.from({ length: 2 }).map(() => (
@@ -203,6 +250,7 @@ Ametrine
 <section id="about" aria-labelledby="about-h">
 <div class="sec">
 <div class="about-grid">
+<!-- Decorative "terminal" — static markup styled to look like a live privacy-audit CLI output. Not wired to any real script/data. -->
 <div class="rv-l">
 <div class="glass terminal">
 <div class="thdr"><div class="td"></div><div class="td"></div><div class="td"></div><span>ametrine — audit</span></div>
@@ -310,7 +358,8 @@ Ametrine
 <div class="pf"><div class="pfc"><svg width="7" height="7" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="#C4A0FA" stroke-width="1.2" stroke-linecap="round"/></svg></div><span data-i18n="kofi_b3">Advanced privacy controls unlocked</span></div>
 <div class="pf"><div class="pfc"><svg width="7" height="7" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="#C4A0FA" stroke-width="1.2" stroke-linecap="round"/></svg></div><span data-i18n="kofi_b4">Priority support on every ticket</span></div>
 </div>
-<a href="https://ko-fi.com/YOURPAGE" target="_blank" rel="noopener" class="kofi-btn">
+<!-- NOTE: this page has two Ko-fi CTAs (this one + the Premium pricing card button below) and one in the footer — keep all three URLs in sync if the Ko-fi page ever changes. -->
+<a href="https://ko-fi.com/ametrinefoundation" target="_blank" rel="noopener" class="kofi-btn">
 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M18 8h1a4 4 0 0 1 0 8h-1" stroke="currentColor" stroke-width="1.8"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" stroke="currentColor" stroke-width="1.8"/></svg>
 <span data-i18n="kofi_btn">Become a member on Ko-fi</span>
 </a>
@@ -344,6 +393,7 @@ Ametrine
 
 <div class="price-grid">
 
+<!-- Free/Premium price figures below (#free-sym, #free-price, #prem-sym, #prem-price, and the *-currency-note spans) are placeholders in USD by default and get rewritten live by updatePricing() in the script — see "PRICING: currency + details toggle" further down. Don't remove these IDs. -->
 <div class="glass pc rv">
 <p class="pc-tier" data-i18n="free_tier">Free</p>
 <p class="pc-price"><sup id="free-sym">$</sup><span id="free-price">0</span><sub>/mo</sub></p>
@@ -436,7 +486,7 @@ Ametrine
 Ametrine Foundation
 </a>
 <p class="ftb-tag" data-i18n="ft_tag">Privacy-first software, built for people — not procurement.</p>
-<p class="ftb-copy">© 2025 Ametrine Foundation.</p>
+<p class="ftb-copy">© {new Date().getFullYear()} Ametrine Foundation.</p>
 </div>
 <div class="ftc">
 <p class="ftc-t" data-i18n="ft_product">Product</p>
@@ -459,6 +509,7 @@ Ametrine Foundation
 <span class="sdot" aria-hidden="true"></span>
 <span data-i18n="ft_status">All systems operational</span>
 </div>
+<!-- TODO: these three still point nowhere (href="#") — swap in real Privacy/Terms/Status pages when they exist -->
 <ul class="ft-lnks">
 <li><a href="#" data-i18n="ft_privacy">Privacy</a></li>
 <li><a href="#" data-i18n="ft_terms">Terms</a></li>
@@ -468,12 +519,28 @@ Ametrine Foundation
 </footer>
 
 <script>
-/* ── PRICING: currency + details toggle ── */
+/* ═══════════════════════════════════════════════════════════
+   SCRIPT — all page interactivity lives in this one block.
+   Sections below, in order: pricing/currency, starfield background,
+   scroll progress bar, sticky nav, mobile menu, gem parallax,
+   scroll-reveal animations, stat counters, magnetic buttons,
+   glass card tilt, and smooth-scroll anchors.
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── PRICING: currency + details toggle ──
+   Prices are authored in USD (BASE) and converted whenever the
+   LanguageSwitcher fires an "i18n:change" event carrying a currency
+   symbol + conversion rate (e.g. switching language also switches
+   the displayed currency). The "*-currency-note" spans show a
+   small "Approx. X (USD $Y)" disclaimer for any non-USD currency,
+   since these are indicative conversions, not billed amounts —
+   Ko-fi itself always charges the USD price. */
 const BASE = { free: 0, prem: 9 };
 type PricingMeta = { symbol: string; rate: number; currency: string };
 
 function updatePricing(meta: PricingMeta) {
   const { symbol, rate, currency } = meta;
+  // Round to 2dp for low-value currencies (rate < 2, e.g. GBP/EUR), whole numbers otherwise (e.g. JPY)
   const freeP = rate === 1 ? "0" : (BASE.free * rate).toFixed(rate < 2 ? 2 : 0);
   const premP = (BASE.prem * rate).toFixed(rate < 2 ? 2 : 0);
 
@@ -494,17 +561,22 @@ function updatePricing(meta: PricingMeta) {
       fNote.textContent = `Approx. ${currency} (USD $${BASE.free})`;
       pNote.textContent = `Approx. ${currency} (USD $${BASE.prem})`;
     } else {
+      // USD is the "real" price, so no disclaimer needed
       fNote.textContent = "";
       pNote.textContent = "";
     }
   }
 }
 
+// LanguageSwitcher.astro dispatches this custom event on language/currency change
 document.addEventListener("i18n:change", (event) => {
   const e = event as CustomEvent<{ meta: PricingMeta }>;
   if (e.detail?.meta) updatePricing(e.detail.meta);
 });
 
+// "Show more details" expanders on the Free/Premium pricing cards.
+// Each toggle button's data-details-toggle="free"|"prem" maps to a
+// matching #free-details / #prem-details panel to expand.
 document.querySelectorAll<HTMLElement>("[data-details-toggle]").forEach((btn) => {
   btn.addEventListener("click", () => {
     const id = btn.dataset.detailsToggle;
@@ -514,6 +586,7 @@ document.querySelectorAll<HTMLElement>("[data-details-toggle]").forEach((btn) =>
     const open = det.classList.toggle("open");
     btn.classList.toggle("open", open);
     btn.setAttribute("aria-expanded", String(open));
+    // Swap the button label via the i18n dictionary so it stays translated
     const dict = (window as any).__i18nDict || {};
     const label = btn.querySelector("span");
     if (label) {
@@ -522,10 +595,18 @@ document.querySelectorAll<HTMLElement>("[data-details-toggle]").forEach((btn) =>
   });
 });
 
-/* ── STARFIELD ── */
+/* ── STARFIELD ──
+   Draws the faint drifting dots behind the page onto the full-viewport
+   #sf canvas. Star count scales with screen area (W*H / 4400) so it
+   stays sparse on any size. Each star just twinkles in place via a
+   sine wave on its own opacity ("t" phase) — there's no movement/drift,
+   only pulsing. Re-seeds all stars on window resize. */
 (function(){
-  const cv = document.getElementById('sf') as HTMLCanvasElement | null;
-  if (!cv) return;
+  const cvEl = document.getElementById('sf') as HTMLCanvasElement | null;
+  if (!cvEl) return;
+  // Re-bind to a non-null const: TS can't carry the "!cvEl" narrowing from
+  // the guard above into the nested rsz()/draw() function declarations below.
+  const cv = cvEl;
   const x = cv.getContext('2d');
   if (!x) return;
   let W = 0;
@@ -543,6 +624,7 @@ document.querySelectorAll<HTMLElement>("[data-details-toggle]").forEach((btn) =>
       const o = s.o * (.5 + .5 * Math.sin(s.t));
       x.beginPath();
       x.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      // Bigger stars get the violet tint, smaller ones a duller grey — adds depth
       x.fillStyle = s.r > .55 ? `rgba(196,160,250,${o})` : `rgba(208,208,235,${o * .6})`;
       x.fill();
     });
@@ -550,7 +632,9 @@ document.querySelectorAll<HTMLElement>("[data-details-toggle]").forEach((btn) =>
   })();
 })();
 
-/* ── PROGRESS ── */
+/* ── PROGRESS ──
+   The thin bar at the very top of the page (#sprog) that fills left-to-right
+   as you scroll. scaleX = fraction of the page scrolled so far. */
 const sprog = document.getElementById('sprog');
 if (sprog) {
   window.addEventListener('scroll', () => {
@@ -558,17 +642,28 @@ if (sprog) {
   }, { passive: true });
 }
 
-/* ── NAV ── */
+/* ── NAV ──
+   Adds the "on" class (opaque background/shadow, see CSS) once you've
+   scrolled past 30px, so the nav starts transparent over the hero. */
 const navEl = document.getElementById('nav');
 if (navEl) {
   window.addEventListener('scroll', () => navEl.classList.toggle('on', scrollY > 30), { passive: true });
 }
 
-/* ── MOBILE MENU ── */
+/* ── MOBILE MENU ──
+   Burger button toggles the full-screen mobile nav overlay. Clicking
+   any link inside the menu closes it (so navigating away doesn't leave
+   it open), and resizing past the mobile breakpoint (700px) force-closes
+   it too, in case someone rotates their tablet or resizes a browser window. */
 (function(){
-  const burger = document.getElementById('navBurger');
-  const menu = document.getElementById('mobileMenu');
-  if (!burger || !menu) return;
+  const burgerEl = document.getElementById('navBurger');
+  const menuEl = document.getElementById('mobileMenu');
+  if (!burgerEl || !menuEl) return;
+  // Re-bind to non-null consts: same TS narrowing quirk as the starfield
+  // above — closeMenu()/openMenu() are separate function declarations, so
+  // TS won't carry the "!burgerEl || !menuEl" guard's narrowing into them.
+  const burger = burgerEl;
+  const menu = menuEl;
   function closeMenu() { burger.setAttribute('aria-expanded','false'); menu.classList.remove('open'); document.body.classList.remove('menu-open'); }
   function openMenu() { burger.setAttribute('aria-expanded','true'); menu.classList.add('open'); document.body.classList.add('menu-open'); }
   burger.addEventListener('click', () => {
@@ -579,7 +674,12 @@ if (navEl) {
   window.addEventListener('resize', () => { if (innerWidth > 700) closeMenu(); }, { passive: true });
 })();
 
-/* ── GEM PARALLAX ── */
+/* ── GEM PARALLAX ──
+   Makes the hero gem drift gently towards the mouse cursor. tx/ty are
+   the "target" offset the mouse wants; cx/cy chase them at 5% per frame
+   (an easing/lerp), which is what gives the smooth trailing-behind feel
+   instead of the gem snapping straight to the cursor. Skipped on touch
+   devices (no mouse to track). */
 (function(){
   const g = document.getElementById('gem-wrap') as HTMLElement | null;
   if (!g || window.matchMedia('(pointer:coarse)').matches) return;
@@ -596,7 +696,11 @@ if (navEl) {
   })();
 })();
 
-/* ── REVEALS ── */
+/* ── REVEALS ──
+   Fade/slide-in-on-scroll for any element tagged .rv (fade up), .rv-l
+   (from left) or .rv-r (from right) — the actual animation is in CSS,
+   this just adds the ".in" class once the element is ~10% visible.
+   unobserve() after firing so it only ever animates once. */
 const obs = new IntersectionObserver((entries) => entries.forEach(entry => {
   if (entry.isIntersecting) {
     entry.target.classList.add('in');
@@ -605,7 +709,13 @@ const obs = new IntersectionObserver((entries) => entries.forEach(entry => {
 }), { threshold: .1, rootMargin: '0px 0px -20px 0px' });
 document.querySelectorAll<HTMLElement>('.rv,.rv-l,.rv-r').forEach(el => obs.observe(el));
 
-/* ── COUNTERS ── */
+/* ── COUNTERS ──
+   Animates the stat numbers (100%, 99.9%, etc.) counting up from 0 once
+   they scroll into view. data-count is the target value, data-sfx is an
+   optional suffix like "%". Uses an ease-out cubic curve (1 - (1-p)^3)
+   so it starts fast and settles gently rather than a linear count.
+   The "_d" flag on the element stops it from re-running if the
+   IntersectionObserver somehow fires more than once. */
 document.querySelectorAll<HTMLElement>('[data-count]').forEach(el => {
   const o2 = new IntersectionObserver((entries) => {
     const entry = entries[0];
@@ -621,6 +731,7 @@ document.querySelectorAll<HTMLElement>('[data-count]').forEach(el => {
     (function step(now: number) {
       const p = Math.min((now - start) / dur, 1);
       const v = tgt * (1 - Math.pow(1 - p, 3));
+      // Whole numbers (100) round cleanly; decimals (99.9) keep 1 decimal place
       el.textContent = (Number.isInteger(tgt) ? Math.round(v) : v.toFixed(1)) + sfx;
       if (p < 1) requestAnimationFrame(step);
     })(start);
@@ -628,7 +739,10 @@ document.querySelectorAll<HTMLElement>('[data-count]').forEach(el => {
   o2.observe(el);
 });
 
-/* ── MAGNETIC BUTTONS ── */
+/* ── MAGNETIC BUTTONS ──
+   The main CTA buttons nudge slightly towards the cursor while hovered,
+   proportional to how far off-centre the mouse is (14% of the offset),
+   and snap back to rest on mouseleave. Skipped on touch devices. */
 document.querySelectorAll<HTMLElement>('.btn-fill,.btn-ghost,.nav-btn').forEach(b => {
   if (window.matchMedia('(pointer:coarse)').matches) return;
   b.addEventListener('mousemove', (e: MouseEvent) => {
@@ -640,7 +754,12 @@ document.querySelectorAll<HTMLElement>('.btn-fill,.btn-ghost,.nav-btn').forEach(
   b.addEventListener('mouseleave', () => { b.style.transform = ''; });
 });
 
-/* ── GLASS TILT ── */
+/* ── GLASS TILT ──
+   3D tilt-on-hover for the value cards and pricing cards, based on
+   cursor position within the card (0–1 across width/height). Fast
+   transition (.08s) while tracking the mouse so it feels responsive,
+   slower eased transition (.5s) back to flat on mouseleave so it
+   doesn't snap. Skipped on touch devices. */
 document.querySelectorAll<HTMLElement>('.glass.vcard,.glass.pc').forEach(c => {
   if (window.matchMedia('(pointer:coarse)').matches) return;
   c.addEventListener('mousemove', (e: MouseEvent) => {
@@ -656,12 +775,23 @@ document.querySelectorAll<HTMLElement>('.glass.vcard,.glass.pc').forEach(c => {
   });
 });
 
-/* ── SMOOTH ANCHORS ── */
+/* ── SMOOTH ANCHORS ──
+   Intercepts clicks on any in-page "#section" link and scrolls to it
+   smoothly instead of the browser's instant jump. Guards against
+   href="#" (used as a placeholder on the not-yet-built footer links) —
+   document.querySelector('#') would throw, since "#" alone isn't a
+   valid CSS selector, so those are skipped and fall back to default
+   browser behaviour rather than erroring. */
 document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     const href = a.getAttribute('href');
-    if (!href) return;
-    const target = document.querySelector(href);
+    if (!href || href.length < 2) return;
+    let target: Element | null = null;
+    try {
+      target = document.querySelector(href);
+    } catch {
+      return;
+    }
     if (!target) return;
     e.preventDefault();
     target.scrollIntoView({ behavior: 'smooth', block: 'start' });
