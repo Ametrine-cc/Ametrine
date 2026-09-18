@@ -1,0 +1,36 @@
+---
+interface Props {
+    title?: string;
+    description?: string;
+}
+
+const {
+    title = "Ametrine Foundation",
+    description = "The company who cares, premium products shouldn't break the bank",
+} = Astro.props;
+
+import Nav from "../layouts/Nav.astro";
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <link rel="stylesheet" href="/main.css" />
+        <link
+            rel="icon"
+            href="/icons/Ametrine_Foundation.png"
+            type="image/png"
+        />
+    </head>
+    <Nav />
+    <body>
+        <div id="sprog" aria-hidden="true"></div>
+        <canvas id="sf" aria-hidden="true"></canvas>
+        <div id="glow" aria-hidden="true"></div>
+        <slot />
+    </body>
+</html>

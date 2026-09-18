@@ -1,802 +1,121 @@
 ---
-import Head from "../components/Head.astro";
-import LanguageSwitcher from "../components/LanguageSwitcher.astro";
-import ReleaseFeed from "../components/ReleaseFeed.astro";
-import GemLogo from "../components/GemLogo.astro";
+import Layout from "../layouts/Layout.astro";
+import Footer from "../layouts/Footer.astro";
+
+// Server-side script / Component data
+const projects = [
+    {
+        name: "Kasane",
+        tagline: "Module, package & project manager",
+        description:
+            "An open-source module manager, package manager, and build system written in Rust using AF_UNIX socket IPC architecture and privilege separation.",
+        language: "Rust",
+        license: "GPLv3",
+        github: "https://github.com/ametrine-foundation/kasane",
+    },
+    {
+        name: "miamore",
+        tagline: "C Terminal User Interface library",
+        description:
+            "Lightweight C TUI library featuring 24-bit Truecolor rendering, display list command queues, multithreaded animation via pthreads, and official Rust bindings.",
+        language: "C / Rust",
+        license: "GPLv3",
+        github: "https://github.com/ametrine-foundation/miamore",
+    },
+];
+
+const year = new Date().getFullYear();
 ---
-<!--
-  ============================================================
-  AMETRINE FOUNDATION — HOME PAGE
-  ============================================================
-  Page sections, top to bottom:
-    NAV       – sticky header, desktop links + mobile burger menu
-    HERO      – headline, CTA buttons, animated gem SVG
-    TICKER    – scrolling strip of feature call-outs (looped 2x for seamless scroll)
-    VALUES    – 4-card grid of company principles
-    STATS     – animated count-up numbers
-    ABOUT     – fake "terminal" audit readout + company blurb
-    HOW       – 3-step vertical timeline
-    RELEASES  – changelog feed (ReleaseFeed.astro) + Ko-fi membership card
-    VISION    – pull-quote mission statement
-    PRICING   – Free vs Premium plan cards, currency-aware pricing
-    CTA       – final "get started" banner
-    FOOTER    – sitemap links + status indicator
 
-  Imported components:
-    Head              – shared <head> extras (fonts, analytics, etc.)
-    LanguageSwitcher  – dropdown that drives the i18n system (data-i18n attrs below)
-    ReleaseFeed       – renders the Mastodon-bridged release list
-    GemLogo           – reusable logo mark (used in nav + footer)
-
-  The big inline <script> at the bottom (search "SCRIPT" below) handles:
-  pricing/currency updates, mobile menu, scroll effects, animations,
-  and smooth-scrolling for in-page anchor links.
-  ============================================================
--->
-<!DOCTYPE html>
+<!doctype html>
+<Layout />
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ametrine Foundation — The company who cares.</title>
-<meta name="description" content="Premium software built with privacy-first architecture. Professional-grade, priced for everyone.">
-<link rel="stylesheet" href="/main.css">
-<Head />
-</head>
-<body>
+    <body>
+        <!-- Main Content Container -->
+        <main class="container">
+            <!-- Projects Section -->
+            <section id="projects" class="projects-section">
+                <div class="section-header">
+                    <h2>Projects</h2>
+                    <p>
+                        Privacy-first, local-first tools and system libraries
+                        built without telemetry.
+                    </p>
+                </div>
 
-<!-- Scroll progress bar, ambient starfield canvas, and background glow — all decorative, driven by the script at the bottom -->
-<div id="sprog" aria-hidden="true"></div>
-<canvas id="sf" aria-hidden="true"></canvas>
-<div id="glow" aria-hidden="true"></div>
+                <div class="projects-grid">
+                    {projects.map((project) => (
+                        <div class="project-card">
+                            <div class="card-header">
+                                <span class="tech-badge">
+                                    {project.language}
+                                </span>
+                                <span class="license-tag">
+                                    {project.license}
+                                </span>
+                            </div>
+                            <h3>{project.name}</h3>
+                            <p class="tagline">{project.tagline}</p>
+                            <p class="desc">{project.description}</p>
+                            <div class="card-footer">
+                                <a
+                                    href={project.github}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="card-link"
+                                >
+                                    View Source →
+                                </a>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </section>
 
-<!-- NAV -->
-<nav id="nav">
-<a href="/" class="nav-logo" aria-label="Ametrine Foundation">
-<GemLogo size={23} gradientId="ng" />
-Ametrine
-</a>
-<div class="nav-links" role="navigation" aria-label="Primary">
-<a href="#values" data-i18n="nav_values">Values</a>
-<a href="#about" data-i18n="nav_about">About</a>
-<a href="https://docs.ametrine.cc/" data-i18n="nav_docs">Docs</a>
-<a href="#pricing" data-i18n="nav_pricing">Pricing</a>
-</div>
-<div class="nav-right">
-<LanguageSwitcher />
-<a href="#contact" class="nav-btn" data-i18n="nav_cta">Get started</a>
-<button class="nav-burger" id="navBurger" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileMenu">
-<span></span><span></span><span></span>
-</button>
-</div>
-</nav>
+            <!-- CTA Banner -->
+            <section class="cta-banner">
+                <h2>Building for a local-first web.</h2>
+                <p>
+                    Open source software, libraries, and tools engineered with
+                    minimal dependencies and maximum portability.
+                </p>
+                <div class="cta-group">
+                    <a
+                        href="https://github.com/ametrine-foundation"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="btn btn-primary"
+                    >
+                        Explore Repositories
+                    </a>
+                    <a
+                        href="https://docs.ametrine.cc"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="btn btn-secondary"
+                    >
+                        Read Documentation
+                    </a>
+                </div>
+            </section>
+        </main>
+    </body>
+    <Footer />
 
-<div class="mobile-menu" id="mobileMenu" role="navigation" aria-label="Mobile">
-<a href="#values" data-i18n="nav_values">Values</a>
-<a href="#about" data-i18n="nav_about">About</a>
-<a href="https://docs.ametrine.cc/" data-i18n="nav_docs">Docs</a>
-<a href="#pricing" data-i18n="nav_pricing">Pricing</a>
-<a href="#contact" class="nav-btn" data-i18n="nav_cta">Get started</a>
-</div>
+    <script>
+        let lastScrollY = window.scrollY;
+        const nav = document.getElementById("navbar");
 
-<!-- HERO -->
-<section aria-labelledby="hero-h">
-<div class="hero">
-<div class="hero-left">
-<div class="hero-tag">
-<span class="tag-dot" aria-hidden="true"></span>
-<span data-i18n="hero_tag">Now in public access</span>
-</div>
-<h1 class="hero-h" id="hero-h">
-<span data-i18n="hero_h1">Software that</span><br>
-<span class="g" data-i18n="hero_h2">actually cares</span><br>
-<span data-i18n="hero_h3">about you.</span>
-</h1>
-<p class="hero-p" data-i18n="hero_p">Privacy-first tools built for people, not for procurement — priced fairly and shipped without the tracking.</p>
-<div class="hero-acts">
-<a href="#about" class="btn-fill">
-<span data-i18n="hero_cta1">Explore our work</span>
-<svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-</a>
-<a href="https://docs.ametrine.cc/" class="btn-ghost" data-i18n="hero_cta2">View documentation</a>
-</div>
-<div class="hero-kpis">
-<div class="kpi">
-<span class="kpi-v g">100%</span>
-<span class="kpi-l" data-i18n="kpi1">Privacy-first</span>
-</div>
-<div class="kpi">
-<span class="kpi-v">Fair</span>
-<span class="kpi-l" data-i18n="kpi2">Pricing — always</span>
-</div>
-<div class="kpi">
-<span class="kpi-v">Zero</span>
-<span class="kpi-l" data-i18n="kpi3">Data sold</span>
-</div>
-</div>
-</div>
+        window.addEventListener("scroll", () => {
+            if (!nav) return;
+            if (window.scrollY > 20) nav.classList.add("scrolled");
+            else nav.classList.remove("scrolled");
 
-<!--
-  Hero gem: a hand-built low-poly gem made of layered SVG shapes, animated
-  in sequence via inline `animation` styles (not CSS classes) so each piece
-  fades/draws in on its own delay. Draw order matters here:
-    1. faint outer rings (depth)
-    2. filled facet polygons (violet "fv*", gold "fg*") — the gem's faces
-    3. facet edge lines, outer ring first, then spokes from the centre
-    4. the bold outline polygon traced last via stroke-dashoffset (the "dl" keyframe)
-    5. small glowing dots ("dp" keyframe) at each vertex, drawn last so they sit on top
-  JS in #gem-wrap (search "GEM PARALLAX" below) adds mouse-follow drift on top of this.
--->
-<div class="hero-right" id="gem-wrap">
-<svg class="gem-svg" viewBox="0 0 480 480" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-<defs>
-<linearGradient id="fv1" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#9B6EFA" stop-opacity=".55"/><stop offset="1" stop-color="#7040E0" stop-opacity=".1"/></linearGradient>
-<linearGradient id="fv2" x1="1" y1="0" x2="0" y2="1"><stop stop-color="#C4A0FA" stop-opacity=".38"/><stop offset="1" stop-color="#9B6EFA" stop-opacity=".06"/></linearGradient>
-<linearGradient id="fg1" x1="1" y1="0" x2="0" y2="1"><stop stop-color="#C89B3C" stop-opacity=".58"/><stop offset="1" stop-color="#E8BB60" stop-opacity=".1"/></linearGradient>
-<linearGradient id="fg2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#E8BB60" stop-opacity=".32"/><stop offset="1" stop-color="#C89B3C" stop-opacity=".04"/></linearGradient>
-<linearGradient id="gs" x1="0" y1="0" x2="480" y2="480" gradientUnits="userSpaceOnUse"><stop stop-color="#C4A0FA"/><stop offset=".45" stop-color="#E8BB60"/><stop offset="1" stop-color="#9B6EFA"/></linearGradient>
-<filter id="gf"><feGaussianBlur stdDeviation="3.5"/></filter>
-</defs>
-<circle cx="240" cy="240" r="218" fill="none" stroke="url(#gs)" stroke-width=".3" opacity=".09"/>
-<circle cx="240" cy="240" r="170" fill="none" stroke="url(#gs)" stroke-width=".2" opacity=".06"/>
-<polygon points="240,26 408,112 434,258 240,240" fill="url(#fv1)" opacity="0" style="animation:fi .7s ease 1.5s both"/>
-<polygon points="240,240 46,258 120,410 240,454" fill="url(#fv2)" opacity="0" style="animation:fi .7s ease 1.65s both"/>
-<polygon points="240,240 46,258 80,112" fill="url(#fv2)" opacity="0" style="animation:fi .7s ease 1.8s both"/>
-<polygon points="240,26 408,112 434,258 240,240" fill="url(#fg1)" opacity="0" style="animation:fiG .7s ease 1.55s both"/>
-<polygon points="240,240 434,258 360,410 240,454" fill="url(#fg2)" opacity="0" style="animation:fiG .7s ease 1.7s both"/>
-<line x1="240" y1="26" x2="240" y2="454" stroke="url(#gs)" stroke-width=".6" opacity=".36" style="stroke-dasharray:900;stroke-dashoffset:900;animation:dl 1.8s ease .7s both"/>
-<line x1="46" y1="258" x2="434" y2="258" stroke="url(#gs)" stroke-width=".6" opacity=".36" style="stroke-dasharray:900;stroke-dashoffset:900;animation:dl 1.8s ease .8s both"/>
-<line x1="80" y1="112" x2="360" y2="410" stroke="url(#gs)" stroke-width=".5" opacity=".26" style="stroke-dasharray:900;stroke-dashoffset:900;animation:dl 1.8s ease .9s both"/>
-<line x1="408" y1="112" x2="120" y2="410" stroke="url(#gs)" stroke-width=".5" opacity=".26" style="stroke-dasharray:900;stroke-dashoffset:900;animation:dl 1.8s ease 1.0s both"/>
-<line x1="240" y1="240" x2="240" y2="26" stroke="url(#gs)" stroke-width=".38" opacity=".18" style="stroke-dasharray:300;stroke-dashoffset:300;animation:dl 1.2s ease 1.1s both"/>
-<line x1="240" y1="240" x2="408" y2="112" stroke="url(#gs)" stroke-width=".38" opacity=".18" style="stroke-dasharray:300;stroke-dashoffset:300;animation:dl 1.2s ease 1.15s both"/>
-<line x1="240" y1="240" x2="434" y2="258" stroke="url(#gs)" stroke-width=".38" opacity=".18" style="stroke-dasharray:300;stroke-dashoffset:300;animation:dl 1.2s ease 1.2s both"/>
-<line x1="240" y1="240" x2="360" y2="410" stroke="url(#gs)" stroke-width=".38" opacity=".18" style="stroke-dasharray:300;stroke-dashoffset:300;animation:dl 1.2s ease 1.25s both"/>
-<line x1="240" y1="240" x2="240" y2="454" stroke="url(#gs)" stroke-width=".38" opacity=".18" style="stroke-dasharray:300;stroke-dashoffset:300;animation:dl 1.2s ease 1.3s both"/>
-<line x1="240" y1="240" x2="120" y2="410" stroke="url(#gs)" stroke-width=".38" opacity=".18" style="stroke-dasharray:300;stroke-dashoffset:300;animation:dl 1.2s ease 1.25s both"/>
-<line x1="240" y1="240" x2="46" y2="258" stroke="url(#gs)" stroke-width=".38" opacity=".18" style="stroke-dasharray:300;stroke-dashoffset:300;animation:dl 1.2s ease 1.2s both"/>
-<line x1="240" y1="240" x2="80" y2="112" stroke="url(#gs)" stroke-width=".38" opacity=".18" style="stroke-dasharray:300;stroke-dashoffset:300;animation:dl 1.2s ease 1.15s both"/>
-<polygon points="240,26 408,112 434,258 360,410 240,454 120,410 46,258 80,112" fill="none" stroke="url(#gs)" stroke-width="1.1" opacity=".7" style="stroke-dasharray:2200;stroke-dashoffset:2200;animation:dl 2s cubic-bezier(.22,1,.36,1) .3s both"/>
-<circle cx="240" cy="26" r="3" fill="#C4A0FA" filter="url(#gf)" opacity="0" style="animation:dp .4s ease 2.2s both"/>
-<circle cx="408" cy="112" r="2.6" fill="#E8BB60" filter="url(#gf)" opacity="0" style="animation:dp .4s ease 2.3s both"/>
-<circle cx="434" cy="258" r="2.6" fill="#C4A0FA" opacity="0" style="animation:dp .4s ease 2.4s both"/>
-<circle cx="360" cy="410" r="2.3" fill="#E8BB60" opacity="0" style="animation:dp .4s ease 2.5s both"/>
-<circle cx="240" cy="454" r="3" fill="#C4A0FA" filter="url(#gf)" opacity="0" style="animation:dp .4s ease 2.6s both"/>
-<circle cx="120" cy="410" r="2.3" fill="#E8BB60" opacity="0" style="animation:dp .4s ease 2.5s both"/>
-<circle cx="46" cy="258" r="2.6" fill="#C4A0FA" opacity="0" style="animation:dp .4s ease 2.4s both"/>
-<circle cx="80" cy="112" r="2.6" fill="#E8BB60" filter="url(#gf)" opacity="0" style="animation:dp .4s ease 2.3s both"/>
-<circle cx="240" cy="240" r="4.2" fill="#C4A0FA" filter="url(#gf)" opacity="0" style="animation:dp .5s ease 2.7s both"/>
-<style>
-@keyframes dl{to{stroke-dashoffset:0;}}
-@keyframes fi{from{opacity:0;}to{opacity:1;}}
-@keyframes fiG{from{opacity:0;}to{opacity:.58;}}
-@keyframes dp{from{opacity:0;}to{opacity:.92;}}
-</style>
-</svg>
-</div>
-</div>
-</section>
+            if (window.scrollY > lastScrollY && window.scrollY > 100)
+                nav.classList.add("hidden");
+            else nav.classList.remove("hidden");
 
-<!--
-  TICKER — infinite scrolling strip. The whole item list is rendered
-  TWICE back-to-back (Array.from({ length: 2 })) so the CSS marquee
-  animation can loop seamlessly: when the first copy scrolls fully
-  off-screen, the second copy is already in position to continue.
-  aria-hidden because it's decorative/duplicated content, not real nav.
--->
-<div class="ticker" aria-hidden="true">
-<div class="ticker-track">
-{Array.from({ length: 2 }).map(() => (
-<>
-<div class="t-item"><svg class="t-gem" viewBox="0 0 9 9" fill="none"><polygon points="4.5,.5 8.5,2.5 8.5,6.5 4.5,8.5 .5,6.5 .5,2.5" stroke="#9B6EFA" stroke-width=".7"/><polygon points="4.5,.5 8.5,2.5 4.5,4.5" fill="#9B6EFA" opacity=".4"/></svg><span data-i18n="tick1">End-to-end encryption</span></div>
-<div class="t-item"><svg class="t-gem" viewBox="0 0 9 9" fill="none"><polygon points="4.5,.5 8.5,2.5 8.5,6.5 4.5,8.5 .5,6.5 .5,2.5" stroke="#C89B3C" stroke-width=".7"/><polygon points="4.5,.5 8.5,2.5 4.5,4.5" fill="#C89B3C" opacity=".4"/></svg><span data-i18n="tick2">No data brokering — ever</span></div>
-<div class="t-item"><svg class="t-gem" viewBox="0 0 9 9" fill="none"><polygon points="4.5,.5 8.5,2.5 8.5,6.5 4.5,8.5 .5,6.5 .5,2.5" stroke="#9B6EFA" stroke-width=".7"/></svg><span data-i18n="tick3">Professional-grade performance</span></div>
-<div class="t-item"><svg class="t-gem" viewBox="0 0 9 9" fill="none"><polygon points="4.5,.5 8.5,2.5 8.5,6.5 4.5,8.5 .5,6.5 .5,2.5" stroke="#C89B3C" stroke-width=".7"/></svg><span data-i18n="tick4">Accessible pricing — forever</span></div>
-<div class="t-item"><svg class="t-gem" viewBox="0 0 9 9" fill="none"><polygon points="4.5,.5 8.5,2.5 8.5,6.5 4.5,8.5 .5,6.5 .5,2.5" stroke="#9B6EFA" stroke-width=".7"/></svg><span data-i18n="tick5">Zero telemetry</span></div>
-<div class="t-item"><svg class="t-gem" viewBox="0 0 9 9" fill="none"><polygon points="4.5,.5 8.5,2.5 8.5,6.5 4.5,8.5 .5,6.5 .5,2.5" stroke="#C89B3C" stroke-width=".7"/></svg><span>99.9% uptime SLA</span></div>
-<div class="t-item"><svg class="t-gem" viewBox="0 0 9 9" fill="none"><polygon points="4.5,.5 8.5,2.5 8.5,6.5 4.5,8.5 .5,6.5 .5,2.5" stroke="#9B6EFA" stroke-width=".7"/></svg><span data-i18n="tick6">Privacy-first by design</span></div>
-<div class="t-item"><svg class="t-gem" viewBox="0 0 9 9" fill="none"><polygon points="4.5,.5 8.5,2.5 8.5,6.5 4.5,8.5 .5,6.5 .5,2.5" stroke="#C89B3C" stroke-width=".7"/></svg>Ametrine Foundation</div>
-</>
-))}
-</div>
-</div>
-
-<!-- VALUES -->
-<section id="values" aria-labelledby="val-h">
-<div class="sec">
-<p class="eye rv" data-i18n="val_eye">What we stand for</p>
-<h2 class="sh rv" id="val-h"><span data-i18n="val_h">Built different.</span><br><em data-i18n="val_h2">By design.</em></h2>
-<p class="sp rv" data-i18n="val_p">Four principles that don't change no matter how big we get.</p>
-<div class="val-grid">
-<div class="glass vcard rv">
-<span class="vcard-n">01</span>
-<div class="vcard-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 1.5L17.5 5v4.5C17.5 14 14 17.7 10 18.5 6 17.7 2.5 14 2.5 9.5V5L10 1.5z" stroke="#9B6EFA" stroke-width="1.3" stroke-linejoin="round"/><path d="M6.5 10l2.5 2.5 5-5" stroke="#2DCB6A" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-<h3 class="vcard-t" data-i18n="v1_t">Privacy First</h3>
-<p class="vcard-b" data-i18n="v1_p">Every product is built encryption-first, with zero telemetry and zero third-party trackers by default.</p>
-</div>
-<div class="glass vcard rv" style="transition-delay:.08s">
-<span class="vcard-n">02</span>
-<div class="vcard-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.5" stroke="#9B6EFA" stroke-width="1.3"/><path d="M6.5 10l2.5 2.5 5-5" stroke="#9B6EFA" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-<h3 class="vcard-t" data-i18n="v2_t">Professional-Grade Performance</h3>
-<p class="vcard-b" data-i18n="v2_p">Privacy tools shouldn't feel like a downgrade. Everything we ship is built to compete with the mainstream alternative.</p>
-</div>
-<div class="glass vcard rv" style="transition-delay:.16s">
-<span class="vcard-n">03</span>
-<div class="vcard-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2.5v1M10 16.5v1M2.5 10h1M16.5 10h1M4.9 4.9l.7.7M14.4 14.4l.7.7M4.9 15.1l.7-.7M14.4 5.6l.7-.7" stroke="#C89B3C" stroke-width="1.3" stroke-linecap="round"/><circle cx="10" cy="10" r="3" stroke="#C89B3C" stroke-width="1.3"/></svg></div>
-<h3 class="vcard-t" data-i18n="v3_t">Cost-Effective — Forever</h3>
-<p class="vcard-b" data-i18n="v3_p">Fair pricing isn't a launch promotion. Free stays genuinely useful as we grow.</p>
-</div>
-<div class="glass vcard rv" style="transition-delay:.24s">
-<span class="vcard-n">04</span>
-<div class="vcard-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="3" stroke="#9B6EFA" stroke-width="1.3"/><path d="M3.5 17c0-3.3 2.9-6 6.5-6s6.5 2.7 6.5 6" stroke="#9B6EFA" stroke-width="1.3" stroke-linecap="round"/></svg></div>
-<h3 class="vcard-t" data-i18n="v4_t">User-Centric</h3>
-<p class="vcard-b" data-i18n="v4_p">You're the customer, not the product. Every decision starts with what's good for the person using the software.</p>
-</div>
-</div>
-</div>
-</section>
-
-<!-- STATS -->
-<div class="stats-wrap">
-<div class="stats-inner">
-<div class="si rv"><span class="sn" data-count="100" data-sfx="%">0%</span><span class="sl" data-i18n="s1">Privacy compliance</span></div>
-<div class="si rv" style="transition-delay:.07s"><span class="sn" data-count="0">0</span><span class="sl" data-i18n="s2">Data sold, ever</span></div>
-<div class="si rv" style="transition-delay:.14s"><span class="sn" data-count="99.9" data-sfx="%">0%</span><span class="sl" data-i18n="s3">Uptime SLA</span></div>
-<div class="si rv" style="transition-delay:.21s"><span class="sn">Fair</span><span class="sl" data-i18n="s4">Pricing — always</span></div>
-</div>
-</div>
-
-<!-- ABOUT -->
-<section id="about" aria-labelledby="about-h">
-<div class="sec">
-<div class="about-grid">
-<!-- Decorative "terminal" — static markup styled to look like a live privacy-audit CLI output. Not wired to any real script/data. -->
-<div class="rv-l">
-<div class="glass terminal">
-<div class="thdr"><div class="td"></div><div class="td"></div><div class="td"></div><span>ametrine — audit</span></div>
-<span class="tl"><span class="tp">$ </span><span class="tc">run privacy-check --deep</span></span>
-<span class="tl"><span class="to">→ Scanning data collection...</span></span>
-<span class="tl"><span class="tok">✓ </span><span class="to">No telemetry endpoints</span></span>
-<span class="tl"><span class="tok">✓ </span><span class="to">No third-party trackers</span></span>
-<span class="tl"><span class="tok">✓ </span><span class="to">No ad networks</span></span>
-<span class="tl"><span class="tok">✓ </span><span class="to">No data brokering</span></span>
-<span class="tl"><span class="to">→ Checking encryption...</span></span>
-<span class="tl"><span class="tok">✓ </span><span class="to">E2E encryption: active</span></span>
-<span class="tl"><span class="tok">✓ </span><span class="to">Zero-knowledge arch: verified</span></span>
-<span class="tl">&nbsp;</span>
-<span class="tl"><span class="tok">✓ ALL CLEAR — Score: 100/100</span></span>
-<span class="tl"><span class="tp">$ </span><span class="tcur"></span></span>
-</div>
-</div>
-<div class="rv-r">
-<p class="eye" data-i18n="about_eye">Who we are</p>
-<h2 class="sh" id="about-h"><span data-i18n="about_h">The company</span><br><em data-i18n="about_h2">who cares.</em></h2>
-<p class="sp" data-i18n="about_p1">Ametrine Foundation builds software the way we'd want to use it ourselves — private by default, fast, and honestly priced.</p>
-<p class="sp" style="margin-top:12px" data-i18n="about_p2">We're small on purpose. No investors to please, no growth targets that force compromises on the things that actually matter to the people using our tools.</p>
-<div class="about-pill">
-<svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 .8l1.5 3 3.3.5-2.4 2.3.6 3.3L6 8.4l-3 1.5.6-3.3L1.2 4.3l3.3-.5L6 .8z" fill="#9B6EFA" opacity=".85"/></svg>
-<span data-i18n="about_pill">Independently run, privacy-audited</span>
-</div>
-</div>
-</div>
-</div>
-</section>
-
-<!-- HOW -->
-<section id="how" aria-labelledby="how-h">
-<div class="sec" style="padding-top:0">
-<div class="how-grid">
-<div>
-<p class="eye rv" data-i18n="how_eye">The process</p>
-<h2 class="sh rv" id="how-h"><span data-i18n="how_h">How Ametrine</span><br><em data-i18n="how_h2">works for you</em></h2>
-<p class="sp rv" data-i18n="how_p">Three principles guide every release, from the first line of code to the day it ships.</p>
-</div>
-<div class="tline rv-r">
-<div class="tli lit">
-<div class="tlc">1</div>
-<div class="tl-b">
-<p class="tl-e" data-i18n="tl1_e">Design</p>
-<h3 class="tl-t" data-i18n="tl1_t">Privacy-native architecture</h3>
-<p class="tl-p" data-i18n="tl1_p">Privacy isn't a setting you toggle on — it's the foundation every feature is designed around from day one.</p>
-</div>
-</div>
-<div class="tli">
-<div class="tlc">2</div>
-<div class="tl-b">
-<p class="tl-e" data-i18n="tl2_e">Build</p>
-<h3 class="tl-t" data-i18n="tl2_t">Performance without compromise</h3>
-<p class="tl-p" data-i18n="tl2_p">We optimise as hard for speed as we do for privacy, so protecting your data never means a slower product.</p>
-</div>
-</div>
-<div class="tli">
-<div class="tlc">3</div>
-<div class="tl-b">
-<p class="tl-e" data-i18n="tl3_e">Ship</p>
-<h3 class="tl-t" data-i18n="tl3_t">Accessible to everyone</h3>
-<p class="tl-p" data-i18n="tl3_p">Every release goes out with a free tier that's genuinely usable, not a crippled trial designed to push upgrades.</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-
-<!-- RELEASES + KO-FI -->
-<div class="releases-wrap" id="releases">
-<div class="releases-inner">
-<div class="rv-l">
-<p class="eye" data-i18n="rel_eye">New releases</p>
-<h2 class="sh" style="margin-bottom:6px" data-i18n="rel_h">Stay in the loop.</h2>
-<p class="sp" data-i18n="rel_p">Short updates here — full write-ups and changelogs on Ko-fi.</p>
-<div style="margin-top:28px">
-<ReleaseFeed />
-</div>
-</div>
-
-<div class="rv-r">
-<div class="glass kofi-card">
-<div class="kofi-header">
-<div class="kofi-icon">
-<svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-<path d="M18 8h1a4 4 0 0 1 0 8h-1" stroke="#FF5E5B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" stroke="#FF5E5B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<line x1="6" y1="1" x2="6" y2="4" stroke="#FF5E5B" stroke-width="1.5" stroke-linecap="round"/>
-<line x1="10" y1="1" x2="10" y2="4" stroke="#FF5E5B" stroke-width="1.5" stroke-linecap="round"/>
-<line x1="14" y1="1" x2="14" y2="4" stroke="#FF5E5B" stroke-width="1.5" stroke-linecap="round"/>
-</svg>
-</div>
-<div>
-<div class="kofi-title-text" data-i18n="kofi_t">Support on Ko-fi</div>
-<div class="kofi-sub-text" data-i18n="kofi_s">Back the project, get early access</div>
-</div>
-</div>
-<p class="sp" style="max-width:100%;font-size:13.5px" data-i18n="kofi_p">Ko-fi memberships fund development directly — no investors, no ads, no data deals.</p>
-<div style="margin-top:18px;padding:14px 16px;background:rgba(155,110,250,.05);border:1px solid rgba(155,110,250,.12);border-radius:10px;">
-<div style="font-family:var(--fd);font-size:12px;font-weight:700;color:var(--vlt);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px" data-i18n="kofi_prem_label">Premium benefits</div>
-<div class="pf"><div class="pfc"><svg width="7" height="7" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="#C4A0FA" stroke-width="1.2" stroke-linecap="round"/></svg></div><span data-i18n="kofi_b1">Early access to every release, 2–3 weeks ahead of public</span></div>
-<div class="pf"><div class="pfc"><svg width="7" height="7" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="#C4A0FA" stroke-width="1.2" stroke-linecap="round"/></svg></div><span data-i18n="kofi_b2">Beta tester status and a direct line to the team</span></div>
-<div class="pf"><div class="pfc"><svg width="7" height="7" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="#C4A0FA" stroke-width="1.2" stroke-linecap="round"/></svg></div><span data-i18n="kofi_b3">Advanced privacy controls unlocked</span></div>
-<div class="pf"><div class="pfc"><svg width="7" height="7" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="#C4A0FA" stroke-width="1.2" stroke-linecap="round"/></svg></div><span data-i18n="kofi_b4">Priority support on every ticket</span></div>
-</div>
-<!-- NOTE: this page has two Ko-fi CTAs (this one + the Premium pricing card button below) and one in the footer — keep all three URLs in sync if the Ko-fi page ever changes. -->
-<a href="https://ko-fi.com/ametrinefoundation" target="_blank" rel="noopener" class="kofi-btn">
-<svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M18 8h1a4 4 0 0 1 0 8h-1" stroke="currentColor" stroke-width="1.8"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" stroke="currentColor" stroke-width="1.8"/></svg>
-<span data-i18n="kofi_btn">Become a member on Ko-fi</span>
-</a>
-</div>
-</div>
-</div>
-</div>
-
-<!-- VISION -->
-<div class="vis-wrap" id="vision">
-<div class="vis-inner">
-<div class="rv">
-<p class="eye" data-i18n="vis_eye">Our vision</p>
-<p class="sp" style="max-width:180px;margin-top:8px" data-i18n="vis_p">Technology that empowers — never exploits.</p>
-</div>
-<div class="rv-r">
-<div class="vis-q">
-"<span data-i18n="vis_q">We believe software should serve the person using it, not the company selling it.</span>"
-</div>
-<div class="vis-attr" data-i18n="vis_attr">Ametrine Foundation — Mission Statement</div>
-</div>
-</div>
-</div>
-
-<!-- PRICING -->
-<section id="pricing" aria-labelledby="price-h">
-<div class="sec">
-<p class="eye rv" data-i18n="pri_eye">Fair pricing</p>
-<h2 class="sh rv" id="price-h"><span data-i18n="pri_h">Priced for</span> <em data-i18n="pri_h2">people</em>,<br><span data-i18n="pri_h3">not procurement.</span></h2>
-<p class="sp rv" data-i18n="pri_p">No enterprise sales calls, no hidden tiers. One free plan that's genuinely useful, one paid plan that's genuinely fair.</p>
-
-<div class="price-grid">
-
-<!-- Free/Premium price figures below (#free-sym, #free-price, #prem-sym, #prem-price, and the *-currency-note spans) are placeholders in USD by default and get rewritten live by updatePricing() in the script — see "PRICING: currency + details toggle" further down. Don't remove these IDs. -->
-<div class="glass pc rv">
-<p class="pc-tier" data-i18n="free_tier">Free</p>
-<p class="pc-price"><sup id="free-sym">$</sup><span id="free-price">0</span><sub>/mo</sub></p>
-<p class="currency-note" id="free-currency-note"></p>
-<p class="pc-desc" data-i18n="free_desc">Everything you need to get started, with no artificial limits.</p>
-<div class="pc-div"></div>
-<div class="pf"><div class="pfc"><svg width="7" height="7" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="#9B6EFA" stroke-width="1.2" stroke-linecap="round"/></svg></div><span data-i18n="f1">Core product suite</span></div>
-<div class="pf"><div class="pfc"><svg width="7" height="7" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="#9B6EFA" stroke-width="1.2" stroke-linecap="round"/></svg></div><span data-i18n="f2">Privacy-first by default</span></div>
-<div class="pf"><div class="pfc"><svg width="7" height="7" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="#9B6EFA" stroke-width="1.2" stroke-linecap="round"/></svg></div><span data-i18n="f3">Zero data collected</span></div>
-<div class="pf"><div class="pfc"><svg width="7" height="7" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="#9B6EFA" stroke-width="1.2" stroke-linecap="round"/></svg></div><span data-i18n="f4">Community support</span></div>
-
-<div class="pc-details" id="free-details">
-<div class="pc-details-inner">
-<div class="pc-details-title" data-i18n="details_title">What's included</div>
-<div class="pd-item"><strong data-i18n="fd1_t">Core Tools</strong> — <span data-i18n="fd1_d">Full access to the core product suite, updated with every release.</span></div>
-<div class="pd-item"><strong data-i18n="fd2_t">Privacy Controls</strong> — <span data-i18n="fd2_d">Standard privacy settings covering encryption, telemetry, and data retention.</span></div>
-<div class="pd-item"><strong data-i18n="fd3_t">Data Handling</strong> — <span data-i18n="fd3_d">Zero data collection, zero third-party sharing, by default.</span></div>
-<div class="pd-item"><strong data-i18n="fd4_t">Support</strong> — <span data-i18n="fd4_d">Community support via docs and the community forum.</span></div>
-</div>
-</div>
-
-<button class="details-toggle" id="free-toggle" data-details-toggle="free" aria-expanded="false">
-<span data-i18n="show_more">Show more details</span>
-<svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-</button>
-<a href="#contact" class="pc-btn" data-i18n="free_cta">Get started free</a>
-</div>
-
-<div class="glass pc feat rv" style="transition-delay:.1s">
-<div class="ftag">
-<svg width="8" height="8" viewBox="0 0 9 9" fill="none" aria-hidden="true"><path d="M4.5.8l1.1 2.2L8 3.6 6.3 5.2l.4 2.5-2-1-2 1 .4-2.5L1 3.6l2.4-.6L4.5.8z" fill="#C4A0FA"/></svg>
-<span data-i18n="prem_badge">Premium · Beta Tester</span>
-</div>
-<p class="pc-tier" data-i18n="prem_tier">Premium</p>
-<p class="pc-price" style="color:var(--vlt)"><sup id="prem-sym">$</sup><span id="prem-price">9</span><sub>/mo</sub></p>
-<p class="currency-note" id="prem-currency-note"></p>
-<p class="pc-desc" data-i18n="prem_desc">For people who want to support development directly and get new features first.</p>
-<div class="pc-div"></div>
-<div class="pf"><div class="pfc"><svg width="7" height="7" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="#C4A0FA" stroke-width="1.2" stroke-linecap="round"/></svg></div><span data-i18n="p1">Everything in Free</span></div>
-<div class="pf"><div class="pfc"><svg width="7" height="7" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="#C4A0FA" stroke-width="1.2" stroke-linecap="round"/></svg></div><span data-i18n="p2">Early access — 2–3 weeks ahead</span></div>
-<div class="pf"><div class="pfc"><svg width="7" height="7" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="#C4A0FA" stroke-width="1.2" stroke-linecap="round"/></svg></div><span data-i18n="p3">Beta tester status</span></div>
-<div class="pf"><div class="pfc"><svg width="7" height="7" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="#C4A0FA" stroke-width="1.2" stroke-linecap="round"/></svg></div><span data-i18n="p4">Advanced privacy controls</span></div>
-<div class="pf"><div class="pfc"><svg width="7" height="7" viewBox="0 0 8 8" fill="none"><path d="M1 4l2 2 4-4" stroke="#C4A0FA" stroke-width="1.2" stroke-linecap="round"/></svg></div><span data-i18n="p5">Priority support</span></div>
-
-<div class="pc-details" id="prem-details">
-<div class="pc-details-inner">
-<div class="pc-details-title" data-i18n="details_title">What's included</div>
-<div class="pd-item"><strong data-i18n="pd1_t">Early Access</strong> — <span data-i18n="pd1_d">New releases and features land for Premium members 2–3 weeks before public release.</span></div>
-<div class="pd-item"><strong data-i18n="pd2_t">Beta Testing</strong> — <span data-i18n="pd2_d">Direct access to beta builds and a feedback channel straight to the team.</span></div>
-<div class="pd-item"><strong data-i18n="pd3_t">Privacy Controls</strong> — <span data-i18n="pd3_d">Advanced privacy settings beyond the Free tier defaults, including granular data controls.</span></div>
-<div class="pd-item"><strong data-i18n="pd4_t">Support</strong> — <span data-i18n="pd4_d">Priority support with faster response times on every ticket.</span></div>
-<div class="pd-item"><strong data-i18n="pd5_t">Ko-fi Membership</strong> — <span data-i18n="pd5_d">Billed monthly through Ko-fi — cancel anytime, no long-term contract.</span></div>
-</div>
-</div>
-
-<button class="details-toggle" id="prem-toggle" data-details-toggle="prem" aria-expanded="false">
-<span data-i18n="show_more">Show more details</span>
-<svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-</button>
-<a href="https://ko-fi.com/ametrinefoundation" target="_blank" rel="noopener" class="pc-btn" data-i18n="prem_cta">Become Premium on Ko-fi</a>
-</div>
-
-</div>
-</div>
-</section>
-
-<!-- CTA -->
-<div id="contact" class="cta-sec">
-<div class="glass cta-box rv">
-<div>
-<h2 class="cta-h"><span data-i18n="cta_h">Experience software that</span><br><em data-i18n="cta_h2">respects you.</em></h2>
-<p class="cta-p" data-i18n="cta_p">No credit card, no catch — just software built the way it should be.</p>
-</div>
-<div class="cta-acts">
-<a href="#pricing" class="btn-fill">
-<span data-i18n="cta_btn1">Get started free</span>
-<svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-</a>
-<a href="mailto:hello@ametrine.cc" class="btn-ghost" style="font-size:13px" data-i18n="cta_btn2">Get in touch →</a>
-</div>
-</div>
-</div>
-
-<!-- FOOTER -->
-<footer>
-<div class="ft">
-<div class="ftb">
-<a href="/" class="ftb-logo">
-<GemLogo size={18} gradientId="flg" />
-Ametrine Foundation
-</a>
-<p class="ftb-tag" data-i18n="ft_tag">Privacy-first software, built for people — not procurement.</p>
-<p class="ftb-copy">© {new Date().getFullYear()} Ametrine Foundation.</p>
-</div>
-<div class="ftc">
-<p class="ftc-t" data-i18n="ft_product">Product</p>
-<ul>
-<li><a href="https://docs.ametrine.cc/" data-i18n="ft_docs">Docs</a></li>
-<li><a href="#pricing" data-i18n="nav_pricing">Pricing</a></li>
-</ul>
-</div>
-<div class="ftc">
-<p class="ftc-t" data-i18n="ft_company">Company</p>
-<ul>
-<li><a href="#about" data-i18n="nav_about">About</a></li>
-<li><a href="https://ko-fi.com/ametrinefoundation" target="_blank" rel="noopener" data-i18n="ft_kofi">Ko-fi</a></li>
-</ul>
-</div>
-<div class="ftc"></div>
-</div>
-<div class="ft-bot">
-<div class="ft-status">
-<span class="sdot" aria-hidden="true"></span>
-<span data-i18n="ft_status">All systems operational</span>
-</div>
-<!-- TODO: these three still point nowhere (href="#") — swap in real Privacy/Terms/Status pages when they exist -->
-<ul class="ft-lnks">
-<li><a href="#" data-i18n="ft_privacy">Privacy</a></li>
-<li><a href="#" data-i18n="ft_terms">Terms</a></li>
-<li><a href="#" data-i18n="ft_status_link">Status</a></li>
-</ul>
-</div>
-</footer>
-
-<script>
-/* ═══════════════════════════════════════════════════════════
-   SCRIPT — all page interactivity lives in this one block.
-   Sections below, in order: pricing/currency, starfield background,
-   scroll progress bar, sticky nav, mobile menu, gem parallax,
-   scroll-reveal animations, stat counters, magnetic buttons,
-   glass card tilt, and smooth-scroll anchors.
-   ═══════════════════════════════════════════════════════════ */
-
-/* ── PRICING: currency + details toggle ──
-   Prices are authored in USD (BASE) and converted whenever the
-   LanguageSwitcher fires an "i18n:change" event carrying a currency
-   symbol + conversion rate (e.g. switching language also switches
-   the displayed currency). The "*-currency-note" spans show a
-   small "Approx. X (USD $Y)" disclaimer for any non-USD currency,
-   since these are indicative conversions, not billed amounts —
-   Ko-fi itself always charges the USD price. */
-const BASE = { free: 0, prem: 9 };
-type PricingMeta = { symbol: string; rate: number; currency: string };
-
-function updatePricing(meta: PricingMeta) {
-  const { symbol, rate, currency } = meta;
-  // Round to 2dp for low-value currencies (rate < 2, e.g. GBP/EUR), whole numbers otherwise (e.g. JPY)
-  const freeP = rate === 1 ? "0" : (BASE.free * rate).toFixed(rate < 2 ? 2 : 0);
-  const premP = (BASE.prem * rate).toFixed(rate < 2 ? 2 : 0);
-
-  const freeSym = document.getElementById("free-sym");
-  const freePrice = document.getElementById("free-price");
-  const premSym = document.getElementById("prem-sym");
-  const premPrice = document.getElementById("prem-price");
-  const fNote = document.getElementById("free-currency-note");
-  const pNote = document.getElementById("prem-currency-note");
-
-  if (freeSym) freeSym.textContent = symbol;
-  if (freePrice) freePrice.textContent = freeP;
-  if (premSym) premSym.textContent = symbol;
-  if (premPrice) premPrice.textContent = premP;
-
-  if (fNote && pNote) {
-    if (currency !== "USD") {
-      fNote.textContent = `Approx. ${currency} (USD $${BASE.free})`;
-      pNote.textContent = `Approx. ${currency} (USD $${BASE.prem})`;
-    } else {
-      // USD is the "real" price, so no disclaimer needed
-      fNote.textContent = "";
-      pNote.textContent = "";
-    }
-  }
-}
-
-// LanguageSwitcher.astro dispatches this custom event on language/currency change
-document.addEventListener("i18n:change", (event) => {
-  const e = event as CustomEvent<{ meta: PricingMeta }>;
-  if (e.detail?.meta) updatePricing(e.detail.meta);
-});
-
-// "Show more details" expanders on the Free/Premium pricing cards.
-// Each toggle button's data-details-toggle="free"|"prem" maps to a
-// matching #free-details / #prem-details panel to expand.
-document.querySelectorAll<HTMLElement>("[data-details-toggle]").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    const id = btn.dataset.detailsToggle;
-    if (!id) return;
-    const det = document.getElementById(id + "-details");
-    if (!det) return;
-    const open = det.classList.toggle("open");
-    btn.classList.toggle("open", open);
-    btn.setAttribute("aria-expanded", String(open));
-    // Swap the button label via the i18n dictionary so it stays translated
-    const dict = (window as any).__i18nDict || {};
-    const label = btn.querySelector("span");
-    if (label) {
-      label.textContent = open ? (dict.show_less || "Show less") : (dict.show_more || "Show more details");
-    }
-  });
-});
-
-/* ── STARFIELD ──
-   Draws the faint drifting dots behind the page onto the full-viewport
-   #sf canvas. Star count scales with screen area (W*H / 4400) so it
-   stays sparse on any size. Each star just twinkles in place via a
-   sine wave on its own opacity ("t" phase) — there's no movement/drift,
-   only pulsing. Re-seeds all stars on window resize. */
-(function(){
-  const cvEl = document.getElementById('sf') as HTMLCanvasElement | null;
-  if (!cvEl) return;
-  // Re-bind to a non-null const: TS can't carry the "!cvEl" narrowing from
-  // the guard above into the nested rsz()/draw() function declarations below.
-  const cv = cvEl;
-  const x = cv.getContext('2d');
-  if (!x) return;
-  let W = 0;
-  let H = 0;
-  type Star = { x: number; y: number; r: number; o: number; s: number; t: number };
-  let S: Star[] = [];
-  function rsz() { W = cv.width = innerWidth; H = cv.height = innerHeight; }
-  function init() { S = []; const n = Math.floor(W * H / 4400); for (let i = 0; i < n; i++) S.push({ x: Math.random() * W, y: Math.random() * H, r: Math.random() * .75 + .1, o: Math.random() * .38 + .06, s: Math.random() * .22 + .04, t: Math.random() * Math.PI * 2 }); }
-  rsz(); init();
-  window.addEventListener('resize', () => { rsz(); init(); }, { passive: true });
-  (function draw() {
-    x.clearRect(0, 0, W, H);
-    S.forEach(s => {
-      s.t += s.s * .016;
-      const o = s.o * (.5 + .5 * Math.sin(s.t));
-      x.beginPath();
-      x.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-      // Bigger stars get the violet tint, smaller ones a duller grey — adds depth
-      x.fillStyle = s.r > .55 ? `rgba(196,160,250,${o})` : `rgba(208,208,235,${o * .6})`;
-      x.fill();
-    });
-    requestAnimationFrame(draw);
-  })();
-})();
-
-/* ── PROGRESS ──
-   The thin bar at the very top of the page (#sprog) that fills left-to-right
-   as you scroll. scaleX = fraction of the page scrolled so far. */
-const sprog = document.getElementById('sprog');
-if (sprog) {
-  window.addEventListener('scroll', () => {
-    sprog.style.transform = `scaleX(${scrollY / (document.documentElement.scrollHeight - innerHeight)})`;
-  }, { passive: true });
-}
-
-/* ── NAV ──
-   Adds the "on" class (opaque background/shadow, see CSS) once you've
-   scrolled past 30px, so the nav starts transparent over the hero. */
-const navEl = document.getElementById('nav');
-if (navEl) {
-  window.addEventListener('scroll', () => navEl.classList.toggle('on', scrollY > 30), { passive: true });
-}
-
-/* ── MOBILE MENU ──
-   Burger button toggles the full-screen mobile nav overlay. Clicking
-   any link inside the menu closes it (so navigating away doesn't leave
-   it open), and resizing past the mobile breakpoint (700px) force-closes
-   it too, in case someone rotates their tablet or resizes a browser window. */
-(function(){
-  const burgerEl = document.getElementById('navBurger');
-  const menuEl = document.getElementById('mobileMenu');
-  if (!burgerEl || !menuEl) return;
-  // Re-bind to non-null consts: same TS narrowing quirk as the starfield
-  // above — closeMenu()/openMenu() are separate function declarations, so
-  // TS won't carry the "!burgerEl || !menuEl" guard's narrowing into them.
-  const burger = burgerEl;
-  const menu = menuEl;
-  function closeMenu() { burger.setAttribute('aria-expanded','false'); menu.classList.remove('open'); document.body.classList.remove('menu-open'); }
-  function openMenu() { burger.setAttribute('aria-expanded','true'); menu.classList.add('open'); document.body.classList.add('menu-open'); }
-  burger.addEventListener('click', () => {
-    const isOpen = burger.getAttribute('aria-expanded') === 'true';
-    isOpen ? closeMenu() : openMenu();
-  });
-  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
-  window.addEventListener('resize', () => { if (innerWidth > 700) closeMenu(); }, { passive: true });
-})();
-
-/* ── GEM PARALLAX ──
-   Makes the hero gem drift gently towards the mouse cursor. tx/ty are
-   the "target" offset the mouse wants; cx/cy chase them at 5% per frame
-   (an easing/lerp), which is what gives the smooth trailing-behind feel
-   instead of the gem snapping straight to the cursor. Skipped on touch
-   devices (no mouse to track). */
-(function(){
-  const g = document.getElementById('gem-wrap') as HTMLElement | null;
-  if (!g || window.matchMedia('(pointer:coarse)').matches) return;
-  let tx = 0, ty = 0, cx = 0, cy = 0;
-  document.addEventListener('mousemove', (e: MouseEvent) => {
-    tx = (e.clientX / innerWidth - .5) * 18;
-    ty = (e.clientY / innerHeight - .5) * 11;
-  }, { passive: true });
-  (function t() {
-    cx += (tx - cx) * .05;
-    cy += (ty - cy) * .05;
-    g.style.transform = `translate(${cx}px,${cy}px)`;
-    requestAnimationFrame(t);
-  })();
-})();
-
-/* ── REVEALS ──
-   Fade/slide-in-on-scroll for any element tagged .rv (fade up), .rv-l
-   (from left) or .rv-r (from right) — the actual animation is in CSS,
-   this just adds the ".in" class once the element is ~10% visible.
-   unobserve() after firing so it only ever animates once. */
-const obs = new IntersectionObserver((entries) => entries.forEach(entry => {
-  if (entry.isIntersecting) {
-    entry.target.classList.add('in');
-    obs.unobserve(entry.target);
-  }
-}), { threshold: .1, rootMargin: '0px 0px -20px 0px' });
-document.querySelectorAll<HTMLElement>('.rv,.rv-l,.rv-r').forEach(el => obs.observe(el));
-
-/* ── COUNTERS ──
-   Animates the stat numbers (100%, 99.9%, etc.) counting up from 0 once
-   they scroll into view. data-count is the target value, data-sfx is an
-   optional suffix like "%". Uses an ease-out cubic curve (1 - (1-p)^3)
-   so it starts fast and settles gently rather than a linear count.
-   The "_d" flag on the element stops it from re-running if the
-   IntersectionObserver somehow fires more than once. */
-document.querySelectorAll<HTMLElement>('[data-count]').forEach(el => {
-  const o2 = new IntersectionObserver((entries) => {
-    const entry = entries[0];
-    if (!entry.isIntersecting) return;
-    o2.unobserve(el);
-    const elAny = el as HTMLElement & { _d?: number };
-    if (elAny._d) return;
-    elAny._d = 1;
-    const tgt = parseFloat(el.dataset.count || '0');
-    const sfx = el.dataset.sfx || '';
-    const dur = 1400;
-    const start = performance.now();
-    (function step(now: number) {
-      const p = Math.min((now - start) / dur, 1);
-      const v = tgt * (1 - Math.pow(1 - p, 3));
-      // Whole numbers (100) round cleanly; decimals (99.9) keep 1 decimal place
-      el.textContent = (Number.isInteger(tgt) ? Math.round(v) : v.toFixed(1)) + sfx;
-      if (p < 1) requestAnimationFrame(step);
-    })(start);
-  }, { threshold: .3 });
-  o2.observe(el);
-});
-
-/* ── MAGNETIC BUTTONS ──
-   The main CTA buttons nudge slightly towards the cursor while hovered,
-   proportional to how far off-centre the mouse is (14% of the offset),
-   and snap back to rest on mouseleave. Skipped on touch devices. */
-document.querySelectorAll<HTMLElement>('.btn-fill,.btn-ghost,.nav-btn').forEach(b => {
-  if (window.matchMedia('(pointer:coarse)').matches) return;
-  b.addEventListener('mousemove', (e: MouseEvent) => {
-    const r = b.getBoundingClientRect();
-    const x = (e.clientX - r.left - r.width / 2) * .14;
-    const y = (e.clientY - r.top - r.height / 2) * .14;
-    b.style.transform = `translate(${x}px, ${y}px)`;
-  });
-  b.addEventListener('mouseleave', () => { b.style.transform = ''; });
-});
-
-/* ── GLASS TILT ──
-   3D tilt-on-hover for the value cards and pricing cards, based on
-   cursor position within the card (0–1 across width/height). Fast
-   transition (.08s) while tracking the mouse so it feels responsive,
-   slower eased transition (.5s) back to flat on mouseleave so it
-   doesn't snap. Skipped on touch devices. */
-document.querySelectorAll<HTMLElement>('.glass.vcard,.glass.pc').forEach(c => {
-  if (window.matchMedia('(pointer:coarse)').matches) return;
-  c.addEventListener('mousemove', (e: MouseEvent) => {
-    const r = c.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width;
-    const y = (e.clientY - r.top) / r.height;
-    c.style.transition = 'transform .08s';
-    c.style.transform = `perspective(900px) rotateX(${(y - .5) * 5}deg) rotateY(${(x - .5) * -5}deg) translateY(-2px)`;
-  });
-  c.addEventListener('mouseleave', () => {
-    c.style.transition = 'transform .5s cubic-bezier(.22,1,.36,1)';
-    c.style.transform = '';
-  });
-});
-
-/* ── SMOOTH ANCHORS ──
-   Intercepts clicks on any in-page "#section" link and scrolls to it
-   smoothly instead of the browser's instant jump. Guards against
-   href="#" (used as a placeholder on the not-yet-built footer links) —
-   document.querySelector('#') would throw, since "#" alone isn't a
-   valid CSS selector, so those are skipped and fall back to default
-   browser behaviour rather than erroring. */
-document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    const href = a.getAttribute('href');
-    if (!href || href.length < 2) return;
-    let target: Element | null = null;
-    try {
-      target = document.querySelector(href);
-    } catch {
-      return;
-    }
-    if (!target) return;
-    e.preventDefault();
-    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  });
-});
-</script>
-</body>
+            lastScrollY = window.scrollY;
+        });
+    </script>
 </html>
