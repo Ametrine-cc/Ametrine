@@ -1,10 +1,128 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Footer from "../layouts/Footer.astro";
+
+const libraries = [
+    {
+        name: "miamore",
+        tagline: "A better way of making TUI",
+        description:
+            "Lightweight C TUI library featuring 24-bit Truecolor rendering, display list command queues, multithreaded animation via pthreads, and official Rust bindings.",
+        language: "C / Rust",
+        license: "LGPLv3",
+        version: "0.2.0",
+        github: "https://github.com/ametrine-cc/miamore",
+    },
+    {
+        name: "uninstall-me",
+        tagline: "Making uninstallation easy for everyone",
+        description:
+            "A small C Library with official Rust and Golang bindings, to allow programs to use '--uninstall' to uninstall all files for the program rather than rely on package managers to remove all files.",
+        language: "C / Rust / Go",
+        license: "GPLv3",
+        version: "0.1.0",
+        github: "https://github.com/ametrine-cc/uninstall-me",
+    },
+];
+
+const applications = [
+    {
+        name: "Kasane",
+        tagline: "Module, package & project manager",
+        description:
+            "An open-source module manager, package manager, and build system written in Rust using AF_UNIX socket IPC architecture and privilege separation.",
+        language: "Rust",
+        license: "GPLv3",
+        version: "0.1.0",
+        github: "https://github.com/ametrine-foundation/kasane",
+    },
+    {
+        name: "Moccha",
+        tagline: "See the music, listen to the music, love the music",
+        description:
+            "An open-source Music player based in both the terminal through TUI and GUI app either over a WebUI or native Qt application. Written in Rust and C.",
+        language: "Rust / C",
+        license: "GPLv3",
+        version: "0.1.0",
+        github: "https://github.com/ametrine-foundation/moccha",
+    },
+];
 ---
 
+<!doctype html>
 <Layout />
-
 <html lang="en">
+    <section id="projects" class="projects">
+        <div class="section-header">
+            <br />
+            <h2>Our Projects</h2>
+            <p>
+                Here is a list of all projects, libraries and apps we have made
+                or contributed to here at Ametrine Foundation.
+            </p>
+        </div>
+
+        <h3 class="section-header">Libraries:</h3>
+        <div class="projects-grid">
+            {libraries.map((project) => (
+                <div class="project-card">
+                    <div class="card-header">
+                        <span class="tech-badge">{project.language}</span>
+                        <span class="license-tag">{project.license}</span>
+                    </div>
+                    <h3>{project.name}</h3>
+                    <p class="tagline">{project.tagline}</p>
+                    <p class="desc">{project.description}</p>
+                    <p class="version">Release version: {project.version}</p>
+                    <div class="card-footer">
+                        <a
+                            href={project.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="card-link"
+                        >
+                            View Source →
+                        </a>
+                    </div>
+                </div>
+            ))}
+        </div>
+    </section>
+
+    <section id="projects" class="projects">
+        <h3 class="section-header">Applications:</h3>
+        <div class="projects-grid">
+            {applications.map((project) => (
+                <div class="project-card">
+                    <div class="card-header">
+                        <span class="tech-badge">{project.language}</span>
+                        <span class="license-tag">{project.license}</span>
+                    </div>
+                    <h3>{project.name}</h3>
+                    <p class="tagline">{project.tagline}</p>
+                    <p class="desc">{project.description}</p>
+                    <p class="version">Release version: {project.version}</p>
+                    <div class="card-footer">
+                        <a
+                            href={project.github}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="card-link"
+                        >
+                            View Source →
+                        </a>
+                    </div>
+                </div>
+            ))}
+        </div>
+    </section>
     <Footer />
 </html>
+
+<style>
+    /* Projects Section */
+    .projects {
+        padding: 2rem;
+        margin-bottom: 80px;
+    }
+</style>
