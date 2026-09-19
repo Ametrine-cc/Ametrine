@@ -9,7 +9,8 @@ const {
     description = "The company who cares, premium products shouldn't break the bank",
 } = Astro.props;
 
-import Nav from "../layouts/Nav.astro";
+import Nav from "./Nav.astro";
+import Search from "./Search.astro";
 ---
 
 <!doctype html>
@@ -50,6 +51,7 @@ import Nav from "../layouts/Nav.astro";
         </div>
 
         <slot />
+        <Search />
     </body>
 </html>
 

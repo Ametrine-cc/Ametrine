@@ -10,7 +10,7 @@
             </a>
         </div>
 
-        <!-- Right Side: Links + Theme Switcher + Mobile Button -->
+        <!-- Right Side: Links + Search Widget + Theme Switcher + Mobile Button -->
         <div class="nav-right-container">
             <ul id="nav-links" class="nav-links">
                 <li>
@@ -33,6 +33,34 @@
                     </a>
                 </li>
             </ul>
+
+            <!-- OS-Aware Search Trigger Badge Widget with Tooltip -->
+            <div class="cmd-trigger-wrapper">
+                <button
+                    class="cmd-trigger-btn"
+                    id="open-search-btn"
+                    aria-label="Open search command palette"
+                >
+                    <svg
+                        viewBox="0 0 24 24"
+                        width="16"
+                        height="16"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                    >
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <span class="search-label">Search</span>
+                    <kbd class="kbd-badge" id="os-kbd-badge">
+                        Ctrl K
+                    </kbd>
+                </button>
+                <div class="tooltip" role="tooltip">
+                    Quick Search Command
+                </div>
+            </div>
 
             <div class="nav-right-controls">
                 <!-- Theme Switcher -->
@@ -61,14 +89,40 @@
         </div>
     </div>
 </nav>
+
 <script>
     function setupNavigation() {
         const menuBtn = document.getElementById("menu-toggle");
         const navLinks = document.getElementById("nav-links");
         const navItems = document.querySelectorAll(".nav-item");
         const themeBtn = document.getElementById("theme-toggle");
+        const kbdBadge = document.getElementById("os-kbd-badge");
+        const searchBtn = document.getElementById("open-search-btn");
 
         if (!menuBtn || !navLinks) return;
+
+        // OS Detection for shortcut badge text
+        if (kbdBadge) {
+            const isMac = /Mac|iPod|iPhone|iPad/.test(
+                navigator.platform || navigator.userAgent,
+            );
+            kbdBadge.textContent = isMac ? "⌘K" : "Ctrl K";
+        }
+
+        // Open Search Modal on Click
+        if (searchBtn) {
+            searchBtn.onclick = () => {
+                const searchModal = document.getElementById("search-modal");
+                const searchInput = document.getElementById(
+                    "search-input",
+                ) as HTMLInputElement;
+                if (searchModal) {
+                    searchModal.classList.add("open");
+                    searchModal.setAttribute("aria-hidden", "false");
+                    setTimeout(() => searchInput?.focus(), 50);
+                }
+            };
+        }
 
         // Toggle mobile menu
         function toggleMenu() {
@@ -107,3 +161,114 @@
     // Support Astro View Transitions
     document.addEventListener("astro:page-load", setupNavigation);
 </script>
+
+<style>
+    /* --- Search Command Trigger & Tooltip --- */
+    .cmd-trigger-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .cmd-trigger-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--text-secondary);
+        padding: 6px 10px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-family: inherit;
+        cursor: pointer;
+        transition: all 0.2s var(--ease);
+    }
+
+    .cmd-trigger-btn:hover {
+        background: var(--bhi);
+        border-color: var(--primary);
+        color: var(--text);
+    }
+
+    .cmd-trigger-btn svg {
+        stroke: currentColor;
+        flex-shrink: 0;
+    }
+
+    .search-label {
+        font-size: 13px;
+        line-height: 1;
+    }
+
+    .kbd-badge {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        color: var(--sub);
+        font-size: 10px;
+        font-weight: 600;
+        padding: 2px 5px;
+        border-radius: 4px;
+        font-family: monospace;
+    }
+
+    /* Tooltip Styling */
+    .tooltip {
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 50%;
+        transform: translateX(-50%) translateY(4px);
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        color: var(--text);
+        font-size: 11px;
+        padding: 6px 10px;
+        border-radius: 6px;
+        white-space: nowrap;
+        pointer-events: none;
+        opacity: 0;
+        visibility: hidden;
+        transition:
+            opacity 0.2s var(--ease),
+            transform 0.2s var(--ease),
+            visibility 0.2s;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+    }
+
+    /* Tooltip Little Arrow */
+    .tooltip::before {
+        content: "";
+        position: absolute;
+        top: -4px;
+        left: 50%;
+        transform: translateX(-50%) rotate(45deg);
+        width: 6px;
+        height: 6px;
+        background: var(--card-bg);
+        border-left: 1px solid var(--border);
+        border-top: 1px solid var(--border);
+    }
+
+    .cmd-trigger-wrapper:hover .tooltip,
+    .cmd-trigger-btn:focus-visible + .tooltip {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(0);
+    }
+
+    /* Mobile Responsiveness adjustments */
+    @media (max-width: 768px) {
+        .kbd-badge,
+        .search-label,
+        .tooltip {
+            display: none !important;
+        }
+
+        .cmd-trigger-btn {
+            display: none !important;
+            padding: 8px;
+            border-radius: 8px;
+        }
+    }
+</style>
