@@ -43,6 +43,84 @@ import Nav from "../layouts/Nav.astro";
         <div id="sprog" aria-hidden="true"></div>
         <canvas id="sf" aria-hidden="true"></canvas>
         <div id="glow" aria-hidden="true"></div>
+
+        <div class="orb-container" aria-hidden="true">
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+        </div>
+
         <slot />
     </body>
 </html>
+
+<style>
+    .orb-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        pointer-events: none;
+        z-index: -1;
+    }
+
+    .orb {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        animation: jumpFade 12s infinite;
+    }
+
+    .orb-1 {
+        width: 350px;
+        height: 350px;
+        top: 10%;
+        left: 10%;
+        background: radial-gradient(
+            circle,
+            var(--primary) 0%,
+            var(--violet) 100%
+        );
+    }
+
+    .orb-2 {
+        width: 450px;
+        height: 450px;
+        top: 50%;
+        left: 60%;
+        background: radial-gradient(circle, var(--vd) 0%, var(--primary) 100%);
+        animation-delay: -8s;
+    }
+
+    @keyframes jumpFade {
+        0% {
+            opacity: 0;
+            transform: translate(0, 0) scale(0.8);
+        }
+        15%,
+        35% {
+            opacity: 0.5;
+            transform: translate(0, 0) scale(1);
+        }
+        50% {
+            opacity: 0;
+            transform: translate(0, 0) scale(0.8);
+        }
+        51% {
+            transform: translate(calc(60vw - 100%), calc(30vh - 100%))
+                scale(0.8);
+        }
+        65%,
+        85% {
+            opacity: 0.5;
+            transform: translate(calc(60vw - 100%), calc(30vh - 100%))
+                scale(1.1);
+        }
+        100% {
+            opacity: 0;
+            transform: translate(calc(60vw - 100%), calc(30vh - 100%))
+                scale(0.8);
+        }
+    }
+</style>
