@@ -1,7 +1,9 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Footer from "../layouts/Footer.astro";
-import Projects from "../layouts/FlagshipProjects.astro";
+import FlagshipProjects from "../layouts/FlagshipProjects.astro";
+import { Image } from "astro:assets";
+import logo from "../../public/icons/Ametrine_Foundation.png";
 ---
 
 <!doctype html>
@@ -9,11 +11,38 @@ import Projects from "../layouts/FlagshipProjects.astro";
 <html lang="en">
     <body>
         <main class="container">
-            <!-- Projects Section -->
-            <Projects />
+            <!-- Title Section -->
+            <section class="hero">
+                <div class="hero-container">
+                    <!-- Left Side: Headline -->
+                    <h1>
+                        <span>Software that</span>
+                        <br />
+                        <span>actually cares</span>
+                        <br />
+                        <span>about you.</span>
+                    </h1>
+
+                    <!-- Right Side: Pentagonal Logo -->
+                    <div class="hero-logo-wrapper">
+                        <Image
+                            src={logo}
+                            alt="Ametrine Logo"
+                            class="hero-logo"
+                            loading="eager"
+                            fetchpriority="high"
+                        />
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <!-- Flagship Projects Section -->
+                <FlagshipProjects />
+            </section>
 
             <!-- CTA Banner -->
-            <section class="cta-banner">
+            <section class="cta-banner" style="margin-bottom: 14rem;">
                 <h2>Building tools to better the future</h2>
                 <p>
                     Open source software, libraries, and tools engineered with
@@ -59,3 +88,56 @@ import Projects from "../layouts/FlagshipProjects.astro";
         });
     </script>
 </html>
+
+<style>
+    /* Layout Container */
+    .hero-container {
+        display: flex;
+        align-items: center; /* Vertically aligns logo with text center */
+        justify-content: space-between; /* Pushes logo to the far right */
+        gap: 2rem; /* Prevents overlap on narrower screens */
+    }
+
+    /* Heading Alignment */
+    .hero-container h1 {
+        font-size: clamp(2.5rem, 5vw, 4.5rem);
+        font-weight: 700;
+        line-height: 1.1;
+        letter-spacing: -0.03em;
+        margin: 0;
+    }
+
+    .hero-container h1 span {
+        background: linear-gradient(180deg, var(--text) 0%, var(--text) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    /* Logo Sizing */
+    .hero-logo-wrapper {
+        flex-shrink: 0; /* Keeps the logo from shrinking */
+    }
+
+    .hero-logo {
+        width: 250px; /* Adjust dimensions as needed */
+        height: auto;
+        display: block;
+        filter: drop-shadow(5px 5px 5px var(--primary));
+    }
+
+    /* Sub-text below */
+    .flagship-tag {
+        margin-top: 3rem;
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: var(--text);
+    }
+
+    /* Responsive adjustment for mobile screens */
+    @media (max-width: 768px) {
+        .hero-container {
+            flex-direction: column; /* Stacks logo below or above on mobile */
+            align-items: flex-start;
+        }
+    }
+</style>

@@ -57,6 +57,72 @@
                     />
                 </a>
             </div>
+            <button id="backToTopBtn" aria-label="Back to top">
+                ↑
+            </button>
         </div>
+
+        <script>
+            // Also ensure smooth scrolling behavior for the entire document
+            document.documentElement.style.scrollBehavior = "smooth";
+
+            const backToTopBtn = document.getElementById("backToTopBtn");
+
+            // Show/hide button based on scroll position
+            window.addEventListener("scroll", () => {
+                if (window.scrollY > 300) {
+                    // Shows after scrolling 300px down
+                    backToTopBtn.classList.add("show");
+                } else {
+                    backToTopBtn.classList.remove("show");
+                }
+            });
+
+            // Scroll to top smoothly on click
+            backToTopBtn.addEventListener("click", () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                });
+            });
+        </script>
     </footer>
 </html>
+
+<style>
+    #backToTopBtn {
+        position: fixed;
+        bottom: 35px;
+        right: 30px;
+        z-index: 99;
+        width: 45px;
+        height: 45px;
+        border: none;
+        border-radius: 50%;
+        background-color: var(--primary);
+        color: #ffffff;
+        font-size: 20px;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+
+        opacity: 0;
+        visibility: hidden;
+        transition:
+            opacity 0.3s ease,
+            visibility 0.3s ease,
+            transform 0.2s ease;
+    }
+
+    /* Hover effect */
+    #backToTopBtn:hover {
+        transform: translateY(-3px);
+        background-color: var(--primary-light);
+    }
+
+    /* Active class applied via JS */
+    #backToTopBtn.show {
+        opacity: 1;
+        visibility: visible;
+    }
+</style>

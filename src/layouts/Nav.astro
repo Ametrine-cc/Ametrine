@@ -1,25 +1,111 @@
 ---
+// Nav.astro
 ---
 
-<html lang="en">
-    <nav id="navbar">
-        <div class="nav-content">
-            <div class="logo">
-                <a
-                    style="color: white; text-decoration: none"
-                    href="/index.html"
-                >
-                    Ametrine Foundation
-                </a>
-            </div>
-            <ul class="nav-links">
+<
+<nav id="navbar">
+    <div class="nav-content">
+        <!-- Left Side: Logo -->
+        <div class="logo">
+            <a style="color: var(--text); text-decoration: none" href="/">
+                Ametrine Foundation
+            </a>
+        </div>
+
+        <!-- Right Side: Links + Theme Switcher + Mobile Button -->
+        <div class="nav-right-container">
+            <ul id="nav-links" class="nav-links">
                 <li>
-                    <a href="/projects">Projects</a>
+                    <a href="/projects" class="nav-item">
+                        Projects
+                    </a>
                 </li>
                 <li>
-                    <a href="/about">About</a>
+                    <a href="/about" class="nav-item">
+                        About
+                    </a>
+                </li>
+                <li>
+                    <a
+                        target="_blank"
+                        href="https://docs.ametrine.cc"
+                        class="nav-item"
+                    >
+                        Docs
+                    </a>
                 </li>
             </ul>
+
+            <div class="nav-right-controls">
+                <!-- Theme Switcher -->
+                <button
+                    id="theme-toggle"
+                    class="theme-toggle-btn"
+                    aria-label="Toggle theme"
+                >
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4C12.92 3.04 12.46 3 12 3z" />
+                    </svg>
+                </button>
+
+                <!-- Hamburger Button (Mobile Only) -->
+                <button
+                    id="menu-toggle"
+                    class="mobile-menu-btn"
+                    aria-label="Toggle navigation menu"
+                    aria-expanded="false"
+                >
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
         </div>
-    </nav>
-</html>
+    </div>
+</nav>
+<script>
+    function setupNavigation() {
+        const menuBtn = document.getElementById("menu-toggle");
+        const navLinks = document.getElementById("nav-links");
+        const navItems = document.querySelectorAll(".nav-item");
+        const themeBtn = document.getElementById("theme-toggle");
+
+        if (!menuBtn || !navLinks) return;
+
+        // Toggle mobile menu
+        function toggleMenu() {
+            const isExpanded = menuBtn.getAttribute("aria-expanded") === "true";
+            menuBtn.setAttribute("aria-expanded", (!isExpanded).toString());
+            menuBtn.classList.toggle("active");
+            navLinks.classList.toggle("active");
+        }
+
+        menuBtn.onclick = toggleMenu;
+
+        // Close menu when a link is clicked
+        navItems.forEach((link) => {
+            link.addEventListener("click", () => {
+                menuBtn.classList.remove("active");
+                navLinks.classList.remove("active");
+                menuBtn.setAttribute("aria-expanded", "false");
+            });
+        });
+
+        // Theme Toggle Functionality
+        if (themeBtn) {
+            themeBtn.onclick = () => {
+                const currentTheme =
+                    document.documentElement.getAttribute("data-theme");
+                const nextTheme = currentTheme === "light" ? "dark" : "light";
+                document.documentElement.setAttribute("data-theme", nextTheme);
+                localStorage.setItem("theme", nextTheme);
+            };
+        }
+    }
+
+    // Run on initial page load
+    setupNavigation();
+
+    // Support Astro View Transitions
+    document.addEventListener("astro:page-load", setupNavigation);
+</script>
