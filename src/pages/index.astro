@@ -1,92 +1,32 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Footer from "../layouts/Footer.astro";
-
-// Server-side script / Component data
-const projects = [
-    {
-        name: "Kasane",
-        tagline: "Module, package & project manager",
-        description:
-            "An open-source module manager, package manager, and build system written in Rust using AF_UNIX socket IPC architecture and privilege separation.",
-        language: "Rust",
-        license: "GPLv3",
-        github: "https://github.com/ametrine-foundation/kasane",
-    },
-    {
-        name: "miamore",
-        tagline: "C Terminal User Interface library",
-        description:
-            "Lightweight C TUI library featuring 24-bit Truecolor rendering, display list command queues, multithreaded animation via pthreads, and official Rust bindings.",
-        language: "C / Rust",
-        license: "GPLv3",
-        github: "https://github.com/ametrine-foundation/miamore",
-    },
-];
-
-const year = new Date().getFullYear();
+import Projects from "../layouts/FlagshipProjects.astro";
 ---
 
 <!doctype html>
 <Layout />
 <html lang="en">
     <body>
-        <!-- Main Content Container -->
         <main class="container">
             <!-- Projects Section -->
-            <section id="projects" class="projects-section">
-                <div class="section-header">
-                    <h2>Projects</h2>
-                    <p>
-                        Privacy-first, local-first tools and system libraries
-                        built without telemetry.
-                    </p>
-                </div>
-
-                <div class="projects-grid">
-                    {projects.map((project) => (
-                        <div class="project-card">
-                            <div class="card-header">
-                                <span class="tech-badge">
-                                    {project.language}
-                                </span>
-                                <span class="license-tag">
-                                    {project.license}
-                                </span>
-                            </div>
-                            <h3>{project.name}</h3>
-                            <p class="tagline">{project.tagline}</p>
-                            <p class="desc">{project.description}</p>
-                            <div class="card-footer">
-                                <a
-                                    href={project.github}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    class="card-link"
-                                >
-                                    View Source →
-                                </a>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </section>
+            <Projects />
 
             <!-- CTA Banner -->
             <section class="cta-banner">
-                <h2>Building for a local-first web.</h2>
+                <h2>Building tools to better the future</h2>
                 <p>
                     Open source software, libraries, and tools engineered with
-                    minimal dependencies and maximum portability.
+                    minimal dependencies and maximum portability. Made to help
+                    everyone equally.
                 </p>
                 <div class="cta-group">
                     <a
-                        href="https://github.com/ametrine-foundation"
-                        target="_blank"
+                        href="/about"
                         rel="noopener noreferrer"
                         class="btn btn-primary"
                     >
-                        Explore Repositories
+                        About us
                     </a>
                     <a
                         href="https://docs.ametrine.cc"

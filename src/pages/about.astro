@@ -1,0 +1,102 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Footer from "../layouts/Footer.astro";
+import Profiles from "../layouts/Profiles.astro";
+import Image from "astro/components/Image.astro";
+import icon from "../../public/icons/Ametrine_Foundation.png";
+---
+
+<!doctype html>
+<Layout />
+<html lang="en">
+    <body>
+        <main class="container">
+            <div class="container">
+                <section id="description">
+                    <div class="section-header">
+                        <section
+                            class="features"
+                            style="
+                                display: flex;
+                                flex-wrap: wrap;
+                                gap: 2rem;
+                                align-items: flex-start;
+                            "
+                        >
+                            <div
+                                class="about-image"
+                                style="flex: 0 0 320px; text-align: center"
+                            >
+                                <Image
+                                    src={icon}
+                                    alt="The Ametrine Foundation Logo"
+                                    width={300}
+                                    height={300}
+                                    loading="eager"
+                                    fetchpriority="high"
+                                />
+                            </div>
+
+                            <div
+                                class="about-card"
+                                style="
+                                    flex: 1 1 400px;
+                                    min-width: 280px;
+                                    margin-bottom: 2rem;
+                                "
+                            >
+                                <p class="section-subtitle">Who are we?</p>
+                                <br />
+                                <p
+                                    class="section-description"
+                                    style="text-align: left; margin-top: 0.5rem"
+                                >
+                                    Ametrine Foundation, is a FOSS (Free and
+                                    Open Source) focused team of volunteers who
+                                    strive to make FOSS libraries and apps for
+                                    all people. Premium products without the
+                                    premium pricetags.
+                                </p>
+                                <br />
+                                <p
+                                    class="section-description"
+                                    style="text-align: left; margin-top: 0.5rem"
+                                >
+                                    We believe that software should be free,
+                                    open, and accessible to everyone. Not just
+                                    the people who can afford it or the people
+                                    who work for big companies and can afford to
+                                    buy licenses.
+                                </p>
+                                <br />
+                                <p
+                                    class="section-description"
+                                    style="text-align: left; margin-top: 0.5rem"
+                                >
+                                    At Ametrine, we are committed to building
+                                    software that respects your freedom and
+                                    privacy.
+                                </p>
+                                <br />
+                                <p
+                                    class="section-description"
+                                    style="text-align: left; margin-top: 0.5rem"
+                                >
+                                    We believe that everyone should have access
+                                    to software that empowers them, without
+                                    compromising their rights.
+                                </p>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+            </div>
+            <div class="container">
+                <h1>Meet the team:</h1>
+                <br />
+                <Profiles />
+            </div>
+        </main>
+    </body>
+    <Footer />
+</html>

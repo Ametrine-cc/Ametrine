@@ -1,0 +1,174 @@
+---
+import { Image } from "astro:assets";
+
+const cards = [
+    {
+        name: "Noticxs",
+        role: "Software / Developer",
+        title: "Founder / CEO",
+        profile: "/profiles/noticxs.png",
+    },
+    {
+        name: "Phyzzic",
+        role: "Website / Developer",
+        title: "Co-Founder / CTO",
+        profile: "/profiles/phyzzic.png",
+    },
+    // { name: "Sam", role: "UI/UX / Designer", title: "Lead / Designer" },
+];
+---
+
+<!doctype html>
+<html lang="en">
+    <div class="team-section">
+        <div class="cards-wrapper">
+            {cards.map((card) => (
+                <div class="cardContainer">
+                    <div class="card">
+                        <p class="name">{card.name}</p>
+                        <Image
+                            style="border-radius: 10px;"
+                            src={card.profile}
+                            alt="Developer profile pictures"
+                            width="100"
+                            height="100"
+                            loading="lazy"
+                        />
+                        <div class="minmaxContainer">
+                            <div class="min">
+                                <p class="minHeading">
+                                    {card.role.split(" / ")[0]}
+                                </p>
+                                <p class="minText">
+                                    {card.role.split(" / ")[1]}
+                                </p>
+                            </div>
+                            <div class="max">
+                                <p class="maxHeading">
+                                    {card.title.split(" / ")[0]}
+                                </p>
+                                <p class="maxText">
+                                    {card.title.split(" / ")[1]}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            ))}
+        </div>
+    </div>
+</html>
+
+<style>
+    .team-section {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 0;
+    }
+
+    .cards-wrapper {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+        width: 100%;
+    }
+
+    .cardContainer {
+        width: 220px;
+        height: 250px;
+        position: relative;
+        flex-shrink: 0;
+    }
+
+    .card {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 10px;
+        border-radius: 10px;
+        backdrop-filter: blur(30px);
+        background-color: rgba(65, 65, 65, 0.308);
+        border: 1px solid rgba(255, 255, 255, 0.089);
+        cursor: pointer;
+        box-sizing: border-box;
+    }
+
+    .name {
+        font-size: 1.8em;
+        color: white;
+        margin-top: 20px;
+    }
+
+    .minmaxContainer {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .min,
+    .max {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0px 10px;
+        gap: 4px;
+    }
+
+    .min {
+        align-items: flex-end;
+    }
+
+    .max {
+        align-items: flex-start;
+        border-left: 2px solid white;
+    }
+
+    .maxHeading,
+    .minHeading {
+        font-size: 0.7em;
+        font-weight: 600;
+        color: white;
+        margin: 0;
+    }
+
+    .maxText,
+    .minText {
+        font-size: 0.6em;
+        font-weight: 500;
+        color: rgb(197, 197, 197);
+        margin: 0;
+    }
+
+    .cardContainer::before {
+        width: 100px;
+        height: 100px;
+        content: "";
+        position: absolute;
+        background-color: rgb(144, 120, 255);
+        z-index: 0;
+        border-radius: 50%;
+        left: 50%;
+        top: 20%;
+        transform: translate(-50%, -20%);
+        transition: all 0.5s ease;
+    }
+
+    .card {
+        z-index: 1;
+    }
+
+    .cardContainer:hover::before {
+        transform: translate(-80%, 10%);
+    }
+</style>

@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap');
 
 *, *::before, *::after {
     box-sizing: border-box;
@@ -30,9 +31,11 @@
 }
 
 body {
-    background: var(--bg);
+    background: linear-gradient(0deg, #a259f7 0%, var(--bg) 15%, var(--bg) 100%);
     color: var(--text);
-    font-family: 'Inter', sans-serif;
+    font-family: "Lexend Deca", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
 }
 
 /* Nav Styles */
@@ -223,6 +226,7 @@ nav.hidden {
 
 /* Footer Styles */
 footer {
+    bottom: 0;
     padding: 60px 22px 40px;
     border-top: 1px solid rgba(255, 255, 255, 0.12);
     margin-top: 120px;
@@ -245,7 +249,7 @@ footer {
 }
 
 .footer-text {
-    color: var(--text-secondary);
+    /*color: var(--text-secondary);*/
     font-size: 12px;
     line-height: 1.33337;
 }
@@ -258,14 +262,14 @@ footer {
 }
 
 .footer-links a {
-    color: var(--text-secondary);
+    color: white;
     text-decoration: none;
     font-size: 12px;
     transition: color 0.3s;
 }
 
 .footer-links a:hover {
-    color: var(--text);
+    color: var(--glt);
 }
 
 .social-links {
@@ -277,7 +281,7 @@ footer {
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.15);
     border: 1px solid rgba(255, 255, 255, 0.15);
     display: flex;
     align-items: center;
@@ -289,8 +293,8 @@ footer {
 }
 
 .social-link:hover {
-    background: var(--primary);
-    border-color: var(--primary);
+    background: var(--glt);
+    border-color: var(--gold);
     transform: translateY(-2px);
     color: white;
 }
