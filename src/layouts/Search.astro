@@ -1,0 +1,271 @@
+---
+const pages = [
+    { title: "Home", url: "/" },
+    { title: "Projects", url: "/projects" },
+    { title: "About", url: "/about" },
+    { title: "GitHub", url: "https://github.com/Ametrine-cc" },
+    { title: "Documentation", url: "https://docs.ametrine.cc" },
+    { title: "Donation", url: "https://ko-fi.com/ametrinefoundation" },
+];
+---
+
+<div id="search-modal" class="search-overlay" aria-hidden="true">
+    <div class="search-card">
+        <div class="search-input-wrapper">
+            <svg
+                class="search-icon"
+                viewBox="0 0 24 24"
+                width="18"
+                height="18"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+            >
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input
+                type="text"
+                id="search-input"
+                placeholder="Search pages... (Press Esc to close)"
+                autocomplete="off"
+            />
+            <kbd class="shortcut-badge">ESC</kbd>
+        </div>
+
+        <ul id="search-results" class="search-results">
+            {pages.map((page) => (
+                <li class="result-item">
+                    <a href={page.url} class="result-link">
+                        <span>{page.title}</span>
+                        <span class="url-path">{page.url}</span>
+                    </a>
+                </li>
+            ))}
+        </ul>
+    </div>
+</div>
+
+<style>
+    .search-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(8px);
+        z-index: 9999;
+        align-items: flex-start;
+        justify-content: center;
+        padding-top: 15vh;
+    }
+
+    .search-overlay.open {
+        display: flex;
+    }
+
+    .search-card {
+        background: var(--surface, #12121c);
+        border: 1px solid var(--border, rgba(255, 255, 255, 0.1));
+        border-radius: 16px;
+        width: 100%;
+        max-width: 580px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        overflow: hidden;
+    }
+
+    .search-input-wrapper {
+        display: flex;
+        align-items: center;
+        padding: 16px 20px;
+        border-bottom: 1px solid var(--border, rgba(255, 255, 255, 0.1));
+        gap: 12px;
+    }
+
+    .search-icon {
+        color: var(--text-secondary, #8585a5);
+    }
+
+    #search-input {
+        flex: 1;
+        background: transparent;
+        border: none;
+        outline: none;
+        color: var(--text, #fff);
+        font-size: 16px;
+        font-family: inherit;
+    }
+
+    .shortcut-badge {
+        background: var(--card-bg, #07070f);
+        border: 1px solid var(--border, rgba(255, 255, 255, 0.15));
+        color: var(--text-secondary, #8585a5);
+        font-size: 11px;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: monospace;
+    }
+
+    .search-results {
+        list-style: none;
+        max-height: 300px;
+        overflow-y: auto;
+        padding: 8px;
+        margin: 0;
+    }
+
+    .result-link {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 16px;
+        color: var(--text, #fff);
+        text-decoration: none;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: background 0.2s;
+    }
+
+    .result-link:hover,
+    .result-link.selected {
+        background: var(--primary, #8b5cf6);
+        color: #fff;
+    }
+
+    .url-path {
+        font-size: 12px;
+        opacity: 0.6;
+    }
+
+    @media (max-width: 768px) {
+        .search-overlay {
+            display: none !important;
+        }
+    }
+</style>
+
+<script>
+    function setupSearchKeybind() {
+        const isDesktop = window.matchMedia("(min-width: 769px)").matches;
+        if (!isDesktop) return;
+
+        const modal = document.getElementById("search-modal");
+        const input = document.getElementById(
+            "search-input",
+        ) as HTMLInputElement;
+        const resultsContainer = document.getElementById("search-results");
+
+        let selectedIndex = -1;
+
+        function getVisibleLinks(): HTMLAnchorElement[] {
+            if (!resultsContainer) return [];
+            const visibleItems = Array.from(
+                resultsContainer.querySelectorAll<HTMLLIElement>(
+                    ".result-item",
+                ),
+            ).filter((item) => item.style.display !== "none");
+
+            return visibleItems
+                .map((item) =>
+                    item.querySelector<HTMLAnchorElement>(".result-link"),
+                )
+                .filter((link): link is HTMLAnchorElement => link !== null);
+        }
+
+        function updateSelection(links: HTMLAnchorElement[]) {
+            links.forEach((link, idx) => {
+                if (idx === selectedIndex) {
+                    link.classList.add("selected");
+                    link.scrollIntoView({ block: "nearest" });
+                } else {
+                    link.classList.remove("selected");
+                }
+            });
+        }
+
+        function openModal() {
+            modal?.classList.add("open");
+            modal?.setAttribute("aria-hidden", "false");
+            setTimeout(() => input?.focus(), 50);
+
+            const links = getVisibleLinks();
+            selectedIndex = links.length > 0 ? 0 : -1;
+            updateSelection(links);
+        }
+
+        function closeModal() {
+            modal?.classList.remove("open");
+            modal?.setAttribute("aria-hidden", "true");
+            if (input) input.value = "";
+            filterResults("");
+            selectedIndex = -1;
+        }
+
+        function filterResults(query: string) {
+            const q = query.toLowerCase().trim();
+            const items = Array.from(
+                resultsContainer?.querySelectorAll(".result-item") || [],
+            );
+
+            items.forEach((item) => {
+                const text = item.textContent?.toLowerCase() || "";
+                (item as HTMLElement).style.display = text.includes(q)
+                    ? "block"
+                    : "none";
+            });
+
+            const visibleLinks = getVisibleLinks();
+            selectedIndex = visibleLinks.length > 0 ? 0 : -1;
+            updateSelection(visibleLinks);
+        }
+
+        window.addEventListener("keydown", (e) => {
+            if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+                e.preventDefault();
+                modal?.classList.contains("open") ? closeModal() : openModal();
+            }
+
+            if (e.key === "Escape" && modal?.classList.contains("open")) {
+                closeModal();
+            }
+        });
+
+        modal?.addEventListener("keydown", (e) => {
+            if (!modal.classList.contains("open")) return;
+
+            const visibleLinks = getVisibleLinks();
+            if (visibleLinks.length === 0) return;
+
+            if (e.key === "ArrowDown") {
+                e.preventDefault();
+                selectedIndex = (selectedIndex + 1) % visibleLinks.length;
+                updateSelection(visibleLinks);
+            } else if (e.key === "ArrowUp") {
+                e.preventDefault();
+                selectedIndex =
+                    (selectedIndex - 1 + visibleLinks.length) %
+                    visibleLinks.length;
+                updateSelection(visibleLinks);
+            } else if (e.key === "Enter") {
+                e.preventDefault();
+                if (selectedIndex >= 0 && selectedIndex < visibleLinks.length) {
+                    const targetUrl =
+                        visibleLinks[selectedIndex].getAttribute("href");
+                    if (targetUrl) {
+                        window.location.href = targetUrl;
+                    }
+                }
+            }
+        });
+
+        modal?.addEventListener("click", (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        input?.addEventListener("input", (e) => {
+            filterResults((e.target as HTMLInputElement).value);
+        });
+    }
+
+    setupSearchKeybind();
+    document.addEventListener("astro:page-load", setupSearchKeybind);
+</script>
