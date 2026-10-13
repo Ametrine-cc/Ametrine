@@ -99,34 +99,6 @@ const applications = [
             ))}
         </div>
     </section>
-
-    <section id="projects" class="projects">
-        <h3 class="section-header">Applications:</h3>
-        <div class="projects-grid">
-            {applications.map((project) => (
-                <div class="project-card">
-                    <div class="card-header">
-                        <span class="tech-badge">{project.language}</span>
-                        <span class="license-tag">{project.license}</span>
-                    </div>
-                    <h3>{project.name}</h3>
-                    <p class="tagline">{project.tagline}</p>
-                    <p class="desc">{project.description}</p>
-                    <p class="version">Release version: {project.version}</p>
-                    <div class="card-footer">
-                        <a
-                            href={project.github}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="card-link"
-                        >
-                            View Source →
-                        </a>
-                    </div>
-                </div>
-            ))}
-        </div>
-    </section>
     <Footer />
 </html>
 
