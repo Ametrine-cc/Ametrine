@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://yuta.ametrine.cc/sitemap-index.xml
