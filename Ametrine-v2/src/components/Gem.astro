@@ -1,0 +1,213 @@
+---
+// The faceted Ametrine pentagon used in the home page hero.
+// Geometry is worked out here at build time, so the browser just gets plain SVG.
+
+type Pt = [number, number];
+
+const cx = 530;
+const cy = 560;
+const R = 540;
+
+// Outer pentagon, pointing up (matches the logo)
+const outer: Pt[] = Array.from({ length: 5 }, (_, i) => {
+    const a = -Math.PI / 2 + (i * 2 * Math.PI) / 5;
+    return [cx + R * Math.cos(a), cy + R * Math.sin(a)];
+});
+
+// Inner "table" pentagon, rotated so its points face the middle of each outer edge
+const r = R * 0.46;
+const inner: Pt[] = Array.from({ length: 5 }, (_, i) => {
+    const a = -Math.PI / 2 + Math.PI / 5 + (i * 2 * Math.PI) / 5;
+    return [cx + r * Math.cos(a), cy + r * Math.sin(a)];
+});
+
+type Facet = { pts: Pt[]; shade: number; light: boolean; dx: number; dy: number; delay: number };
+
+const light: Pt = [-0.62, -0.78]; // light from the top left
+
+function facet(pts: Pt[], order: number): Facet {
+    const mx = pts.reduce((s, p) => s + p[0], 0) / pts.length;
+    const my = pts.reduce((s, p) => s + p[1], 0) / pts.length;
+    const vx = mx - cx;
+    const vy = my - cy;
+    const len = Math.hypot(vx, vy) || 1;
+    const dot = (vx / len) * light[0] + (vy / len) * light[1]; // -1..1
+    return {
+        pts,
+        shade: Math.abs(dot) * 0.28,
+        light: dot > 0,
+        dx: (vx / len) * 70,
+        dy: (vy / len) * 70,
+        delay: order * 55,
+    };
+}
+
+const facets: Facet[] = [];
+for (let i = 0; i < 5; i++) {
+    const o = outer[i]!;
+    const prevInner = inner[(i + 4) % 5]!;
+    const nextInner = inner[i]!;
+    const oNext = outer[(i + 1) % 5]!;
+    // Crown facet at each outer point
+    facets.push(facet([o, nextInner, prevInner], i * 2));
+    // Edge facet along each outer side
+    facets.push(facet([o, oNext, nextInner], i * 2 + 1));
+}
+
+const pts = (p: Pt[]) => p.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(" ");
+const tablePts = pts(inner);
+const outerPts = pts(outer);
+---
+
+<div class="gem" data-gem aria-hidden="true">
+    <div class="gem-glow"></div>
+    <svg class="gem-svg" viewBox="-20 -20 1100 1140" role="presentation">
+        <defs>
+            <linearGradient id="gem-brand" x1="80" y1="40" x2="980" y2="1080" gradientUnits="userSpaceOnUse">
+                <stop offset="0" stop-color="#a259f7"></stop>
+                <stop offset="1" stop-color="#0071e3"></stop>
+            </linearGradient>
+            <linearGradient id="gem-table" x1="400" y1="400" x2="700" y2="760" gradientUnits="userSpaceOnUse">
+                <stop offset="0" stop-color="#ffffff" stop-opacity="0.34"></stop>
+                <stop offset="1" stop-color="#ffffff" stop-opacity="0.04"></stop>
+            </linearGradient>
+        </defs>
+
+        <g class="gem-facets">
+            {
+                facets.map((f) => (
+                    <g class="facet" style={`--dx:${f.dx.toFixed(1)}px;--dy:${f.dy.toFixed(1)}px;--d:${f.delay}ms`}>
+                        <polygon points={pts(f.pts)} fill="url(#gem-brand)" />
+                        <polygon
+                            points={pts(f.pts)}
+                            fill={f.light ? "#ffffff" : "#0a0520"}
+                            fill-opacity={f.shade.toFixed(3)}
+                        />
+                    </g>
+                ))
+            }
+            <g class="facet facet-table" style="--dx:0px;--dy:0px;--d:560ms">
+                <polygon points={tablePts} fill="url(#gem-brand)" />
+                <polygon points={tablePts} fill="url(#gem-table)" />
+            </g>
+        </g>
+
+        <g class="gem-lines" fill="none" stroke="#ffffff" stroke-opacity="0.22" stroke-width="2.5" stroke-linejoin="round">
+            <polygon points={outerPts} />
+            <polygon points={tablePts} />
+            {facets.map((f) => <polygon points={pts(f.pts)} />)}
+        </g>
+
+        <polygon class="gem-sheen" points={outerPts} fill="url(#gem-table)"></polygon>
+    </svg>
+</div>
+
+<style>
+    .gem {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 1100 / 1140;
+        perspective: 1200px;
+    }
+
+    .gem-glow {
+        position: absolute;
+        inset: 12% 8% 4%;
+        background: var(--brand);
+        filter: blur(70px);
+        opacity: 0.45;
+        border-radius: 50%;
+        z-index: -1;
+        transition: opacity 0.6s var(--ease);
+    }
+
+    :global([data-theme="light"]) .gem-glow {
+        opacity: 0.3;
+    }
+
+    .gem-svg {
+        width: 100%;
+        height: 100%;
+        overflow: visible;
+        transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+        transition: transform 0.6s var(--ease);
+        will-change: transform;
+    }
+
+    .gem-sheen {
+        mix-blend-mode: soft-light;
+        opacity: 0;
+        transform-origin: 530px 560px;
+        transition: opacity 0.6s var(--ease);
+    }
+
+    .gem.is-tilting .gem-sheen {
+        opacity: 0.6;
+    }
+
+    /* One orchestrated moment: the facets assemble on load */
+    @media (prefers-reduced-motion: no-preference) {
+        .facet {
+            animation: facet-in 1.1s var(--ease) both;
+            animation-delay: var(--d);
+        }
+
+        .gem-lines {
+            animation: lines-in 1s var(--ease) 0.9s both;
+        }
+
+        .gem-glow {
+            animation: glow-in 1.6s var(--ease) 0.4s both;
+        }
+    }
+
+    @keyframes facet-in {
+        from {
+            opacity: 0;
+            transform: translate(var(--dx), var(--dy));
+        }
+        to {
+            opacity: 1;
+            transform: none;
+        }
+    }
+
+    @keyframes lines-in {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes glow-in {
+        from {
+            opacity: 0;
+            transform: scale(0.7);
+        }
+    }
+</style>
+
+<script>
+    // Gentle tilt that follows the pointer (desktop pointers only)
+    const gem = document.querySelector<HTMLElement>("[data-gem]");
+    const fine = window.matchMedia("(pointer: fine) and (prefers-reduced-motion: no-preference)");
+    if (gem && fine.matches) {
+        const area = gem.closest<HTMLElement>("[data-gem-area]") ?? gem;
+        const svg = gem.querySelector<SVGElement>(".gem-svg");
+        area.addEventListener("pointermove", (e) => {
+            const rect = gem.getBoundingClientRect();
+            const x = (e.clientX - (rect.left + rect.width / 2)) / rect.width;
+            const y = (e.clientY - (rect.top + rect.height / 2)) / rect.height;
+            svg?.style.setProperty("--ry", `${(x * 14).toFixed(2)}deg`);
+            svg?.style.setProperty("--rx", `${(-y * 14).toFixed(2)}deg`);
+            gem.classList.add("is-tilting");
+        });
+        area.addEventListener("pointerleave", () => {
+            svg?.style.setProperty("--ry", "0deg");
+            svg?.style.setProperty("--rx", "0deg");
+            gem.classList.remove("is-tilting");
+        });
+    }
+</script>

@@ -1,0 +1,142 @@
+---
+import Icon from "./Icon.astro";
+import { links } from "../data/site";
+
+interface Props {
+    id?: string;
+}
+const { id = "support" } = Astro.props;
+---
+
+<section class="support" id={id} aria-labelledby={`${id}-title`}>
+    <div class="wrap">
+        <div class="support-panel">
+            <div class="support-copy">
+                <span class="support-icon"><Icon name="kofi" size={26} /></span>
+                <h2 id={`${id}-title`}>Help keep Ametrine free</h2>
+                <p>
+                    We're a team of volunteers. If our projects are useful to you, a donation helps us
+                    cover costs and spend more time building open-source tools for everyone.
+                </p>
+            </div>
+
+            <div class="support-action">
+                <a class="tier" href={links.kofi} target="_blank" rel="noopener noreferrer">
+                    <span class="tier-amount">£2</span>
+                    <span class="tier-label">One-off donation</span>
+                </a>
+                <a class="btn btn-kofi support-btn" href={links.kofi} target="_blank" rel="noopener noreferrer">
+                    <Icon name="heart" size={18} />
+                    Donate on Ko-fi
+                </a>
+                <p class="support-note">Payments are handled by Ko-fi. Any amount helps.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .support {
+        padding-block: clamp(48px, 7vw, 96px);
+    }
+
+    .support-panel {
+        position: relative;
+        display: grid;
+        grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+        gap: clamp(28px, 5vw, 64px);
+        align-items: center;
+        padding: clamp(28px, 5vw, 56px);
+        border-radius: var(--radius-l);
+        background: color-mix(in srgb, var(--kofi) 7%, var(--bg-raised));
+        border: 1px solid color-mix(in srgb, var(--kofi) 22%, var(--line));
+        overflow: hidden;
+        isolation: isolate;
+    }
+
+    .support-panel::before {
+        content: "";
+        position: absolute;
+        right: -120px;
+        top: -160px;
+        width: 420px;
+        height: 380px;
+        border-radius: 50%;
+        background: var(--kofi);
+        filter: blur(110px);
+        opacity: 0.18;
+        z-index: -1;
+    }
+
+    .support-icon {
+        display: grid;
+        place-items: center;
+        width: 52px;
+        height: 52px;
+        margin-bottom: 20px;
+        border-radius: 16px;
+        background: color-mix(in srgb, var(--kofi) 16%, transparent);
+        color: var(--kofi);
+    }
+
+    .support-copy h2 {
+        font-size: var(--step-3);
+    }
+
+    .support-copy p {
+        margin-top: 14px;
+        color: var(--muted);
+        max-width: 52ch;
+        font-size: 1.05rem;
+    }
+
+    .support-action {
+        display: grid;
+        gap: 12px;
+    }
+
+    .tier {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 18px 20px;
+        border-radius: var(--radius-m);
+        border: 1px solid var(--line);
+        background: var(--bg);
+        text-decoration: none;
+        transition: border-color 0.2s var(--ease);
+    }
+
+    .tier:hover {
+        border-color: var(--kofi);
+    }
+
+    .tier-amount {
+        font-size: 1.8rem;
+        font-weight: 780;
+        letter-spacing: -0.03em;
+    }
+
+    .tier-label {
+        color: var(--muted);
+        font-size: 0.95rem;
+    }
+
+    .support-btn {
+        width: 100%;
+        min-height: 52px;
+    }
+
+    .support-note {
+        font-size: 0.84rem;
+        color: var(--faint);
+        text-align: center;
+    }
+
+    @media (max-width: 760px) {
+        .support-panel {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

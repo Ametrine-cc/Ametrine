@@ -1,0 +1,498 @@
+---
+import Mark from "./Mark.astro";
+import Icon from "./Icon.astro";
+import { nav, links, socials, site } from "../data/site";
+import { flagship } from "../data/projects";
+
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+const isCurrent = (href: string) =>
+    href === "/" ? path === "/" : path === href || path.startsWith(href + "/");
+
+const navIcons: Record<string, "home" | "grid" | "users" | "book"> = {
+    Home: "home",
+    Projects: "grid",
+    About: "users",
+    Docs: "book",
+};
+---
+
+<dialog id="site-menu" class="menu" aria-label="Site menu" data-menu>
+    <div class="menu-panel">
+        <div class="menu-top">
+            <a class="menu-brand" href="/">
+                <Mark size={28} />
+                <span>Ametrine</span>
+            </a>
+            <button type="button" class="menu-close" data-menu-close aria-label="Close menu">
+                <Icon name="close" size={22} />
+            </button>
+        </div>
+
+        <div class="menu-scroll">
+            <button type="button" class="menu-search" data-open-search>
+                <Icon name="search" size={18} />
+                <span>Search pages and projects</span>
+            </button>
+
+            <nav aria-label="Main">
+                <ul role="list" class="menu-links">
+                    {
+                        nav.map((item, i) => (
+                            <li style={`--i:${i}`}>
+                                <a
+                                    href={item.href}
+                                    aria-current={!item.external && isCurrent(item.href) ? "page" : undefined}
+                                    target={item.external ? "_blank" : undefined}
+                                    rel={item.external ? "noopener noreferrer" : undefined}
+                                >
+                                    <span class="ml-icon">
+                                        <Icon name={navIcons[item.label] ?? "grid"} size={20} />
+                                    </span>
+                                    <span class="ml-text">
+                                        <span class="ml-label">{item.label}</span>
+                                        <span class="ml-blurb">{item.blurb}</span>
+                                    </span>
+                                    <span class="ml-go">
+                                        {item.external ? (
+                                            <Icon name="external" size={17} />
+                                        ) : (
+                                            <Icon name="arrow-right" size={17} />
+                                        )}
+                                    </span>
+                                </a>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </nav>
+
+            <section class="menu-block" aria-labelledby="menu-flagship-title" style={`--i:${nav.length}`}>
+                <h2 id="menu-flagship-title" class="menu-block-title">Flagship projects</h2>
+                <ul role="list" class="menu-projects">
+                    {
+                        flagship.map((p) => (
+                            <li>
+                                <a href={`/projects#${p.slug}`}>
+                                    <span class="mp-name">{p.name}</span>
+                                    <span class="mp-tag">{p.tagline}</span>
+                                    <span class="mp-meta">
+                                        {p.languages.join(" and ")}, {p.license}, v{p.version}
+                                    </span>
+                                </a>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </section>
+
+            <section class="menu-support" style={`--i:${nav.length + 1}`}>
+                <div>
+                    <p class="ms-title">Keep Ametrine free</p>
+                    <p class="ms-text">We're volunteers. Donations pay for hosting and keep our tools free for everyone.</p>
+                </div>
+                <a class="btn btn-kofi" href={links.kofi} target="_blank" rel="noopener noreferrer">
+                    <Icon name="kofi" size={17} />
+                    Donate on Ko-fi
+                </a>
+            </section>
+        </div>
+
+        <div class="menu-bottom">
+            <div class="theme-switch" role="radiogroup" aria-label="Theme" data-theme-switch>
+                <button type="button" role="radio" data-theme-value="system" aria-checked="true">
+                    <Icon name="monitor" size={16} /><span>System</span>
+                </button>
+                <button type="button" role="radio" data-theme-value="light" aria-checked="false">
+                    <Icon name="sun" size={16} /><span>Light</span>
+                </button>
+                <button type="button" role="radio" data-theme-value="dark" aria-checked="false">
+                    <Icon name="moon" size={16} /><span>Dark</span>
+                </button>
+            </div>
+
+            <div class="menu-foot">
+                <p>&copy; {site.year} Ametrine Foundation</p>
+                <ul role="list" class="menu-socials">
+                    {
+                        socials.map((s) => (
+                            <li>
+                                <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label} title={s.label}>
+                                    <Icon name={s.icon} size={18} />
+                                </a>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</dialog>
+
+<style>
+    .menu {
+        /* Reset native dialog */
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        max-width: none;
+        max-height: none;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: var(--text);
+        overflow: hidden;
+        display: none;
+    }
+
+    .menu[open] {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .menu::backdrop {
+        background: var(--scrim);
+        -webkit-backdrop-filter: blur(6px);
+        backdrop-filter: blur(6px);
+        opacity: 0;
+        transition: opacity 0.35s var(--ease);
+    }
+
+    .menu.is-open::backdrop {
+        opacity: 1;
+    }
+
+    .menu-panel {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        width: min(440px, 100%);
+        height: 100%;
+        background: var(--bg);
+        border-left: 1px solid var(--line);
+        box-shadow: var(--shadow-lg);
+        transform: translateX(104%);
+        transition: transform 0.5s var(--ease);
+        overflow: hidden;
+    }
+
+    /* Brand glow at the top of the panel */
+    .menu-panel::before {
+        content: "";
+        position: absolute;
+        top: -160px;
+        right: -120px;
+        width: 360px;
+        height: 300px;
+        background: var(--brand);
+        filter: blur(90px);
+        opacity: 0.28;
+        pointer-events: none;
+    }
+
+    .menu.is-open .menu-panel {
+        transform: none;
+    }
+
+    .menu-top {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: var(--header-h);
+        padding: 0 14px 0 20px;
+        flex-shrink: 0;
+    }
+
+    .menu-brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 760;
+        font-size: 1.1rem;
+        text-decoration: none;
+        letter-spacing: -0.02em;
+    }
+
+    .menu-close {
+        display: grid;
+        place-items: center;
+        width: 46px;
+        height: 46px;
+        border-radius: 14px;
+        border: 1px solid var(--line);
+        background: var(--bg-raised);
+        transition: transform 0.4s var(--ease), background-color 0.2s;
+    }
+
+    .menu-close:hover {
+        transform: rotate(90deg);
+    }
+
+    .menu-scroll {
+        position: relative;
+        flex: 1;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        padding: 8px 20px 24px;
+        display: grid;
+        align-content: start;
+        gap: 22px;
+    }
+
+    .menu-search {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+        height: 50px;
+        padding: 0 16px;
+        border-radius: var(--radius-m);
+        border: 1px solid var(--line);
+        background: var(--bg-raised);
+        color: var(--muted);
+        text-align: left;
+    }
+
+    .menu-search:hover {
+        color: var(--text);
+        border-color: var(--faint);
+    }
+
+    /* Links */
+    .menu-links {
+        display: grid;
+        gap: 4px;
+    }
+
+    .menu-links a {
+        display: grid;
+        grid-template-columns: 44px 1fr auto;
+        align-items: center;
+        gap: 14px;
+        padding: 10px 10px 10px 8px;
+        border-radius: var(--radius-m);
+        text-decoration: none;
+        transition: background-color 0.2s var(--ease);
+    }
+
+    .menu-links a:hover {
+        background: var(--bg-raised);
+    }
+
+    .ml-icon {
+        display: grid;
+        place-items: center;
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        color: var(--muted);
+        transition: color 0.2s, border-color 0.2s, background-color 0.2s;
+    }
+
+    .ml-text {
+        display: grid;
+        gap: 1px;
+        min-width: 0;
+    }
+
+    .ml-label {
+        font-size: 1.45rem;
+        font-weight: 720;
+        letter-spacing: -0.025em;
+        line-height: 1.15;
+    }
+
+    .ml-blurb {
+        font-size: 0.88rem;
+        color: var(--muted);
+    }
+
+    .ml-go {
+        color: var(--faint);
+        transition: transform 0.25s var(--ease), color 0.2s;
+    }
+
+    .menu-links a:hover .ml-go {
+        transform: translateX(3px);
+        color: var(--text);
+    }
+
+    .menu-links a[aria-current="page"] {
+        background: var(--bg-raised);
+    }
+
+    .menu-links a[aria-current="page"] .ml-icon {
+        border-color: transparent;
+        background: var(--brand);
+        color: #fff;
+    }
+
+    /* Blocks */
+    .menu-block-title {
+        font-size: 0.82rem;
+        font-weight: 600;
+        letter-spacing: 0;
+        color: var(--faint);
+        margin: 0 0 10px 4px;
+    }
+
+    .menu-projects {
+        display: grid;
+        gap: 8px;
+    }
+
+    .menu-projects a {
+        display: grid;
+        gap: 2px;
+        padding: 14px 16px;
+        border-radius: var(--radius-m);
+        border: 1px solid var(--line-soft);
+        background: var(--bg-sunk);
+        text-decoration: none;
+        transition: border-color 0.2s var(--ease);
+    }
+
+    .menu-projects a:hover {
+        border-color: var(--faint);
+    }
+
+    .mp-name {
+        font-weight: 680;
+        font-family: var(--mono);
+        font-size: 0.95rem;
+    }
+
+    .mp-tag {
+        font-size: 0.92rem;
+    }
+
+    .mp-meta {
+        font-size: 0.8rem;
+        color: var(--faint);
+    }
+
+    .menu-support {
+        display: grid;
+        gap: 14px;
+        padding: 18px;
+        border-radius: var(--radius-l);
+        background: color-mix(in srgb, var(--kofi) 9%, var(--bg-raised));
+        border: 1px solid color-mix(in srgb, var(--kofi) 26%, transparent);
+    }
+
+    .ms-title {
+        font-weight: 700;
+        font-size: 1.05rem;
+    }
+
+    .ms-text {
+        font-size: 0.9rem;
+        color: var(--muted);
+        line-height: 1.5;
+    }
+
+    /* Bottom bar */
+    .menu-bottom {
+        position: relative;
+        flex-shrink: 0;
+        display: grid;
+        gap: 14px;
+        padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
+        border-top: 1px solid var(--line-soft);
+        background: var(--bg);
+    }
+
+    .theme-switch {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        padding: 4px;
+        border-radius: 999px;
+        background: var(--bg-sunk);
+        border: 1px solid var(--line-soft);
+    }
+
+    .theme-switch button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        height: 38px;
+        border-radius: 999px;
+        font-size: 0.88rem;
+        color: var(--muted);
+        transition: background-color 0.25s var(--ease), color 0.2s;
+    }
+
+    .theme-switch button[aria-checked="true"] {
+        background: var(--bg-raised);
+        color: var(--text);
+        box-shadow: 0 1px 0 var(--line), 0 4px 14px -6px rgba(0, 0, 0, 0.35);
+    }
+
+    .menu-foot {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 0.82rem;
+        color: var(--faint);
+    }
+
+    .menu-socials {
+        display: flex;
+        gap: 4px;
+    }
+
+    .menu-socials a {
+        display: grid;
+        place-items: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        color: var(--muted);
+    }
+
+    .menu-socials a:hover {
+        color: var(--text);
+        background: var(--bg-raised);
+    }
+
+    /* Staggered reveal, only when the menu opens */
+    @media (prefers-reduced-motion: no-preference) {
+        .menu-links li,
+        .menu-block,
+        .menu-support,
+        .menu-search {
+            opacity: 0;
+            transform: translateX(24px);
+            transition:
+                opacity 0.4s var(--ease),
+                transform 0.5s var(--ease);
+        }
+
+        .menu.is-open .menu-search,
+        .menu.is-open .menu-links li,
+        .menu.is-open .menu-block,
+        .menu.is-open .menu-support {
+            opacity: 1;
+            transform: none;
+            transition-delay: calc(0.08s + var(--i, 0) * 0.045s);
+        }
+    }
+
+    @media (max-width: 480px) {
+        .menu-panel {
+            width: 100%;
+            border-left: 0;
+        }
+    }
+
+    /* The burger menu is only for small screens */
+    @media (min-width: 861px) {
+        .menu[open] {
+            display: none;
+        }
+    }
+</style>

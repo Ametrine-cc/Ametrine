@@ -1,0 +1,98 @@
+---
+interface Props {
+    title?: string;
+    intro?: string;
+}
+
+const {
+    title = "What every Ametrine project promises",
+    intro = "These aren't features we add later. They're the rules we build to from the first line of code.",
+} = Astro.props;
+
+const principles = [
+    {
+        name: "No telemetry",
+        text: "Our software never phones home. What you do with it stays on your machine.",
+    },
+    {
+        name: "Local-first",
+        text: "Everything works offline, on your own hardware, without an account or a cloud service.",
+    },
+    {
+        name: "Small and portable",
+        text: "Minimal dependencies, so our tools build quickly and run almost anywhere.",
+    },
+    {
+        name: "Free for everyone",
+        text: "GPL and LGPL licensed. Anyone can use it, read the code and make it better.",
+    },
+];
+---
+
+<section class="section principles" aria-labelledby="principles-title">
+    <div class="wrap">
+        <div class="section-head">
+            <h2 id="principles-title">{title}</h2>
+            <p>{intro}</p>
+        </div>
+        <ul role="list" class="principle-list">
+            {
+                principles.map((p) => (
+                    <li>
+                        <span class="principle-mark" aria-hidden="true" />
+                        <h3>{p.name}</h3>
+                        <p>{p.text}</p>
+                    </li>
+                ))
+            }
+        </ul>
+    </div>
+</section>
+
+<style>
+    .principle-list {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0 clamp(20px, 3vw, 40px);
+    }
+
+    .principle-list li {
+        padding-top: 22px;
+        border-top: 1px solid var(--line);
+    }
+
+    .principle-mark {
+        display: block;
+        width: 22px;
+        height: 22px;
+        margin-bottom: 18px;
+        clip-path: polygon(50% 0, 100% 38%, 82% 100%, 18% 100%, 0 38%);
+        background: var(--brand);
+    }
+
+    .principle-list h3 {
+        font-size: var(--step-1);
+        letter-spacing: -0.02em;
+    }
+
+    .principle-list p {
+        margin-top: 8px;
+        color: var(--muted);
+        font-size: 0.98rem;
+        line-height: 1.55;
+    }
+
+    @media (max-width: 960px) {
+        .principle-list {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            row-gap: 36px;
+        }
+    }
+
+    @media (max-width: 520px) {
+        .principle-list {
+            grid-template-columns: 1fr;
+            row-gap: 28px;
+        }
+    }
+</style>

@@ -1,0 +1,245 @@
+---
+import Base from "../layouts/Base.astro";
+import Gem from "../components/Gem.astro";
+import Icon from "../components/Icon.astro";
+import Principles from "../components/Principles.astro";
+import ProjectEntry from "../components/ProjectEntry.astro";
+import Support from "../components/Support.astro";
+import { flagship } from "../data/projects";
+import { links } from "../data/site";
+---
+
+<Base>
+    <!-- Hero -->
+    <section class="hero" data-gem-area>
+        <div class="wrap hero-grid">
+            <div class="hero-copy">
+                <h1 class="hero-title">
+                    <span>Software that</span>
+                    <span>actually cares</span>
+                    <span>about you.</span>
+                </h1>
+                <p class="hero-lead">
+                    Ametrine Foundation is a team of volunteers building free and open-source libraries and
+                    apps. No telemetry, no licence fees, no catch.
+                </p>
+                <div class="btn-row">
+                    <a class="btn btn-brand" href="/projects">
+                        See our projects
+                    </a>
+                    <a class="btn" href={links.docs} target="_blank" rel="noopener noreferrer">
+                        <Icon name="book" size={18} />
+                        Read the docs
+                    </a>
+                </div>
+
+                <ul role="list" class="hero-facts">
+                    <li><strong>GPL and LGPL</strong> licensed</li>
+                    <li><strong>C and Rust</strong> at the core</li>
+                    <li><strong>Zero trackers</strong>, on this site too</li>
+                </ul>
+            </div>
+
+            <div class="hero-art">
+                <Gem />
+            </div>
+        </div>
+    </section>
+
+    <!-- Flagship projects -->
+    <section class="section flagship" aria-labelledby="flagship-title">
+        <div class="wrap">
+            <div class="flagship-head">
+                <div class="section-head">
+                    <h2 id="flagship-title">Flagship projects</h2>
+                    <p>Small, dependable system libraries you can drop into your own software today.</p>
+                </div>
+                <a class="btn btn-sm" href="/projects">All projects</a>
+            </div>
+
+            <div class="flagship-list">
+                {flagship.map((p) => <ProjectEntry project={p} />)}
+            </div>
+        </div>
+    </section>
+
+    <Principles />
+
+    <Support />
+
+    <!-- Closing call to action -->
+    <section class="section closing" aria-labelledby="closing-title">
+        <div class="wrap">
+            <div class="closing-inner">
+                <h2 id="closing-title">Building tools to better the future</h2>
+                <p>
+                    Open-source software, libraries and tools engineered with minimal dependencies and
+                    maximum portability. Made to help everyone equally.
+                </p>
+                <div class="btn-row">
+                    <a class="btn btn-brand" href="/about">About us</a>
+                    <a class="btn" href={links.github} target="_blank" rel="noopener noreferrer">
+                        <Icon name="github" size={17} />
+                        Contribute on GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+</Base>
+
+<style>
+    /* Hero */
+    .hero {
+        position: relative;
+        padding-block: clamp(28px, 6vw, 80px) clamp(56px, 8vw, 112px);
+        overflow: hidden;
+    }
+
+    .hero-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+        align-items: center;
+        gap: clamp(32px, 6vw, 88px);
+    }
+
+    .hero-title {
+        display: grid;
+        font-size: clamp(2.6rem, 1rem + 4.4vw, 5.4rem);
+        font-weight: 820;
+        letter-spacing: -0.05em;
+        line-height: 0.94;
+    }
+
+    .hero-title span {
+        display: block;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+        .hero-title span {
+            animation: rise 0.9s var(--ease) both;
+        }
+        .hero-title span:nth-child(2) {
+            animation-delay: 0.08s;
+        }
+        .hero-title span:nth-child(3) {
+            animation-delay: 0.16s;
+        }
+        .hero-lead,
+        .hero .btn-row,
+        .hero-facts {
+            animation: rise 0.9s var(--ease) 0.28s both;
+        }
+    }
+
+    @keyframes rise {
+        from {
+            opacity: 0;
+            transform: translateY(18px);
+        }
+    }
+
+    .hero-lead {
+        margin-top: clamp(20px, 3vw, 30px);
+        margin-bottom: 32px;
+        max-width: 44ch;
+        font-size: var(--step-1);
+        color: var(--muted);
+        line-height: 1.5;
+    }
+
+    .hero-facts {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 28px;
+        margin-top: clamp(36px, 5vw, 56px);
+        padding-top: 22px;
+        border-top: 1px solid var(--line-soft);
+        color: var(--muted);
+        font-size: 0.95rem;
+    }
+
+    .hero-facts strong {
+        color: var(--text);
+        font-weight: 680;
+    }
+
+    .hero-art {
+        max-width: 520px;
+        justify-self: end;
+        width: 100%;
+    }
+
+    /* Flagship */
+    .flagship {
+        padding-top: clamp(24px, 4vw, 48px);
+    }
+
+    .flagship-head {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 24px;
+    }
+
+    .flagship-head .btn {
+        margin-bottom: clamp(32px, 5vw, 56px);
+    }
+
+    .flagship-list {
+        border-bottom: 1px solid var(--line);
+    }
+
+    /* Closing */
+    .closing {
+        padding-top: clamp(24px, 4vw, 48px);
+    }
+
+    .closing-inner {
+        display: grid;
+        justify-items: start;
+        gap: 20px;
+        padding-top: clamp(40px, 6vw, 72px);
+        border-top: 1px solid var(--line);
+    }
+
+    .closing-inner h2 {
+        font-size: var(--step-3);
+        max-width: 18ch;
+    }
+
+    .closing-inner p {
+        max-width: 56ch;
+        color: var(--muted);
+        font-size: var(--step-1);
+        line-height: 1.5;
+        margin-bottom: 8px;
+    }
+
+    @media (max-width: 860px) {
+        .hero-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .hero-art {
+            order: -1;
+            justify-self: start;
+            max-width: 220px;
+            margin-bottom: 4px;
+        }
+    }
+
+    @media (max-width: 560px) {
+        .hero-art {
+            max-width: 168px;
+        }
+
+        .flagship-head {
+            display: block;
+        }
+
+        .flagship-head .section-head {
+            margin-bottom: 18px;
+        }
+    }
+</style>

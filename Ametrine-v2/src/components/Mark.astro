@@ -1,0 +1,26 @@
+---
+// The Ametrine pentagon logo mark, drawn as SVG.
+interface Props {
+    size?: number;
+    class?: string;
+}
+const { size = 28, class: className } = Astro.props;
+const id = `mark-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<svg
+    class={className}
+    width={size}
+    height={size}
+    viewBox="0 0 1060 1060"
+    aria-hidden="true"
+    focusable="false"
+>
+    <defs>
+        <linearGradient id={id} x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#a259f7"></stop>
+            <stop offset="1" stop-color="#0071e3"></stop>
+        </linearGradient>
+    </defs>
+    <path fill={`url(#${id})`} d="M530 20 1036 388 843 984H217L24 388Z"></path>
+</svg>

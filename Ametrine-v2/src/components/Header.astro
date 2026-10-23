@@ -1,0 +1,375 @@
+---
+import Mark from "./Mark.astro";
+import Icon from "./Icon.astro";
+import { nav, links } from "../data/site";
+
+const path = Astro.url.pathname.replace(/\/$/, "") || "/";
+const isCurrent = (href: string) =>
+    href === "/" ? path === "/" : path === href || path.startsWith(href + "/");
+---
+
+<header class="site-header" data-header>
+    <div class="wrap header-inner">
+        <a class="brand" href="/" aria-label="Ametrine Foundation, home">
+            <Mark size={30} class="brand-mark" />
+            <span class="brand-name">
+                Ametrine<span class="brand-sub"> Foundation</span>
+            </span>
+        </a>
+
+        <nav class="primary-nav" aria-label="Main">
+            <ul role="list">
+                {
+                    nav
+                        .filter((item) => item.href !== "/")
+                        .map((item) => (
+                            <li>
+                                <a
+                                    href={item.href}
+                                    aria-current={isCurrent(item.href) ? "page" : undefined}
+                                    target={item.external ? "_blank" : undefined}
+                                    rel={item.external ? "noopener noreferrer" : undefined}
+                                >
+                                    {item.label}
+                                    {item.external && <Icon name="external" size={13} class="ext" />}
+                                </a>
+                            </li>
+                        ))
+                }
+            </ul>
+        </nav>
+
+        <div class="header-actions">
+            <button
+                type="button"
+                class="search-trigger"
+                data-open-search
+                aria-label="Search the site"
+            >
+                <Icon name="search" size={17} />
+                <span class="search-trigger-label">Search</span>
+                <kbd data-kbd>Ctrl K</kbd>
+            </button>
+
+            <button
+                type="button"
+                class="icon-btn theme-toggle"
+                data-theme-toggle
+                aria-label="Switch to light theme"
+                title="Switch theme"
+            >
+                <Icon name="sun" size={18} class="i-sun" />
+                <Icon name="moon" size={18} class="i-moon" />
+            </button>
+
+            <a
+                class="btn btn-sm btn-kofi header-donate"
+                href={links.kofi}
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                <Icon name="kofi" size={16} />
+                Donate
+            </a>
+
+            <button
+                type="button"
+                class="burger"
+                data-menu-open
+                aria-controls="site-menu"
+                aria-expanded="false"
+                aria-label="Open menu"
+            >
+                <span class="burger-lines" aria-hidden="true">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<style>
+    .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        height: var(--header-h);
+        border-bottom: 1px solid transparent;
+        transition:
+            transform 0.35s var(--ease),
+            background-color 0.3s var(--ease),
+            border-color 0.3s var(--ease);
+    }
+
+    .site-header.is-scrolled {
+        background: var(--header-bg);
+        border-bottom-color: var(--line-soft);
+        -webkit-backdrop-filter: saturate(160%) blur(18px);
+        backdrop-filter: saturate(160%) blur(18px);
+    }
+
+    .site-header.is-hidden {
+        transform: translateY(-100%);
+    }
+
+    .header-inner {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        gap: 24px;
+    }
+
+    /* Brand */
+    .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 11px;
+        text-decoration: none;
+        font-weight: 760;
+        font-size: 1.12rem;
+        letter-spacing: -0.02em;
+        flex-shrink: 0;
+        border-radius: 8px;
+    }
+
+    .brand :global(.brand-mark) {
+        transition: transform 0.5s var(--ease);
+    }
+
+    .brand:hover :global(.brand-mark) {
+        transform: rotate(-72deg);
+    }
+
+    .brand-sub {
+        font-weight: 450;
+        color: var(--muted);
+    }
+
+    /* Desktop nav */
+    .primary-nav {
+        margin-left: 12px;
+    }
+
+    .primary-nav ul {
+        display: flex;
+        gap: 4px;
+    }
+
+    .primary-nav a {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 8px 14px;
+        border-radius: 999px;
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 540;
+        font-size: 0.97rem;
+        transition: color 0.2s var(--ease), background-color 0.2s var(--ease);
+    }
+
+    .primary-nav a:hover {
+        color: var(--text);
+        background: var(--bg-raised);
+    }
+
+    .primary-nav a[aria-current="page"] {
+        color: var(--text);
+    }
+
+    .primary-nav a[aria-current="page"]::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: 1px;
+        width: 6px;
+        height: 6px;
+        translate: -50% 0;
+        clip-path: polygon(50% 0, 100% 38%, 82% 100%, 18% 100%, 0 38%);
+        background: var(--brand);
+    }
+
+    .primary-nav :global(.ext) {
+        opacity: 0.6;
+    }
+
+    /* Actions */
+    .header-actions {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .search-trigger {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        height: 40px;
+        padding: 0 8px 0 14px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: var(--bg-raised);
+        color: var(--muted);
+        font-size: 0.92rem;
+        min-width: 190px;
+        transition: border-color 0.2s var(--ease), color 0.2s var(--ease);
+    }
+
+    .search-trigger:hover {
+        border-color: var(--faint);
+        color: var(--text);
+    }
+
+    .search-trigger kbd {
+        margin-left: auto;
+        padding: 3px 8px;
+        border-radius: 999px;
+        background: var(--bg-sunk);
+        border: 1px solid var(--line);
+        font-size: 0.72rem;
+        color: var(--muted);
+    }
+
+    .icon-btn {
+        display: grid;
+        place-items: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 999px;
+        color: var(--muted);
+        border: 1px solid transparent;
+        transition: color 0.2s var(--ease), background-color 0.2s var(--ease);
+    }
+
+    .icon-btn:hover {
+        color: var(--text);
+        background: var(--bg-raised);
+        border-color: var(--line);
+    }
+
+    .theme-toggle :global(svg) {
+        grid-area: 1 / 1;
+        transition: transform 0.45s var(--ease), opacity 0.3s var(--ease);
+    }
+
+    :global(:root:not([data-theme="light"])) .theme-toggle :global(.i-moon),
+    :global(:root[data-theme="light"]) .theme-toggle :global(.i-sun) {
+        opacity: 0;
+        transform: rotate(-90deg) scale(0.6);
+    }
+
+    /* Burger */
+    .burger {
+        display: none;
+        place-items: center;
+        width: 46px;
+        height: 46px;
+        margin-right: -6px;
+        border-radius: 14px;
+        color: var(--text);
+        transition: background-color 0.2s var(--ease);
+    }
+
+    .burger:hover {
+        background: var(--bg-raised);
+    }
+
+    .burger-lines {
+        position: relative;
+        display: block;
+        width: 22px;
+        height: 14px;
+    }
+
+    .burger-lines span {
+        position: absolute;
+        left: 0;
+        height: 2px;
+        border-radius: 2px;
+        background: currentColor;
+        transition:
+            transform 0.4s var(--ease),
+            width 0.4s var(--ease),
+            opacity 0.2s var(--ease),
+            top 0.4s var(--ease);
+    }
+
+    .burger-lines span:nth-child(1) {
+        top: 0;
+        width: 22px;
+    }
+    .burger-lines span:nth-child(2) {
+        top: 6px;
+        width: 15px;
+    }
+    .burger-lines span:nth-child(3) {
+        top: 12px;
+        width: 19px;
+    }
+
+    .burger:hover .burger-lines span {
+        width: 22px;
+    }
+
+    .burger[aria-expanded="true"] .burger-lines span:nth-child(1) {
+        top: 6px;
+        width: 22px;
+        transform: rotate(45deg);
+    }
+    .burger[aria-expanded="true"] .burger-lines span:nth-child(2) {
+        opacity: 0;
+        transform: translateX(8px);
+    }
+    .burger[aria-expanded="true"] .burger-lines span:nth-child(3) {
+        top: 6px;
+        width: 22px;
+        transform: rotate(-45deg);
+    }
+
+    /* Responsive */
+    @media (max-width: 1020px) {
+        .search-trigger {
+            min-width: 0;
+        }
+        .search-trigger kbd {
+            display: none;
+        }
+    }
+
+    @media (max-width: 860px) {
+        .primary-nav,
+        .header-donate,
+        .theme-toggle {
+            display: none;
+        }
+
+        .burger {
+            display: grid;
+        }
+
+        .search-trigger {
+            width: 46px;
+            height: 46px;
+            padding: 0;
+            justify-content: center;
+            border-color: transparent;
+            background: transparent;
+            color: var(--text);
+            border-radius: 14px;
+        }
+
+        .search-trigger-label {
+            display: none;
+        }
+    }
+
+    @media (max-width: 380px) {
+        .brand-sub {
+            display: none;
+        }
+    }
+</style>

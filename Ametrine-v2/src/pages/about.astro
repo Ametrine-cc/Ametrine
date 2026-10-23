@@ -1,0 +1,322 @@
+---
+import { Image } from "astro:assets";
+import Base from "../layouts/Base.astro";
+import PageIntro from "../components/PageIntro.astro";
+import Principles from "../components/Principles.astro";
+import Icon from "../components/Icon.astro";
+import { team } from "../data/team";
+import { links } from "../data/site";
+---
+
+<Base
+    title="About"
+    description="Ametrine Foundation is a FOSS-focused team of volunteers making free and open-source libraries and apps for everyone."
+>
+    <PageIntro
+        title="About Ametrine"
+        lead="We're a FOSS-focused team of volunteers making free and open-source libraries and apps for all people. Premium products without the premium price tags."
+    />
+
+    <section class="section story" aria-labelledby="story-title">
+        <div class="wrap">
+            <div class="story-grid">
+            <h2 id="story-title">Who we are</h2>
+            <div class="story-text">
+                <p class="story-big">
+                    We believe software should be free, open and accessible to everyone. Not just the people
+                    who can afford it, or the people who work for big companies that can buy the licences.
+                </p>
+                <p>
+                    At Ametrine, we're committed to building software that respects your freedom and your
+                    privacy. That means no telemetry, no accounts you didn't ask for, and code that anyone can
+                    read, change and share.
+                </p>
+                <p>
+                    We think everyone should have access to software that empowers them, without
+                    compromising their rights. So we start small: dependable libraries in C and Rust that other
+                    developers can build on, with apps to follow.
+                </p>
+            </div>
+            </div>
+        </div>
+    </section>
+
+    <Principles title="What we believe" intro="Four rules every Ametrine project is held to, from the first commit." />
+
+    <section class="section team" aria-labelledby="team-title">
+        <div class="wrap">
+            <div class="section-head">
+                <h2 id="team-title">Meet the team</h2>
+                <p>The people behind Ametrine Foundation.</p>
+            </div>
+
+            <ul role="list" class="team-list">
+                {
+                    team.map((m) => (
+                        <li class="member">
+                            <div class="member-photo">
+                                <Image
+                                    src={m.photo}
+                                    alt={`${m.name}'s profile picture`}
+                                    width={160}
+                                    height={160}
+                                    densities={[1, 2]}
+                                    class:list={{ pixel: m.pixelated }}
+                                    loading="lazy"
+                                />
+                            </div>
+                            <div class="member-info">
+                                <h3>{m.name}</h3>
+                                <p class="member-title">{m.title}</p>
+                                <p class="member-role">{m.role}</p>
+                            </div>
+                        </li>
+                    ))
+                }
+                <li class="member member-join">
+                    <div class="member-photo join-photo" aria-hidden="true">
+                        <span class="join-mark"></span>
+                    </div>
+                    <div class="member-info">
+                        <h3>You?</h3>
+                        <p class="member-title">Contributor</p>
+                        <p class="member-role">
+                            <a class="link" href={links.github} target="_blank" rel="noopener noreferrer">
+                                Find an issue on GitHub
+                            </a>
+                        </p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="section help" aria-labelledby="help-title">
+        <div class="wrap">
+            <div class="help-panel">
+                <h2 id="help-title">Ways to help</h2>
+                <ul role="list" class="help-list">
+                    <li>
+                        <Icon name="github" size={22} />
+                        <h3>Contribute code</h3>
+                        <p>Fix a bug, improve the docs or suggest a feature. Every repository is public.</p>
+                        <a class="link" href={links.github} target="_blank" rel="noopener noreferrer">Open GitHub</a>
+                    </li>
+                    <li>
+                        <Icon name="kofi" size={22} />
+                        <h3>Donate</h3>
+                        <p>Donations help cover costs and give us more time to build.</p>
+                        <a class="link" href={links.kofi} target="_blank" rel="noopener noreferrer">Donate on Ko-fi</a>
+                    </li>
+                    <li>
+                        <Icon name="bluesky" size={22} />
+                        <h3>Spread the word</h3>
+                        <p>Follow us and share our projects with people who'd find them useful.</p>
+                        <a class="link" href={links.bluesky} target="_blank" rel="noopener noreferrer">Follow on Bluesky</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</Base>
+
+<style>
+    .story {
+        padding-top: clamp(24px, 4vw, 48px);
+    }
+
+    .story-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+        gap: 24px clamp(24px, 5vw, 72px);
+        padding-top: clamp(32px, 5vw, 52px);
+        border-top: 1px solid var(--line);
+    }
+
+    .story h2 {
+        font-size: var(--step-2);
+    }
+
+    .story-text {
+        display: grid;
+        gap: 18px;
+        max-width: 64ch;
+    }
+
+    .story-text p {
+        color: var(--muted);
+        font-size: 1.06rem;
+    }
+
+    .story-text .story-big {
+        color: var(--text);
+        font-size: var(--step-2);
+        font-weight: 560;
+        letter-spacing: -0.02em;
+        line-height: 1.3;
+    }
+
+    /* Team */
+    .team-list {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+    }
+
+    .member {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        padding: 18px;
+        border-radius: var(--radius-l);
+        border: 1px solid var(--line);
+        background: var(--bg-raised);
+    }
+
+    .member-photo {
+        position: relative;
+        flex-shrink: 0;
+        width: 88px;
+        height: 88px;
+        border-radius: 22px;
+        overflow: hidden;
+        background: var(--bg-sunk);
+    }
+
+    .member-photo::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        box-shadow: inset 0 0 0 1px var(--line);
+        pointer-events: none;
+    }
+
+    .member-photo :global(img) {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .member-photo :global(img.pixel) {
+        image-rendering: pixelated;
+    }
+
+    .member-info {
+        min-width: 0;
+    }
+
+    .member h3 {
+        font-size: var(--step-1);
+    }
+
+    .member-title {
+        margin-top: 4px;
+        font-weight: 600;
+        background: var(--brand);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        width: fit-content;
+    }
+
+    .member-role {
+        color: var(--muted);
+        font-size: 0.92rem;
+    }
+
+    .member-join {
+        border-style: dashed;
+        background: transparent;
+    }
+
+    .join-photo {
+        display: grid;
+        place-items: center;
+        background: transparent;
+        border: 1px dashed var(--line);
+    }
+
+    .join-photo::after {
+        display: none;
+    }
+
+    .join-mark {
+        width: 34px;
+        height: 34px;
+        clip-path: polygon(50% 0, 100% 38%, 82% 100%, 18% 100%, 0 38%);
+        background: var(--line);
+    }
+
+    .member-join .member-title {
+        background: none;
+        color: var(--muted);
+    }
+
+    /* Help */
+    .help {
+        padding-top: 0;
+    }
+
+    .help-panel {
+        padding: clamp(28px, 5vw, 56px);
+        border-radius: var(--radius-l);
+        background: var(--bg-sunk);
+        border: 1px solid var(--line-soft);
+    }
+
+    .help-panel h2 {
+        font-size: var(--step-3);
+        margin-bottom: clamp(24px, 4vw, 40px);
+    }
+
+    .help-list {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 32px;
+    }
+
+    .help-list li {
+        display: grid;
+        gap: 8px;
+        justify-items: start;
+        align-content: start;
+    }
+
+    .help-list li > :global(svg) {
+        color: var(--accent);
+        margin-bottom: 6px;
+    }
+
+    .help-list h3 {
+        font-size: var(--step-1);
+    }
+
+    .help-list p {
+        color: var(--muted);
+        font-size: 0.98rem;
+    }
+
+    @media (max-width: 960px) {
+        .team-list {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+    }
+
+    @media (max-width: 760px) {
+        .story-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .help-list {
+            grid-template-columns: 1fr;
+            gap: 28px;
+        }
+    }
+
+    @media (max-width: 560px) {
+        .team-list {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

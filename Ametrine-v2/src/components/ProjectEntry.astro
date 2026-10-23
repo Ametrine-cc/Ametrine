@@ -1,0 +1,283 @@
+---
+import Icon from "./Icon.astro";
+import type { Project } from "../data/projects";
+
+interface Props {
+    project: Project;
+    headingLevel?: "h2" | "h3";
+    detailed?: boolean;
+}
+
+const { project: p, headingLevel = "h3", detailed = false } = Astro.props;
+const Heading = headingLevel;
+const clone = `git clone ${p.github}.git`;
+---
+
+<article
+    class:list={["project", { "is-detailed": detailed }]}
+    id={p.slug}
+    data-project
+    data-kind={p.kind}
+    data-text={`${p.name} ${p.tagline} ${p.description} ${p.languages.join(" ")} ${p.license}`.toLowerCase()}
+>
+    <div class="project-id">
+        <Heading class="project-name">{p.name}</Heading>
+        <p class="project-tagline">{p.tagline}</p>
+    </div>
+
+    <div class="project-body">
+        <p class="project-desc">{p.description}</p>
+
+        {
+            p.features && (
+                <ul role="list" class="project-features">
+                    {p.features.map((f) => <li>{f}</li>)}
+                </ul>
+            )
+        }
+
+        <dl class="project-meta">
+            <div>
+                <dt>Written in</dt>
+                <dd>{p.languages.join(" and ")}</dd>
+            </div>
+            <div>
+                <dt>Licence</dt>
+                <dd>{p.license}</dd>
+            </div>
+            <div>
+                <dt>Latest release</dt>
+                <dd>v{p.version}</dd>
+            </div>
+            <div>
+                <dt>Type</dt>
+                <dd>{p.kind === "library" ? "Library" : "Application"}</dd>
+            </div>
+        </dl>
+
+        {
+            detailed && (
+                <div class="project-clone">
+                    <code>{clone}</code>
+                    <button type="button" class="copy-btn" data-copy={clone} aria-label={`Copy clone command for ${p.name}`}>
+                        <Icon name="copy" size={16} class="i-copy" />
+                        <Icon name="check" size={16} class="i-check" />
+                        <span data-copy-label>Copy</span>
+                    </button>
+                </div>
+            )
+        }
+
+        <div class="project-actions">
+            <a class="btn btn-sm" href={p.github} target="_blank" rel="noopener noreferrer">
+                <Icon name="github" size={16} />
+                Source on GitHub
+            </a>
+            <a class="btn btn-sm" href={`${p.github}/releases`} target="_blank" rel="noopener noreferrer">
+                <Icon name="tag" size={16} />
+                Releases
+            </a>
+            {
+                detailed && (
+                    <a class="btn btn-sm" href={`${p.github}/issues`} target="_blank" rel="noopener noreferrer">
+                        Report an issue
+                    </a>
+                )
+            }
+        </div>
+    </div>
+</article>
+
+<style>
+    .project {
+        display: grid;
+        grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+        gap: 24px clamp(24px, 5vw, 72px);
+        padding-block: clamp(32px, 5vw, 52px);
+        border-top: 1px solid var(--line);
+        scroll-margin-top: calc(var(--header-h) + 24px);
+    }
+
+    .project:target .project-name {
+        background: var(--brand);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .project-name {
+        font-size: clamp(2rem, 1.4rem + 2.6vw, 3.4rem);
+        font-weight: 780;
+        letter-spacing: -0.035em;
+        line-height: 1;
+        overflow-wrap: anywhere;
+    }
+
+    .project-tagline {
+        margin-top: 14px;
+        font-size: var(--step-1);
+        color: var(--muted);
+        line-height: 1.35;
+        max-width: 26ch;
+    }
+
+    .project-body {
+        display: grid;
+        gap: 22px;
+        align-content: start;
+    }
+
+    .project-desc {
+        font-size: 1.06rem;
+        max-width: 60ch;
+    }
+
+    .project-features {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px 24px;
+    }
+
+    .project-features li {
+        position: relative;
+        padding-left: 20px;
+        color: var(--muted);
+        font-size: 0.95rem;
+        line-height: 1.45;
+    }
+
+    .project-features li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.42em;
+        width: 9px;
+        height: 9px;
+        clip-path: polygon(50% 0, 100% 38%, 82% 100%, 18% 100%, 0 38%);
+        background: var(--brand);
+    }
+
+    .project-meta {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        border: 1px solid var(--line);
+        border-radius: var(--radius-m);
+        overflow: hidden;
+    }
+
+    .project-meta div {
+        padding: 12px 16px;
+        display: grid;
+        gap: 2px;
+    }
+
+    .project-meta div + div {
+        border-left: 1px solid var(--line);
+    }
+
+    .project-meta dt {
+        font-size: 0.78rem;
+        color: var(--faint);
+    }
+
+    .project-meta dd {
+        margin: 0;
+        font-weight: 620;
+        font-size: 0.98rem;
+    }
+
+    .project-clone {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 6px 6px 6px 16px;
+        border-radius: var(--radius-m);
+        background: var(--bg-sunk);
+        border: 1px solid var(--line-soft);
+        min-width: 0;
+    }
+
+    .project-clone code {
+        flex: 1;
+        min-width: 0;
+        overflow-x: auto;
+        white-space: nowrap;
+        color: var(--muted);
+        font-size: 0.85rem;
+        scrollbar-width: none;
+    }
+
+    .project-clone code::-webkit-scrollbar {
+        display: none;
+    }
+
+    .copy-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        flex-shrink: 0;
+        height: 36px;
+        padding: 0 12px;
+        border-radius: 10px;
+        border: 1px solid var(--line);
+        background: var(--bg-raised);
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+    .copy-btn :global(svg) {
+        grid-area: 1 / 1;
+    }
+
+    .copy-btn :global(.i-check),
+    .copy-btn:global(.is-copied) :global(.i-copy) {
+        display: none;
+    }
+
+    .copy-btn:global(.is-copied) :global(.i-check) {
+        display: block;
+        color: #3ccf7a;
+    }
+
+    .project-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    @media (max-width: 860px) {
+        .project {
+            grid-template-columns: 1fr;
+        }
+
+        .project-tagline {
+            max-width: none;
+        }
+    }
+
+    @media (max-width: 560px) {
+        .project-features {
+            grid-template-columns: 1fr;
+        }
+
+        .project-meta {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .project-meta div + div {
+            border-left: 0;
+        }
+
+        .project-meta div:nth-child(even) {
+            border-left: 1px solid var(--line);
+        }
+
+        .project-meta div:nth-child(n + 3) {
+            border-top: 1px solid var(--line);
+        }
+
+        .project-actions .btn {
+            flex: 1 1 auto;
+        }
+    }
+</style>

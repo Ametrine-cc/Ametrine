@@ -1,0 +1,401 @@
+---
+import Base from "../layouts/Base.astro";
+import PageIntro from "../components/PageIntro.astro";
+import ProjectEntry from "../components/ProjectEntry.astro";
+import Icon from "../components/Icon.astro";
+import { projects, libraries, applications } from "../data/projects";
+import { links } from "../data/site";
+
+const filters = [
+    { id: "all", label: "All", count: projects.length },
+    { id: "library", label: "Libraries", count: libraries.length },
+    { id: "application", label: "Applications", count: applications.length },
+];
+---
+
+<Base
+    title="Projects"
+    description="Every library and app made or contributed to by Ametrine Foundation, with licences, versions and source code."
+>
+    <PageIntro
+        title="Our projects"
+        lead="Every library and app we've made or contributed to at Ametrine Foundation. All free, all open source, all on GitHub."
+    />
+
+    <section class="catalogue" aria-label="Project list">
+        <div class="wrap">
+            <div class="toolbar">
+                <div class="tabs" role="group" aria-label="Filter by type" data-filters>
+                    {
+                        filters.map((f, i) => (
+                            <button
+                                type="button"
+                                class="tab"
+                                aria-pressed={i === 0 ? "true" : "false"}
+                                data-filter={f.id}
+                            >
+                                {f.label}
+                                <span class="tab-count">{f.count}</span>
+                            </button>
+                        ))
+                    }
+                </div>
+
+                <label class="filter-field">
+                    <Icon name="search" size={17} />
+                    <span class="visually-hidden">Filter projects</span>
+                    <input type="search" placeholder="Filter by name, language or licence" data-project-filter />
+                </label>
+            </div>
+
+            <p class="result-line" aria-live="polite" data-result-line>
+                Showing {projects.length} {projects.length === 1 ? "project" : "projects"}
+            </p>
+
+            <div class="list" data-project-list>
+                {projects.map((p) => <ProjectEntry project={p} headingLevel="h2" detailed />)}
+            </div>
+
+            <div class="empty" data-empty hidden>
+                <span class="empty-mark" aria-hidden="true"></span>
+                <h2 data-empty-title>No applications yet</h2>
+                <p data-empty-text>
+                    Our first applications are still being built. Follow us on GitHub to hear when they're
+                    released.
+                </p>
+                <div class="btn-row">
+                    <a class="btn btn-sm" href={links.github} target="_blank" rel="noopener noreferrer">
+                        <Icon name="github" size={16} />
+                        Follow on GitHub
+                    </a>
+                    <button type="button" class="btn btn-sm" data-reset>Show all projects</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section contribute" aria-labelledby="contribute-title">
+        <div class="wrap contribute-grid">
+            <div>
+                <h2 id="contribute-title">Want to help build them?</h2>
+                <p>
+                    Everything we make is developed in the open. Bug reports, pull requests and ideas are
+                    all welcome. Please be respectful, follow the existing code style and test your changes
+                    before opening a pull request.
+                </p>
+            </div>
+            <ul role="list" class="contribute-links">
+                <li>
+                    <a href={links.github} target="_blank" rel="noopener noreferrer">
+                        <Icon name="github" size={22} />
+                        <span>
+                            <strong>Browse the code</strong>
+                            <span>All repositories on GitHub</span>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href={links.docs} target="_blank" rel="noopener noreferrer">
+                        <Icon name="book" size={22} />
+                        <span>
+                            <strong>Read the documentation</strong>
+                            <span>Guides and API references</span>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href={links.kofi} target="_blank" rel="noopener noreferrer">
+                        <Icon name="kofi" size={22} />
+                        <span>
+                            <strong>Support the work</strong>
+                            <span>Donate on Ko-fi</span>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </section>
+</Base>
+
+<style>
+    .toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        padding-bottom: 18px;
+    }
+
+    .tabs {
+        display: inline-flex;
+        padding: 4px;
+        border-radius: 999px;
+        background: var(--bg-sunk);
+        border: 1px solid var(--line-soft);
+        overflow-x: auto;
+        max-width: 100%;
+        scrollbar-width: none;
+    }
+
+    .tab {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        height: 40px;
+        padding: 0 16px;
+        border-radius: 999px;
+        font-weight: 560;
+        font-size: 0.94rem;
+        color: var(--muted);
+        white-space: nowrap;
+        transition: background-color 0.2s var(--ease), color 0.2s;
+    }
+
+    .tab:hover {
+        color: var(--text);
+    }
+
+    .tab[aria-pressed="true"] {
+        background: var(--bg-raised);
+        color: var(--text);
+        box-shadow: 0 1px 0 var(--line), 0 6px 16px -8px rgba(0, 0, 0, 0.4);
+    }
+
+    .tab-count {
+        min-width: 22px;
+        padding: 1px 7px;
+        border-radius: 999px;
+        background: var(--bg-sunk);
+        border: 1px solid var(--line);
+        font-size: 0.75rem;
+        text-align: center;
+    }
+
+    .filter-field {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        height: 48px;
+        width: min(340px, 100%);
+        padding: 0 16px;
+        border-radius: 999px;
+        border: 1px solid var(--line);
+        background: var(--bg-raised);
+        color: var(--muted);
+        transition: border-color 0.2s;
+    }
+
+    .filter-field:focus-within {
+        border-color: var(--accent);
+    }
+
+    .filter-field input {
+        flex: 1;
+        min-width: 0;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        color: var(--text);
+        font-size: 0.95rem;
+    }
+
+    .filter-field input::placeholder {
+        color: var(--faint);
+    }
+
+    .result-line {
+        font-size: 0.88rem;
+        color: var(--faint);
+        padding-bottom: 6px;
+    }
+
+    .list {
+        border-bottom: 1px solid var(--line);
+    }
+
+    .empty {
+        display: grid;
+        justify-items: center;
+        text-align: center;
+        gap: 12px;
+        padding: clamp(48px, 8vw, 88px) 16px;
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+    }
+
+    .empty[hidden] {
+        display: none;
+    }
+
+    .empty-mark {
+        width: 44px;
+        height: 44px;
+        clip-path: polygon(50% 0, 100% 38%, 82% 100%, 18% 100%, 0 38%);
+        background: var(--line);
+        margin-bottom: 8px;
+    }
+
+    .empty h2 {
+        font-size: var(--step-2);
+    }
+
+    .empty p {
+        max-width: 46ch;
+        color: var(--muted);
+    }
+
+    .empty .btn-row {
+        justify-content: center;
+        margin-top: 8px;
+    }
+
+    /* Contribute */
+    .contribute-grid {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: clamp(28px, 5vw, 72px);
+        align-items: start;
+    }
+
+    .contribute h2 {
+        font-size: var(--step-3);
+    }
+
+    .contribute-grid > div p {
+        margin-top: 16px;
+        color: var(--muted);
+        max-width: 50ch;
+        font-size: 1.05rem;
+    }
+
+    .contribute-links {
+        display: grid;
+        gap: 10px;
+    }
+
+    .contribute-links a {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 18px 20px;
+        border-radius: var(--radius-m);
+        border: 1px solid var(--line);
+        background: var(--bg-raised);
+        text-decoration: none;
+        transition: border-color 0.2s var(--ease), transform 0.2s var(--ease);
+    }
+
+    .contribute-links a:hover {
+        border-color: var(--faint);
+    }
+
+    .contribute-links a > :global(svg) {
+        color: var(--muted);
+    }
+
+    .contribute-links a > span {
+        display: grid;
+    }
+
+    .contribute-links a > span > span {
+        color: var(--muted);
+        font-size: 0.92rem;
+    }
+
+    @media (max-width: 760px) {
+        .contribute-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .toolbar {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .tabs {
+            display: flex;
+        }
+
+        .tab {
+            flex: 1;
+            justify-content: center;
+            padding: 0 10px;
+        }
+
+        .filter-field {
+            width: 100%;
+        }
+    }
+</style>
+
+<script>
+    const tabs = [...document.querySelectorAll<HTMLButtonElement>("[data-filter]")];
+    const input = document.querySelector<HTMLInputElement>("[data-project-filter]");
+    const items = [...document.querySelectorAll<HTMLElement>("[data-project]")];
+    const line = document.querySelector<HTMLElement>("[data-result-line]");
+    const list = document.querySelector<HTMLElement>("[data-project-list]");
+    const empty = document.querySelector<HTMLElement>("[data-empty]");
+    const emptyTitle = document.querySelector<HTMLElement>("[data-empty-title]");
+    const emptyText = document.querySelector<HTMLElement>("[data-empty-text]");
+    const reset = document.querySelector<HTMLButtonElement>("[data-reset]");
+
+    let kind = "all";
+
+    function update() {
+        const terms = (input?.value ?? "").toLowerCase().trim().split(/\s+/).filter(Boolean);
+        let shown = 0;
+        items.forEach((el) => {
+            const okKind = kind === "all" || el.dataset.kind === kind;
+            const okText = terms.every((t) => (el.dataset.text ?? "").includes(t));
+            el.hidden = !(okKind && okText);
+            if (!el.hidden) shown++;
+        });
+
+        if (line) line.textContent = `Showing ${shown} ${shown === 1 ? "project" : "projects"}`;
+        if (list) list.hidden = shown === 0;
+        if (empty) empty.hidden = shown > 0;
+
+        if (shown === 0 && emptyTitle && emptyText) {
+            if (terms.length) {
+                emptyTitle.textContent = "No projects match that";
+                emptyText.textContent = "Try a different name, language or licence, or clear the filter.";
+            } else if (kind === "application") {
+                emptyTitle.textContent = "No applications yet";
+                emptyText.textContent =
+                    "Our first applications are still being built. Follow us on GitHub to hear when they're released.";
+            } else {
+                emptyTitle.textContent = "Nothing here yet";
+                emptyText.textContent = "Check back soon.";
+            }
+        }
+    }
+
+    function select(tab: HTMLButtonElement) {
+        tabs.forEach((t) => t.setAttribute("aria-pressed", String(t === tab)));
+        kind = tab.dataset.filter ?? "all";
+        update();
+    }
+
+    tabs.forEach((tab) => tab.addEventListener("click", () => select(tab)));
+
+    document.querySelector("[data-filters]")?.addEventListener("keydown", (e) => {
+        const ev = e as KeyboardEvent;
+        if (!["ArrowLeft", "ArrowRight"].includes(ev.key)) return;
+        const i = tabs.indexOf(document.activeElement as HTMLButtonElement);
+        if (i < 0) return;
+        ev.preventDefault();
+        const next = tabs[(i + (ev.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length];
+        if (next) {
+            next.focus();
+            select(next);
+        }
+    });
+
+    input?.addEventListener("input", update);
+
+    reset?.addEventListener("click", () => {
+        if (input) input.value = "";
+        if (tabs[0]) select(tabs[0]);
+    });
+</script>

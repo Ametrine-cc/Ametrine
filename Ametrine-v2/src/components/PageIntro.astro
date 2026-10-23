@@ -1,0 +1,101 @@
+---
+import Mark from "./Mark.astro";
+
+interface Props {
+    title: string;
+    lead?: string;
+}
+const { title, lead } = Astro.props;
+---
+
+<section class="intro">
+    <div class="wrap intro-inner">
+        <nav class="crumbs" aria-label="Breadcrumb">
+            <ol role="list">
+                <li><a href="/">Home</a></li>
+                <li aria-current="page">{title}</li>
+            </ol>
+        </nav>
+        <h1>{title}</h1>
+        {lead && <p class="lead">{lead}</p>}
+        <slot />
+    </div>
+    <div class="intro-mark" aria-hidden="true">
+        <Mark size={440} />
+    </div>
+</section>
+
+<style>
+    .intro {
+        position: relative;
+        padding-block: clamp(40px, 7vw, 96px) clamp(36px, 5vw, 64px);
+        overflow: hidden;
+        isolation: isolate;
+    }
+
+    .intro-inner {
+        position: relative;
+    }
+
+    .crumbs ol {
+        display: flex;
+        gap: 8px;
+        font-size: 0.9rem;
+        color: var(--faint);
+        margin-bottom: 22px;
+    }
+
+    .crumbs li + li::before {
+        content: "/";
+        margin-right: 8px;
+        color: var(--line);
+    }
+
+    .crumbs a {
+        color: var(--muted);
+        text-decoration: none;
+    }
+
+    .crumbs a:hover {
+        color: var(--text);
+    }
+
+    h1 {
+        font-size: var(--step-4);
+        font-weight: 800;
+        letter-spacing: -0.045em;
+        line-height: 0.98;
+        max-width: 14ch;
+    }
+
+    .lead {
+        margin-top: 22px;
+        max-width: 54ch;
+        font-size: var(--step-1);
+        color: var(--muted);
+        line-height: 1.5;
+    }
+
+    .intro-mark {
+        position: absolute;
+        right: -90px;
+        top: -30px;
+        z-index: -1;
+        opacity: 0.16;
+        transform: rotate(14deg);
+        -webkit-mask-image: linear-gradient(200deg, #000 20%, transparent 75%);
+        mask-image: linear-gradient(200deg, #000 20%, transparent 75%);
+    }
+
+    :global([data-theme="light"]) .intro-mark {
+        opacity: 0.1;
+    }
+
+    @media (max-width: 700px) {
+        .intro-mark {
+            right: -220px;
+            top: -40px;
+            opacity: 0.09;
+        }
+    }
+</style>

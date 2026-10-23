@@ -1,0 +1,214 @@
+---
+import Mark from "./Mark.astro";
+import Icon from "./Icon.astro";
+import { links, socials, site } from "../data/site";
+import { projects } from "../data/projects";
+---
+
+<footer class="site-footer">
+    <div class="wrap">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="/" class="footer-logo">
+                    <Mark size={34} />
+                    <span>Ametrine Foundation</span>
+                </a>
+                <p>
+                    Free, open-source software built by volunteers, with no telemetry and no licence fees.
+                </p>
+                <ul role="list" class="footer-socials">
+                    {
+                        socials.map((s) => (
+                            <li>
+                                <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label} title={s.label}>
+                                    <Icon name={s.icon} size={18} />
+                                </a>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </div>
+
+            <nav class="footer-col" aria-labelledby="f-site">
+                <h2 id="f-site">Site</h2>
+                <ul role="list">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/about">About</a></li>
+                </ul>
+            </nav>
+
+            <nav class="footer-col" aria-labelledby="f-projects">
+                <h2 id="f-projects">Projects</h2>
+                <ul role="list">
+                    {projects.map((p) => <li><a href={`/projects#${p.slug}`}>{p.name}</a></li>)}
+                </ul>
+            </nav>
+
+            <nav class="footer-col" aria-labelledby="f-elsewhere">
+                <h2 id="f-elsewhere">Elsewhere</h2>
+                <ul role="list">
+                    <li><a href={links.docs} target="_blank" rel="noopener noreferrer">Documentation</a></li>
+                    <li><a href={links.github} target="_blank" rel="noopener noreferrer">GitHub</a></li>
+                    <li><a href={links.kofi} target="_blank" rel="noopener noreferrer">Ko-fi</a></li>
+                    <li><a href={links.bluesky} target="_blank" rel="noopener noreferrer">Bluesky</a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="footer-base">
+            <p>&copy; {site.year} Ametrine Foundation. Building free software with care for the community.</p>
+            <p class="footer-privacy">
+                This site uses no cookies, no analytics and no third-party scripts.
+            </p>
+        </div>
+    </div>
+
+    <button type="button" class="to-top" data-to-top aria-label="Back to top">
+        <Icon name="arrow-up" size={20} />
+    </button>
+</footer>
+
+<style>
+    .site-footer {
+        position: relative;
+        margin-top: auto;
+        border-top: 1px solid var(--line-soft);
+        background: var(--bg-sunk);
+        padding-block: clamp(48px, 7vw, 80px) 28px;
+    }
+
+    .footer-grid {
+        display: grid;
+        grid-template-columns: 1.6fr repeat(3, 1fr);
+        gap: 40px;
+    }
+
+    .footer-logo {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 740;
+        font-size: 1.15rem;
+        letter-spacing: -0.02em;
+        text-decoration: none;
+    }
+
+    .footer-brand p {
+        margin-top: 14px;
+        max-width: 34ch;
+        color: var(--muted);
+        font-size: 0.95rem;
+    }
+
+    .footer-socials {
+        display: flex;
+        gap: 6px;
+        margin-top: 20px;
+    }
+
+    .footer-socials a {
+        display: grid;
+        place-items: center;
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        color: var(--muted);
+        transition: color 0.2s, border-color 0.2s, background-color 0.2s;
+    }
+
+    .footer-socials a:hover {
+        color: var(--text);
+        border-color: var(--faint);
+        background: var(--bg-raised);
+    }
+
+    .footer-col h2 {
+        font-size: 0.86rem;
+        font-weight: 640;
+        letter-spacing: 0;
+        color: var(--faint);
+        margin-bottom: 14px;
+    }
+
+    .footer-col ul {
+        display: grid;
+        gap: 10px;
+    }
+
+    .footer-col a {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 0.97rem;
+        transition: color 0.2s;
+    }
+
+    .footer-col a:hover {
+        color: var(--text);
+    }
+
+    .footer-base {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 10px 24px;
+        margin-top: clamp(40px, 6vw, 64px);
+        padding-top: 22px;
+        border-top: 1px solid var(--line-soft);
+        font-size: 0.86rem;
+        color: var(--faint);
+    }
+
+    .to-top {
+        position: fixed;
+        right: max(16px, env(safe-area-inset-right));
+        bottom: max(16px, env(safe-area-inset-bottom));
+        z-index: 40;
+        display: grid;
+        place-items: center;
+        width: 48px;
+        height: 48px;
+        border-radius: 16px;
+        border: 1px solid var(--line);
+        background: var(--bg-raised);
+        color: var(--text);
+        box-shadow: var(--shadow-lg);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        transition: opacity 0.3s var(--ease), transform 0.3s var(--ease), visibility 0.3s;
+    }
+
+    .to-top.is-visible {
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+    }
+
+    .to-top:hover {
+        border-color: var(--faint);
+    }
+
+    @media (max-width: 860px) {
+        .footer-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        .footer-brand {
+            grid-column: 1 / -1;
+        }
+    }
+
+    @media (max-width: 520px) {
+        .footer-grid {
+            grid-template-columns: 1fr 1fr;
+            gap: 32px 20px;
+        }
+        .footer-col:last-child {
+            grid-column: 1 / -1;
+        }
+        .footer-col:last-child ul {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+</style>

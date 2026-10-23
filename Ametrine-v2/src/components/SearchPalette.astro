@@ -1,0 +1,334 @@
+---
+import Icon from "./Icon.astro";
+import { links } from "../data/site";
+import { projects } from "../data/projects";
+
+type Entry = { title: string; hint: string; href: string; group: string; external?: boolean; keywords?: string };
+
+const entries: Entry[] = [
+    { title: "Home", hint: "Start page", href: "/", group: "Pages" },
+    { title: "Projects", hint: "Every library and app", href: "/projects", group: "Pages" },
+    { title: "About", hint: "Who we are, our values and the team", href: "/about", group: "Pages", keywords: "team noticxs phyzzic values mission" },
+    ...projects.map((p) => ({
+        title: p.name,
+        hint: p.tagline,
+        href: `/projects#${p.slug}`,
+        group: "Projects",
+        keywords: `${p.languages.join(" ")} ${p.license} ${p.kind} ${p.description}`,
+    })),
+    { title: "Documentation", hint: "docs.ametrine.cc", href: links.docs, group: "Elsewhere", external: true, keywords: "docs guide api" },
+    { title: "GitHub", hint: "github.com/Ametrine-cc", href: links.github, group: "Elsewhere", external: true, keywords: "source code contribute" },
+    { title: "Donate on Ko-fi", hint: "ko-fi.com/ametrinefoundation", href: links.kofi, group: "Elsewhere", external: true, keywords: "donation support kofi money" },
+    { title: "Bluesky", hint: "@ametrine.cc", href: links.bluesky, group: "Elsewhere", external: true, keywords: "social news updates" },
+];
+
+const groups = [...new Set(entries.map((e) => e.group))];
+---
+
+<dialog id="search" class="search" aria-label="Search" data-search>
+    <div class="search-card">
+        <div class="search-field">
+            <Icon name="search" size={19} />
+            <label for="search-input" class="visually-hidden">Search pages and projects</label>
+            <input
+                id="search-input"
+                type="search"
+                placeholder="Search pages and projects"
+                autocomplete="off"
+                spellcheck="false"
+                enterkeyhint="go"
+                role="combobox"
+                aria-expanded="true"
+                aria-controls="search-results"
+                aria-autocomplete="list"
+                data-search-input
+            />
+            <button type="button" class="search-esc" data-search-close>
+                <kbd class="esc-key">Esc</kbd>
+                <span class="esc-close"><Icon name="close" size={18} /></span>
+                <span class="visually-hidden">Close search</span>
+            </button>
+        </div>
+
+        <div class="search-body">
+            <ul id="search-results" role="listbox" aria-label="Results" class="search-results" data-search-results>
+                {
+                    groups.map((g) => (
+                        <li role="presentation" class="search-group" data-group={g}>
+                            <span class="search-group-title">{g}</span>
+                            <ul role="presentation">
+                                {entries
+                                    .filter((e) => e.group === g)
+                                    .map((e) => (
+                                        <li role="presentation" data-item data-text={`${e.title} ${e.hint} ${e.keywords ?? ""}`.toLowerCase()}>
+                                            <a
+                                                role="option"
+                                                aria-selected="false"
+                                                href={e.href}
+                                                target={e.external ? "_blank" : undefined}
+                                                rel={e.external ? "noopener noreferrer" : undefined}
+                                                class="search-result"
+                                            >
+                                                <span class="sr-title">{e.title}</span>
+                                                <span class="sr-hint">{e.hint}</span>
+                                                <span class="sr-icon">
+                                                    <Icon name={e.external ? "external" : "arrow-right"} size={16} />
+                                                </span>
+                                            </a>
+                                        </li>
+                                    ))}
+                            </ul>
+                        </li>
+                    ))
+                }
+            </ul>
+            <p class="search-empty" data-search-empty hidden>
+                Nothing matches that. Try a project name, like <strong>miamore</strong>.
+            </p>
+        </div>
+
+        <div class="search-foot" aria-hidden="true">
+            <span><kbd>↑</kbd><kbd>↓</kbd> to move</span>
+            <span><kbd>Enter</kbd> to open</span>
+            <span><kbd>Esc</kbd> to close</span>
+        </div>
+    </div>
+</dialog>
+
+<style>
+    .search {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        max-width: none;
+        max-height: none;
+        margin: 0;
+        padding: clamp(12px, 12vh, 140px) 16px 16px;
+        border: 0;
+        background: transparent;
+        color: var(--text);
+        display: none;
+    }
+
+    .search[open] {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+    }
+
+    .search::backdrop {
+        background: var(--scrim);
+        -webkit-backdrop-filter: blur(8px);
+        backdrop-filter: blur(8px);
+        opacity: 0;
+        transition: opacity 0.25s var(--ease);
+    }
+
+    .search.is-open::backdrop {
+        opacity: 1;
+    }
+
+    .search-card {
+        width: min(620px, 100%);
+        max-height: 100%;
+        display: flex;
+        flex-direction: column;
+        border-radius: var(--radius-l);
+        border: 1px solid var(--line);
+        background: var(--bg-raised);
+        box-shadow: var(--shadow-lg);
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(-10px) scale(0.98);
+        transition: opacity 0.22s var(--ease), transform 0.3s var(--ease);
+    }
+
+    .search.is-open .search-card {
+        opacity: 1;
+        transform: none;
+    }
+
+    .search-field {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 0 12px 0 18px;
+        border-bottom: 1px solid var(--line-soft);
+        color: var(--muted);
+    }
+
+    .search-field input {
+        flex: 1;
+        min-width: 0;
+        height: 60px;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        font-size: 1.08rem;
+        color: var(--text);
+    }
+
+    .search-field input::-webkit-search-cancel-button {
+        display: none;
+    }
+
+    .search-field input::placeholder {
+        color: var(--faint);
+    }
+
+    .search-esc {
+        display: grid;
+        place-items: center;
+        min-width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        color: var(--muted);
+    }
+
+    .esc-key {
+        padding: 3px 8px;
+        border-radius: 6px;
+        border: 1px solid var(--line);
+        background: var(--bg-sunk);
+        font-size: 0.72rem;
+    }
+
+    .esc-close {
+        display: none;
+    }
+
+    .search-body {
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        padding: 8px;
+    }
+
+    .search-results,
+    .search-results ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .search-group + .search-group {
+        margin-top: 6px;
+    }
+
+    .search-group-title {
+        display: block;
+        padding: 10px 12px 6px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--faint);
+    }
+
+    .search-result {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 12px;
+        padding: 11px 12px;
+        border-radius: 12px;
+        text-decoration: none;
+        scroll-margin: 8px;
+    }
+
+    .sr-title {
+        font-weight: 600;
+    }
+
+    .sr-hint {
+        color: var(--muted);
+        font-size: 0.9rem;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .sr-icon {
+        color: var(--faint);
+        opacity: 0;
+        transition: opacity 0.15s;
+    }
+
+    .search-result:hover,
+    .search-result[aria-selected="true"] {
+        background: var(--bg-sunk);
+    }
+
+    .search-result[aria-selected="true"] {
+        box-shadow: inset 3px 0 0 var(--violet);
+    }
+
+    .search-result:hover .sr-icon,
+    .search-result[aria-selected="true"] .sr-icon {
+        opacity: 1;
+    }
+
+    .search-empty {
+        padding: 28px 16px;
+        text-align: center;
+        color: var(--muted);
+    }
+
+    .search-foot {
+        display: flex;
+        gap: 18px;
+        padding: 12px 18px;
+        border-top: 1px solid var(--line-soft);
+        font-size: 0.78rem;
+        color: var(--faint);
+    }
+
+    .search-foot kbd {
+        display: inline-block;
+        min-width: 22px;
+        margin-right: 4px;
+        padding: 1px 5px;
+        border-radius: 5px;
+        border: 1px solid var(--line);
+        background: var(--bg-sunk);
+        text-align: center;
+        font-size: 0.7rem;
+    }
+
+    @media (max-width: 640px) {
+        .search {
+            padding: 10px;
+        }
+
+        .search-card {
+            max-height: calc(100dvh - 20px);
+        }
+
+        .search-foot,
+        .esc-key {
+            display: none;
+        }
+
+        .esc-close {
+            display: block;
+        }
+
+        .search-result {
+            grid-template-columns: 1fr auto;
+            gap: 2px 12px;
+        }
+
+        .sr-title {
+            grid-column: 1;
+        }
+
+        .sr-hint {
+            grid-column: 1;
+            grid-row: 2;
+            white-space: normal;
+        }
+
+        .sr-icon {
+            grid-column: 2;
+            grid-row: 1 / span 2;
+            opacity: 1;
+        }
+    }
+</style>
