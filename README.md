@@ -9,10 +9,10 @@ Ametrine Gradient: `linear-gradient(135deg, #a259f7 0%, #0071e3 100%)`
 Astro 7 needs Node.js 22.23 or newer (Node 24 recommended).
 
 ```bash
-npm install       # or: bun install
-npm run dev       # local dev server at http://localhost:4321
-npm run build     # builds the static site into ./dist
-npm run preview   # preview the built site
+bun install       # or: bun install
+bun run dev       # local dev server at http://localhost:4321
+bun run build     # builds the static site into ./dist
+bun run preview   # preview the built site
 ```
 
 Deploys to Cloudflare the same way as before: `wrangler.jsonc` points at `./dist`,
